@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Made Simplified | Coach Sushant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        .bg-gradient-hero { background: linear-gradient(to top, #000, rgba(0,0,0,0.5), transparent); }
+        .glass { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(12px); border: 1px solid #333; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        input { background: #0a0a0a !important; border: 1px solid #333 !important; color: white !important; padding: 12px 16px !important; border-radius: 12px !important; width: 100%; outline: none; transition: border-color 0.3s; font-size: 16px; }
+        input:focus { border-color: #e11d48 !important; }
+        .nav-link { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+        .btn-hover:active { transform: scale(0.97); transition: transform 0.1s; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-neutral-800 p-4 flex justify-between items-center px-6">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showTab('home')">
+            <div class="bg-rose-600 p-1.5 rounded text-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+            </div>
+            <span class="font-black italic text-xl tracking-tighter uppercase">FMS</span>
+        </div>
+        <div class="flex gap-4 items-center">
+            <span class="nav-link hidden sm:block" onclick="showTab('trainer')">Trainer</span>
+            <span class="nav-link text-rose-500" onclick="showTab('pro')">Pro Plans</span>
+            <button id="nav-auth-btn" onclick="showTab('login')" class="bg-white text-black px-4 py-1.5 rounded font-bold text-[10px] uppercase btn-hover">Login</button>
+        </div>
+    </nav>
+
+    <main class="pt-16 min-h-screen">
+
+        <!-- HOME -->
+        <section id="home" class="tab-content active">
+            <div class="relative h-[70vh] flex items-center justify-center text-center px-4 overflow-hidden">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale scale-110">
+                <div class="absolute inset-0 bg-gradient-hero"></div>
+                <div class="relative z-10 max-w-4xl">
+                    <h1 class="text-6xl md:text-8xl font-black italic uppercase leading-[0.9] mb-4">Fitness Made <br><span class="text-rose-600">Simplified</span></h1>
+                    <p class="text-neutral-400 text-xs md:text-lg mb-8 uppercase font-bold tracking-[0.2em]">Clinical Precision • Athletic Intensity</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showTab('contact')" class="bg-green-600 px-8 py-4 rounded-full font-black flex items-center gap-2 justify-center btn-hover uppercase text-sm">Enroll Now</button>
+                        <button onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})" class="bg-neutral-800 px-8 py-4 rounded-full font-black uppercase text-sm btn-hover">Free Tools</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tools" class="max-w-6xl mx-auto py-12 px-6 grid md:grid-cols-2 gap-8">
+                <!-- BMI -->
+                <div class="glass p-8 rounded-[2rem]">
+                    <h2 class="text-xl font-black uppercase italic mb-6 text-rose-600">BMI Calculator</h2>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <input type="number" id="bmi-w" placeholder="Weight (kg)">
+                        <input type="number" id="bmi-h" placeholder="Height (cm)">
+                    </div>
+                    <button onclick="calcBMI()" class="w-full bg-rose-600 py-4 rounded-xl font-black uppercase text-xs btn-hover">Check Status</button>
+                    <div id="bmi-res" class="hidden mt-4 text-center p-4 bg-black/40 rounded-xl">
+                        <p id="bmi-val" class="text-4xl font-black text-rose-500">--</p>
+                        <p id="bmi-cat" class="text-[10px] uppercase font-bold text-neutral-500">Result</p>
+                    </div>
+                </div>
+
+                <!-- Journal -->
+                <div class="glass p-8 rounded-[2rem]">
+                    <h2 class="text-xl font-black uppercase italic mb-6 text-white">Daily Journal</h2>
+                    <input type="text" id="ex-n" placeholder="Exercise Name" class="mb-3">
+                    <input type="text" id="ex-s" placeholder="Sets x Reps" class="mb-3">
+                    <button onclick="logWork()" class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-xs btn-hover">Log Session</button>
+                    <div id="log-list" class="mt-4 space-y-2 max-h-32 overflow-y-auto"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRAINER -->
+        <section id="trainer" class="tab-content max-w-5xl mx-auto py-12 px-6">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEilYYjI4eLGKmEh6ft2kC6RCNurgqlJa5uRqOPBv-1S-wdOoREb-UqtB7YmtsPK3MNXlYnuDi0UBQr-x1Ty6Ma8-EpsjT-YWDIDHd78WoXW6awuLkdCdhP-odhwUPPRuO9TCVQW8Vg-lidknRo2ciCo-IgVIJBg0fJEDJp75jioh7N_84T2pbaz_rHrRg0/s1280/1000372062.png" class="rounded-[2.5rem] w-full grayscale border border-neutral-800 shadow-2xl">
+                <div>
+                    <h2 class="text-5xl font-black italic uppercase mb-4 leading-none">Sushant</h2>
+                    <p class="text-neutral-400 italic mb-6">Physiotherapist & Elite Performance Coach</p>
+                    <div class="space-y-3">
+                        <div class="bg-neutral-900/50 p-4 rounded-xl border border-neutral-800">
+                            <p class="text-rose-500 text-[10px] font-black uppercase mb-1">Expertise</p>
+                            <p class="text-sm font-bold">Clinical Biomechanics, Strength & Nutrition</p>
+                        </div>
+                        <div class="bg-neutral-900/50 p-4 rounded-xl border border-neutral-800">
+                            <p class="text-rose-500 text-[10px] font-black uppercase mb-1">Qualifications</p>
+                            <p class="text-sm font-bold">BPt, NDDY, MBA, ACE CPT/NC</p>
+                        </div>
+                    </div>
+                    <button onclick="showTab('contact')" class="w-full bg-rose-600 mt-8 py-5 rounded-2xl font-black uppercase text-sm btn-hover">Free Consultation</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRO PLANS -->
+        <section id="pro" class="tab-content max-w-6xl mx-auto py-12 px-6">
+            <h2 class="text-center text-4xl font-black italic uppercase mb-12">Elite Programs</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="glass p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                    <span class="text-rose-500 font-black text-[9px] uppercase tracking-widest mb-2">Build Logic</span>
+                    <h3 class="text-2xl font-black uppercase mb-2">Custom Workout</h3>
+                    <p class="text-xl font-black text-neutral-400 mb-8">2,000 INR</p>
+                    <button onclick="showTab('contact')" class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-[10px] btn-hover">Enrol Now</button>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass p-8 rounded-[2.5rem] border-rose-600/50 flex flex-col items-center text-center">
+                    <span class="text-rose-500 font-black text-[9px] uppercase tracking-widest mb-2">Fuel Systems</span>
+                    <h3 class="text-2xl font-black uppercase mb-2">Custom Diet</h3>
+                    <p class="text-xl font-black text-neutral-400 mb-8">2,000 INR</p>
+                    <button onclick="showTab('contact')" class="w-full bg-rose-600 text-white py-4 rounded-xl font-black uppercase text-[10px] btn-hover">Enrol Now</button>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                    <span class="text-rose-500 font-black text-[9px] uppercase tracking-widest mb-2">Maximum Results</span>
+                    <h3 class="text-2xl font-black uppercase mb-2">1-on-1 Training</h3>
+                    <p class="text-xl font-black text-neutral-400 mb-8">7,000 INR</p>
+                    <button onclick="showTab('contact')" class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-[10px] btn-hover">Enrol Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE (Custom Trust) -->
+        <section id="contact" class="tab-content max-w-2xl mx-auto py-16 px-6">
+            <div class="glass p-10 rounded-[3rem] text-center">
+                <h2 class="text-4xl font-black italic uppercase mb-6">Contact Coach</h2>
+                <div class="w-12 h-1 bg-rose-600 mx-auto mb-8"></div>
+                
+                <p class="text-lg md:text-xl font-medium text-neutral-300 mb-10 leading-relaxed italic">
+                    "Every fitness journey is unique. All our plans are <span class="text-rose-600 font-bold">100% custom-tailored</span> to your specific goals and lifestyle. Message or consult us to create your personalized blueprint for success."
+                </p>
+
+                <div class="space-y-4">
+                    <a href="https://wa.me/919899550279" target="_blank" class="block bg-green-600 p-6 rounded-2xl transition-all btn-hover">
+                        <p class="text-[9px] uppercase font-black text-white/70 mb-1">WhatsApp Coach</p>
+                        <p class="font-bold text-xl">+91 98995 50279</p>
+                    </a>
+
+                    <a href="mailto:sushhant290186@gmail.com" class="block bg-neutral-800 p-6 rounded-2xl transition-all btn-hover border border-neutral-700">
+                        <p class="text-[9px] uppercase font-black text-white/70 mb-1">Direct Email</p>
+                        <p class="font-bold text-xl">sushhant290186@gmail.com</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGIN -->
+        <section id="login" class="tab-content py-20 px-6 max-w-md mx-auto">
+            <div class="glass p-10 rounded-[2.5rem] text-center">
+                <h2 class="text-2xl font-black italic uppercase mb-6">Member Access</h2>
+                <input type="text" id="login-input" placeholder="Your Name" class="mb-6">
+                <button onclick="doLogin()" class="w-full bg-rose-600 py-4 rounded-xl font-black uppercase text-xs btn-hover">Continue</button>
+            </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="tab-content max-w-4xl mx-auto py-12 px-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 id="dash-title" class="text-3xl font-black italic uppercase">Journal</h2>
+                <button onclick="doLogout()" class="text-rose-500 text-[10px] font-black uppercase">Sign Out</button>
+            </div>
+            <div id="full-logs" class="space-y-4"></div>
+        </section>
+
+    </main>
+
+    <footer class="py-12 text-center text-neutral-700 text-[9px] font-black uppercase tracking-[0.5em]">
+        Fitness Made Simplified • 2024
+    </footer>
+
+    <script>
+        // State Management
+        let user = JSON.parse(localStorage.getItem('fms_user')) || null;
+        let logs = JSON.parse(localStorage.getItem('fms_logs')) || [];
+
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const t = document.getElementById(id);
+            if(t) {
+                t.classList.add('active');
+                window.scrollTo(0,0);
+            }
+        }
+
+        function calcBMI() {
+            const w = parseFloat(document.getElementById('bmi-w').value);
+            const h = parseFloat(document.getElementById('bmi-h').value) / 100;
+            if(w && h) {
+                const bmi = (w / (h * h)).toFixed(1);
+                document.getElementById('bmi-val').innerText = bmi;
+                document.getElementById('bmi-cat').innerText = bmi < 18.5 ? "Underweight" : bmi < 25 ? "Normal" : "Overweight";
+                document.getElementById('bmi-res').classList.remove('hidden');
+            }
+        }
+
+        function render() {
+            const btn = document.getElementById('nav-auth-btn');
+            if(user) {
+                btn.innerText = user.name.split(' ')[0];
+                btn.onclick = () => showTab('dashboard');
+                document.getElementById('dash-title').innerText = `${user.name}'s Journal`;
+            } else {
+                btn.innerText = 'Login';
+                btn.onclick = () => showTab('login');
+            }
+
+            const list = document.getElementById('log-list');
+            const full = document.getElementById('full-logs');
+
+            list.innerHTML = logs.slice(0, 3).map(l => `
+                <div class="bg-black/40 p-3 rounded-lg border border-neutral-800 flex justify-between text-[10px]">
+                    <span>${l.name}</span>
+                    <span class="text-neutral-500">${l.sets}</span>
+                </div>
+            `).join('') || '<p class="text-center text-neutral-600 italic text-[10px] py-4">No recent logs</p>';
+
+            full.innerHTML = logs.map(l => `
+                <div class="glass p-6 rounded-2xl flex justify-between items-center">
+                    <div>
+                        <p class="text-rose-600 text-[8px] font-black uppercase mb-1">${l.date}</p>
+                        <h3 class="text-xl font-black uppercase italic">${l.name}</h3>
+                        <p class="text-sm text-neutral-500 font-bold">${l.sets}</p>
+                    </div>
+                </div>
+            `).join('') || '<p class="text-center py-20 text-neutral-700 italic font-bold">Log your first exercise on the home page.</p>';
+        }
+
+        function doLogin() {
+            const n = document.getElementById('login-input').value.trim();
+            if(!n) return;
+            user = { name: n };
+            localStorage.setItem('fms_user', JSON.stringify(user));
+            render();
+            showTab('home');
+        }
+
+        function doLogout() {
+            user = null; logs = [];
+            localStorage.clear();
+            render();
+            showTab('home');
+        }
+
+        function logWork() {
+            if(!user) { showTab('login'); return; }
+            const n = document.getElementById('ex-n').value.trim();
+            const s = document.getElementById('ex-s').value.trim();
+            if(n && s) {
+                logs.unshift({ name: n, sets: s, date: new Date().toLocaleDateString(), id: Date.now() });
+                localStorage.setItem('fms_logs', JSON.stringify(logs));
+                document.getElementById('ex-n').value = '';
+                document.getElementById('ex-s').value = '';
+                render();
+            }
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>
+
+
