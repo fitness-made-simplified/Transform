@@ -12,57 +12,57 @@
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
         .accent-orange { color: #ff4d00; }
         .btn-press:active { transform: scale(0.96); }
-        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; outline: none; width: 100%; transition: 0.3s; }
+        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; color: white; outline: none; width: 100%; transition: 0.3s; }
         input:focus { border-color: #ff4d00; background: rgba(255,255,255,0.1); }
         .hidden { display: none; }
     </style>
 </head>
 <body class="p-6 pb-20">
 
-    <section id="login-section" class="max-w-md mx-auto pt-20 text-center">
+    <section id="login-section" class="max-w-md mx-auto pt-24 text-center">
         <div class="rose-gradient w-16 h-16 rounded-2xl flex items-center justify-center font-black italic text-white mx-auto mb-6 shadow-lg shadow-rose-500/20">FS</div>
         <h2 class="text-4xl font-black uppercase italic tracking-tighter mb-2">Client <span class="accent-orange">Portal</span></h2>
         <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-10">Physio-Led Transformation Track</p>
         
         <div class="flex flex-col gap-4">
-            <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g., fms101)">
-            <button id="loginBtn" onclick="fetchClientData()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press text-white shadow-xl">
+            <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g., Fms1325)">
+            <button id="loginBtn" onclick="fetchClientData()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press text-white shadow-xl shadow-rose-900/20">
                 View My Transformation
             </button>
         </div>
-        <p id="errorMessage" class="text-rose-500 text-[10px] mt-6 font-bold uppercase hidden tracking-widest">Invalid ID. Please try again.</p>
+        <p id="errorMessage" class="text-rose-500 text-[10px] mt-6 font-bold uppercase hidden tracking-widest italic">ID not found. Please check and try again.</p>
     </section>
 
     <section id="profile-display" class="max-w-xl mx-auto mt-10 hidden">
         <button onclick="window.location.reload()" class="mb-8 text-neutral-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2 opacity-60 hover:opacity-100 transition-all">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Login
+            Back to Portal
         </button>
         
-        <h1 id="clientName" class="text-5xl font-black uppercase italic leading-none mb-3 tracking-tighter">--</h1>
-        <div id="package" class="inline-block bg-orange-600/10 text-[#ff4d00] border border-orange-600/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-10">--</div>
+        <h1 id="clientName" class="text-5xl font-black uppercase italic leading-none mb-3 tracking-tighter text-white">--</h1>
+        <div id="package" class="inline-block bg-orange-600/10 text-[#ff4d00] border border-orange-600/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-10 italic">--</div>
 
         <div class="grid grid-cols-2 gap-4">
             <div class="glass p-6 text-center">
-                <p class="text-[9px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Weight</p>
-                <p class="text-3xl font-black italic"><span id="weight">--</span> <span class="text-xs text-neutral-500 uppercase">kg</span></p>
+                <p class="text-[9px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Current Weight</p>
+                <p class="text-3xl font-black italic text-white"><span id="weight">--</span> <span class="text-xs text-neutral-500 uppercase">kg</span></p>
             </div>
             <div class="glass p-6 text-center">
-                <p class="text-[9px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Height</p>
-                <p class="text-3xl font-black italic"><span id="height">--</span> <span class="text-xs text-neutral-500 uppercase">cm</span></p>
+                <p class="text-[9px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Total Height</p>
+                <p class="text-3xl font-black italic text-white"><span id="height">--</span> <span class="text-xs text-neutral-500 uppercase">cm</span></p>
             </div>
-            <div class="glass p-6 text-center border-b-4 border-orange-600">
+            <div class="glass p-6 text-center border-b-4 border-orange-600 bg-orange-600/5">
                 <p class="text-[9px] font-black uppercase text-orange-500 mb-2 tracking-widest">BMI Score</p>
                 <p id="bmi" class="text-4xl font-black italic text-orange-500">--</p>
             </div>
             <div class="glass p-6 text-center">
-                <p class="text-[9px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Fat %</p>
-                <p class="text-3xl font-black italic"><span id="fat">--</span><span class="text-xs text-neutral-500">%</span></p>
+                <p class="text-[9px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Fat Percentage</p>
+                <p class="text-3xl font-black italic text-white"><span id="fat">--</span><span class="text-xs text-neutral-500">%</span></p>
             </div>
         </div>
 
         <div class="mt-12">
-            <h3 class="text-[10px] font-black uppercase text-orange-500 mb-4 tracking-[0.3em]">Workout Journal <span class="text-white opacity-40">(Max Lifts)</span></h3>
+            <h3 class="text-[10px] font-black uppercase text-orange-500 mb-4 tracking-[0.3em]">Workout Journal <span class="text-white opacity-40">(Personal Bests)</span></h3>
             <div class="glass overflow-hidden">
                 <table class="w-full text-left">
                     <thead class="bg-white/5 text-[9px] font-black uppercase text-neutral-500 tracking-widest">
@@ -79,7 +79,6 @@
     </section>
 
     <script>
-        // Your Verified API Link
         const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt"; 
 
         async function fetchClientData() {
@@ -90,29 +89,34 @@
             const loginSection = document.getElementById('login-section');
             const profileDisplay = document.getElementById('profile-display');
 
-            if (!id) return;
+            if (!id) {
+                errorMsg.innerText = "Please enter an ID";
+                errorMsg.classList.remove('hidden');
+                return;
+            }
 
-            // Loading state
-            loginBtn.innerText = "Searching...";
+            // Visual loading state
+            loginBtn.innerText = "VERIFYING...";
             loginBtn.style.opacity = "0.7";
             errorMsg.classList.add('hidden');
 
             try {
-                // Precise search for the ID
+                // Precise search to prevent random IDs from working
                 const response = await fetch(`${SHEETDB_URL}/search?id=${id}`);
                 const data = await response.json();
 
-                if (data && data.length > 0) {
+                // Validation: Only proceed if there is a direct match
+                if (data && data.length > 0 && data[0].id.toLowerCase() === id.toLowerCase()) {
                     const client = data[0];
 
-                    // Map UI Fields
-                    document.getElementById('clientName').innerText = client.name || "Client";
-                    document.getElementById('package').innerText = client.package || "Custom Plan";
+                    // Inject data
+                    document.getElementById('clientName').innerText = client.name || "CLIENT";
+                    document.getElementById('package').innerText = client.package || "TRANSFORMATION PLAN";
                     document.getElementById('weight').innerText = client.weight || "0";
                     document.getElementById('height').innerText = client.height || "0";
                     document.getElementById('fat').innerText = client.fat_percent || "0";
 
-                    // BMI Calculation
+                    // BMI Math
                     const w = parseFloat(client.weight);
                     const h = parseFloat(client.height);
                     if (w > 0 && h > 0) {
@@ -121,10 +125,9 @@
                         document.getElementById('bmi').innerText = bmiValue;
                     }
 
-                    // Workout Journal Rendering
+                    // Render Journal
                     const journalBody = document.getElementById('journalBody');
                     journalBody.innerHTML = ""; 
-                    
                     if (client.lifts) {
                         const liftArray = client.lifts.split(','); 
                         liftArray.forEach(item => {
@@ -133,25 +136,27 @@
                                 journalBody.innerHTML += `
                                     <tr class="border-t border-white/5">
                                         <td class="p-5 text-white/90 uppercase tracking-tighter">${ex.trim()}</td>
-                                        <td class="p-5 text-orange-500 text-right font-black">${wt.trim()}</td>
+                                        <td class="p-5 text-orange-500 text-right font-black tracking-widest">${wt.trim()}</td>
                                     </tr>`;
                             }
                         });
                     }
 
-                    // Transition to Profile
+                    // View Transition
                     loginSection.classList.add('hidden');
                     profileDisplay.classList.remove('hidden');
                     window.scrollTo(0, 0);
 
                 } else {
+                    // Fail state for wrong/random IDs
+                    errorMsg.innerText = "Access Denied: Invalid ID";
                     errorMsg.classList.remove('hidden');
                     loginBtn.innerText = "View My Transformation";
                     loginBtn.style.opacity = "1";
                 }
             } catch (error) {
                 console.error("API Error:", error);
-                errorMsg.innerText = "Database Connection Error";
+                errorMsg.innerText = "Connection Error. Check Internet.";
                 errorMsg.classList.remove('hidden');
                 loginBtn.innerText = "View My Transformation";
                 loginBtn.style.opacity = "1";
