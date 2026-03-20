@@ -14,10 +14,13 @@
         .tab-content.active { display: block; }
         .pb-glow { background: rgba(225, 29, 72, 0.1); border-left: 3px solid #e11d48 !important; }
         input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; width: 100%; }
+        .status-badge { padding: 2px 8px; border-radius: 6px; font-size: 9px; font-weight: 900; text-transform: uppercase; }
+        .paid { background: #10b981; color: white; }
+        .unpaid { background: #f59e0b; color: white; }
     </style>
 </head>
 <body class="pb-32 p-6">
-    <div id="loader" class="text-center pt-20 font-black uppercase italic animate-pulse">Loading Profile...</div>
+    <div id="loader" class="text-center pt-20 font-black uppercase italic animate-pulse">Syncing Portal...</div>
 
     <div id="main-content" class="hidden max-w-xl mx-auto">
         <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] z-50">
@@ -29,21 +32,36 @@
         </nav>
 
         <section id="view-profile" class="tab-content active">
-            <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter mb-8">--</h1>
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter">--</h1>
+                    <div id="payment-tag" class="mt-2"></div>
+                </div>
+            </div>
+
+            <div id="session-box" class="glass p-5 mb-8 hidden">
+                <div class="flex justify-between items-end mb-2">
+                    <h3 class="text-[10px] font-black uppercase text-rose-500 tracking-widest italic">Session Tracker</h3>
+                    <p class="text-xs font-black italic"><span id="s-used">0</span> / <span id="s-total">0</span> <span class="text-neutral-500 text-[10px]">Left</span></p>
+                </div>
+                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                    <div id="s-bar" class="rose-gradient h-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+            </div>
             
-            <div class="grid grid-cols-2 gap-4 mb-8 text-white">
+            <div class="grid grid-cols-2 gap-4 mb-8">
                 <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
                 <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
             </div>
 
             <div class="mb-8">
-                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Today's Prescribed Plan</h3>
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Prescribed Plan</h3>
                 <div class="glass p-6 border-l-2 border-rose-600">
-                    <p id="p-schedule" class="text-sm font-bold italic text-neutral-200 leading-relaxed">No plan assigned for today.</p>
+                    <p id="p-schedule" class="text-sm font-bold italic text-neutral-200 leading-relaxed">No plan assigned.</p>
                 </div>
             </div>
 
-            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Activity History & PBs</h3>
+            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Activity History</h3>
             <div class="glass overflow-hidden max-h-[400px] overflow-y-auto">
                 <table class="w-full text-left text-sm"><tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody></table>
             </div>
@@ -90,12 +108,25 @@
                     document.getElementById('clientName').innerText = currentName;
                     document.getElementById('p-weight').innerText = client.weight;
                     
-                    // Update Schedule Section
-                    if(client.schedule) {
-                        document.getElementById('p-schedule').innerHTML = client.schedule.replace(/\n/g, '<br>');
+                    // Session Logic
+                    if(client.total_sessions) {
+                        document.getElementById('session-box').classList.remove('hidden');
+                        const used = parseInt(client.used_sessions) || 0;
+                        const total = parseInt(client.total_sessions);
+                        document.getElementById('s-used').innerText = used;
+                        document.getElementById('s-total').innerText = total;
+                        const percent = (used / total) * 100;
+                        document.getElementById('s-bar').style.width = percent + "%";
                     }
 
-                    // Calc BMI
+                    // Payment Badge
+                    if(client.payment_status) {
+                        const status = client.payment_status.toUpperCase();
+                        document.getElementById('payment-tag').innerHTML = `<span class="status-badge ${status === 'PAID' ? 'paid' : 'unpaid'}">${status}</span>`;
+                    }
+
+                    if(client.schedule) document.getElementById('p-schedule').innerHTML = client.schedule.replace(/\n/g, '<br>');
+
                     const h = parseFloat(client.height), w = parseFloat(client.weight);
                     if(h>0) document.getElementById('p-bmi').innerText = (w/((h/100)**2)).toFixed(1);
                     
