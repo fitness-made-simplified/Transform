@@ -3,110 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FMS | Client Profile</title>
+    <title>FMS | Profile & Track</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
-        .hidden { display: none; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .pb-glow { background: rgba(225, 29, 72, 0.1); border-left: 3px solid #e11d48 !important; }
+        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; width: 100%; }
     </style>
 </head>
-<body class="p-6 pb-24">
+<body class="pb-32 p-6">
+    <div id="loader" class="text-center pt-20 font-black uppercase italic animate-pulse">Loading Profile...</div>
 
-    <div id="portal-container" class="max-w-xl mx-auto">
-        
-        <div id="login-section" class="pt-20 text-center">
-            <div class="rose-gradient w-16 h-16 rounded-2xl flex items-center justify-center font-black italic text-white mx-auto mb-6">FS</div>
-            <h2 class="text-3xl font-black uppercase italic mb-10">Client <span class="text-rose-600">Portal</span></h2>
-            <input type="text" id="clientIdInput" placeholder="Enter Client ID" class="bg-white/5 border border-white/10 rounded-xl p-4 w-full mb-4 text-white outline-none focus:border-rose-500">
-            <button onclick="fetchClientData()" id="loginBtn" class="rose-gradient w-full py-4 rounded-xl font-black uppercase text-xs tracking-widest text-white">View Progress</button>
-            <p id="errorMsg" class="text-rose-500 text-[10px] font-bold uppercase mt-4 hidden">ID Not Found</p>
-        </div>
-
-        <div id="profile-display" class="hidden">
-            <div class="flex justify-between items-center mb-8">
-                <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter">--</h1>
-                <button onclick="window.location.reload()" class="text-[10px] font-black uppercase text-neutral-500">Exit</button>
+    <div id="main-content" class="hidden max-w-xl mx-auto">
+        <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] z-50">
+            <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
+                <button onclick="showTab('view-profile')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Dashboard</span></button>
+                <button onclick="showTab('view-track')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Track Lift</span></button>
+                <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase opacity-50">Logout</span></button>
             </div>
+        </nav>
 
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="glass p-5 text-center">
-                    <p class="text-[9px] uppercase text-neutral-500 mb-1">Current Weight</p>
-                    <p class="text-2xl font-black italic"><span id="weight">--</span>kg</p>
+        <section id="view-profile" class="tab-content active">
+            <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter mb-8">--</h1>
+            <div class="grid grid-cols-2 gap-4 mb-10 text-white">
+                <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
+                <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
+            </div>
+            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History (Last 25)</h3>
+            <div class="glass overflow-hidden max-h-[400px] overflow-y-auto">
+                <table class="w-full text-left text-sm"><tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody></table>
+            </div>
+        </section>
+
+        <section id="view-track" class="tab-content">
+            <h2 class="text-3xl font-black italic uppercase mb-8">Activity <span class="text-rose-600">Track</span></h2>
+            <div class="glass p-6">
+                <div class="flex flex-col gap-3">
+                    <input type="text" id="ex-name" placeholder="Exercise Name">
+                    <div class="grid grid-cols-3 gap-3">
+                        <input type="number" id="ex-sets" placeholder="Sets">
+                        <input type="number" id="ex-reps" placeholder="Reps">
+                        <input type="text" id="ex-weight" placeholder="Kg">
+                    </div>
+                    <button onclick="logWorkout()" id="addBtn" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white">Save Entry</button>
                 </div>
-                <div class="glass p-5 text-center border-b-2 border-rose-500">
-                    <p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p>
-                    <p id="bmi" class="text-2xl font-black italic text-rose-500">--</p>
+                <div id="share-section" class="hidden mt-6 border-t border-white/10 pt-6">
+                    <button id="whatsappBtn" class="w-full bg-[#25D366] py-4 rounded-xl font-black uppercase text-xs text-white">Share with Coach</button>
                 </div>
             </div>
-
-            <div class="mb-10">
-                <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest">Weekly Schedule</h3>
-                <div class="glass p-6 bg-blue-500/5 border-t border-blue-500/20">
-                    <p id="schedule" class="text-sm italic leading-relaxed text-neutral-300">Loading plan...</p>
-                </div>
-            </div>
-
-            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest">Max Lifts (Journal)</h3>
-            <div class="glass overflow-hidden mb-10">
-                <table class="w-full text-left text-sm">
-                    <tbody id="journalBody" class="font-bold italic"></tbody>
-                </table>
-            </div>
-        </div>
+        </section>
     </div>
 
     <script>
         const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt";
+        const urlParams = new URLSearchParams(window.location.search);
+        const clientId = urlParams.get('id');
+        let currentName = "";
+        let isPB = false;
 
-        async function fetchClientData() {
-            const id = document.getElementById('clientIdInput').value.trim();
-            const btn = document.getElementById('loginBtn');
-            if (!id) return;
-
-            btn.innerText = "VERIFYING...";
-
-            try {
-                const response = await fetch(`${SHEETDB_URL}/search?id=${id}`);
-                const data = await response.json();
-
-                if (data && data.length > 0) {
-                    const client = data[0];
-
-                    // Data Mapping
-                    document.getElementById('clientName').innerText = client.name;
-                    document.getElementById('weight').innerText = client.weight;
-                    document.getElementById('schedule').innerHTML = (client.schedule || "Rest Day").replaceAll('\n', '<br>');
-
-                    // BMI
-                    const h = parseFloat(client.height);
-                    const w = parseFloat(client.weight);
-                    if (h > 0 && w > 0) {
-                        document.getElementById('bmi').innerText = (w / ((h/100)**2)).toFixed(1);
-                    }
-
-                    // Journal Split
-                    const journal = document.getElementById('journalBody');
-                    journal.innerHTML = "";
-                    if (client.lifts) {
-                        client.lifts.split(',').forEach(item => {
-                            if (item.includes(':')) {
-                                const [ex, wt] = item.split(':');
-                                journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 uppercase">${ex.trim()}</td><td class="p-4 text-rose-500 text-right">${wt.trim()}</td></tr>`;
-                            }
-                        });
-                    }
-
-                    document.getElementById('login-section').classList.add('hidden');
-                    document.getElementById('profile-display').classList.remove('hidden');
-                } else {
-                    document.getElementById('errorMsg').classList.remove('hidden');
-                    btn.innerText = "View Progress";
-                }
-            } catch (e) { console.error(e); }
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
+
+        async function loadData() {
+            if(!clientId) { window.location.href='index.html'; return; }
+            try {
+                const res = await fetch(`${SHEETDB_URL}/search?id=${clientId}`);
+                const data = await res.json();
+                if(data.length > 0) {
+                    currentName = data[0].name;
+                    document.getElementById('clientName').innerText = currentName;
+                    document.getElementById('p-weight').innerText = data[0].weight;
+                    const h = parseFloat(data[0].height), w = parseFloat(data[0].weight);
+                    if(h>0) document.getElementById('p-bmi').innerText = (w/((h/100)**2)).toFixed(1);
+                    
+                    fetchHistory();
+                    document.getElementById('loader').classList.add('hidden');
+                    document.getElementById('main-content').classList.remove('hidden');
+                }
+            } catch(e) { alert("Error loading profile"); }
+        }
+
+        async function fetchHistory() {
+            const res = await fetch(`${SHEETDB_URL}/search?id=${clientId}&sheet=Workouts`);
+            const historyData = await res.json();
+            const journal = document.getElementById('p-journal');
+            journal.innerHTML = "";
+            if (Array.isArray(historyData)) {
+                const pbs = {};
+                [...historyData].forEach(log => {
+                    const w = parseFloat(log.weight) || 0;
+                    if(!pbs[log.exercise] || w > pbs[log.exercise]) pbs[log.exercise] = w;
+                });
+                historyData.reverse().slice(0, 25).forEach(log => {
+                    const curW = parseFloat(log.weight) || 0;
+                    const pbBadge = (curW > 0 && curW === pbs[log.exercise]) ? '<span class="text-rose-500 ml-2">PB 🔥</span>' : '';
+                    journal.innerHTML += `<tr class="border-t border-white/5 ${pbBadge?'pb-glow':''}">
+                        <td class="p-4 uppercase text-[10px]">${log.exercise}${pbBadge}<br><span class="opacity-40 text-[8px]">${log.date}</span></td>
+                        <td class="p-4 text-right text-xs text-rose-500">${log.sets}x${log.reps}<br><span class="text-white opacity-60">${log.weight}kg</span></td></tr>`;
+                });
+            }
+        }
+
+        async function logWorkout() {
+            const name = document.getElementById('ex-name').value;
+            const sets = document.getElementById('ex-sets').value;
+            const reps = document.getElementById('ex-reps').value;
+            const weight = document.getElementById('ex-weight').value;
+            const btn = document.getElementById('addBtn');
+            if(!name || !sets || !reps) return;
+            btn.innerText = "SAVING...";
+
+            // Check PB
+            const hRes = await fetch(`${SHEETDB_URL}/search?id=${clientId}&exercise=${name}&sheet=Workouts`);
+            const hData = await hRes.json();
+            let max = 0;
+            if(Array.isArray(hData)) hData.forEach(l => { if(parseFloat(l.weight)>max) max=parseFloat(l.weight); });
+            isPB = parseFloat(weight) > max;
+
+            await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ data: [{ id: clientId, date: new Date().toLocaleDateString('en-GB'), exercise: name, sets, reps, weight }] })
+            });
+
+            btn.innerText = "SAVED!";
+            document.getElementById('share-section').classList.remove('hidden');
+            document.getElementById('whatsappBtn').onclick = () => {
+                const pbText = isPB ? " *[NEW PERSONAL BEST! 🔥]*" : "";
+                const msg = `💪 *Workout Update: ${currentName}*\n\n✅ *Exercise:* ${name}${pbText}\n🔢 *Volume:* ${sets} sets x ${reps} reps\n⚖️ *Weight:* ${weight}kg\n\n_FMS Simplified Portal_`;
+                window.open(`https://wa.me/919899550279?text=${encodeURIComponent(msg)}`);
+            };
+            fetchHistory();
+        }
+        window.onload = loadData;
     </script>
 </body>
 </html>
