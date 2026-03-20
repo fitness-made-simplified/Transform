@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
@@ -16,11 +15,9 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .btn-press:active { transform: scale(0.96); }
         ::-webkit-scrollbar { display: none; }
-        .price-tag { background: rgba(225, 29, 72, 0.15); color: #e11d48; padding: 6px 14px; border-radius: 99px; font-weight: 900; font-size: 14px; border: 1px solid rgba(225, 29, 72, 0.3); }
-        .nav-active { color: #e11d48 !important; opacity: 1 !important; }
+        .nav-active { color: #e11d48; opacity: 1 !important; }
         input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; outline: none; transition: 0.3s; width: 100%; }
         input:focus { border-color: #e11d48; background: rgba(255,255,255,0.08); }
-        .hidden { display: none; }
     </style>
 </head>
 <body class="pb-32">
@@ -29,23 +26,15 @@
         <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
             <button onclick="showTab('home')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-home">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest text-white">Coach</span>
-            </button>
-            <button onclick="showTab('transform')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-transform">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h.01"/><path d="M7 16h10"/><path d="M9 12h6"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest text-white">Track</span>
+                <span class="text-[8px] font-black uppercase tracking-widest">Coach</span>
             </button>
             <button onclick="showTab('portal')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-portal">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest text-white">Portal</span>
+                <span class="text-[8px] font-black uppercase tracking-widest">Portal</span>
             </button>
-            <button onclick="showTab('kitchen')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-kitchen">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest text-white">Kitchen</span>
-            </button>
-            <button onclick="showTab('pro-plans')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-pro-plans">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest text-white">Pro</span>
+            <button onclick="showTab('transform')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-transform">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h.01"/><path d="M7 16h10"/><path d="M9 12h6"/></svg>
+                <span class="text-[8px] font-black uppercase tracking-widest">Track</span>
             </button>
         </div>
     </nav>
@@ -53,57 +42,52 @@
     <main class="p-6 pt-12">
         
         <section id="home" class="tab-content active max-w-xl mx-auto">
-            <div class="mb-10 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic text-white">FS</div>
-                    <h1 class="text-2xl font-black italic uppercase tracking-tighter text-white">Simplified</h1>
-                </div>
-                <button onclick="showTab('portal')" class="bg-white text-black px-4 py-2 rounded-full text-[10px] font-black uppercase">Client Login</button>
+            <div class="flex items-center gap-3 mb-10">
+                <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic text-white">FS</div>
+                <h1 class="text-2xl font-black italic uppercase text-white">Simplified</h1>
             </div>
-            <div class="relative rounded-[2.5rem] overflow-hidden h-[450px] mb-8 group cursor-pointer">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80" alt="Sushant">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                <div class="absolute bottom-8 left-8">
-                    <p class="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em] mb-2">Physiotherapist & Master Coach</p>
-                    <h3 class="text-5xl font-black uppercase italic leading-none mb-2">Sushant</h3>
-                    <p class="text-xs font-medium text-neutral-400 italic">BPT • NDDY • ACE CPT • MBA</p>
-                </div>
+            <div class="glass p-8 text-center border-rose-500/20 mb-6">
+                <h3 class="text-3xl font-black uppercase italic mb-2">Physio-Led <br><span class="text-rose-600">Fitness</span></h3>
+                <p class="text-xs text-neutral-400 font-medium">Science based results by Sushant Sehgal</p>
             </div>
         </section>
 
         <section id="portal" class="tab-content max-w-xl mx-auto">
-            <div id="login-view" class="text-center pt-10">
-                <h2 class="text-3xl font-black uppercase italic mb-2 text-white">Client <span class="text-rose-600">Portal</span></h2>
-                <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Verification Required</p>
-                <div class="flex flex-col gap-4 max-w-xs mx-auto">
-                    <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g. Fms1325)">
-                    <button id="loginBtn" onclick="fetchClientData()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press text-white">Access Profile</button>
-                    <p id="loginError" class="text-rose-500 text-[10px] font-bold uppercase hidden">Invalid ID. Try again.</p>
-                </div>
+            <div id="login-view">
+                <h2 class="text-3xl font-black italic uppercase mb-2">Client <span class="text-rose-600">Portal</span></h2>
+                <p class="text-neutral-500 text-[10px] font-bold uppercase mb-8">Enter ID to view progress</p>
+                <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g., Fms1325)" class="mb-4">
+                <button onclick="fetchClientData()" id="loginBtn" class="rose-gradient w-full py-4 rounded-xl font-black uppercase text-xs text-white">View Transformation</button>
             </div>
 
             <div id="profile-view" class="hidden">
-                <div class="flex justify-between items-center mb-10">
-                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter text-white">--</h1>
-                    <button onclick="logout()" class="text-[10px] font-black uppercase text-rose-500 tracking-widest">Logout</button>
+                <div class="flex justify-between items-end mb-8">
+                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter">--</h1>
+                    <button onclick="window.location.reload()" class="text-[8px] font-black uppercase text-neutral-500 mb-2">Logout</button>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
-                    <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
-                </div>
-
-                <div class="mb-8">
-                    <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest">Active Schedule</h3>
-                    <div class="glass p-6 bg-blue-500/5 border-t border-blue-500/30">
-                        <p id="p-schedule" class="text-sm italic leading-relaxed text-neutral-300 font-medium">No schedule assigned.</p>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="glass p-5 text-center">
+                        <p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p>
+                        <p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p>
+                    </div>
+                    <div class="glass p-5 text-center border-b-2 border-rose-500">
+                        <p class="text-[9px] uppercase text-rose-500 mb-1">Status</p>
+                        <p class="text-xl font-black italic text-rose-500">Active</p>
                     </div>
                 </div>
 
-                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest">Heaviest Lifts</h3>
+                <div class="mb-10">
+                    <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest italic">Weekly Schedule</h3>
+                    <div class="glass p-6 bg-blue-500/5 border-t border-blue-500/20">
+                        <p id="p-schedule" class="text-sm italic leading-relaxed text-neutral-300">No plan assigned</p>
+                    </div>
+                </div>
+
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History</h3>
                 <div class="glass overflow-hidden">
                     <table class="w-full text-left text-sm">
-                        <tbody id="p-journal" class="font-bold italic"></tbody>
+                        <tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody>
                     </table>
                 </div>
             </div>
@@ -111,56 +95,17 @@
 
         <section id="transform" class="tab-content max-w-xl mx-auto">
             <h2 class="text-3xl font-black italic uppercase mb-2">Activity <span class="text-rose-600">Track</span></h2>
-            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8 text-white">Daily Progress Journal</p>
+            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8">Daily Progress Journal</p>
 
             <div class="glass p-6 rounded-[2rem] mb-6">
-                <h3 class="text-xs font-black uppercase text-rose-500 mb-4 tracking-widest text-white">Log Today's Entry</h3>
+                <h3 class="text-xs font-black uppercase text-rose-500 mb-4 tracking-widest">Log Today's Entry</h3>
                 <div class="flex flex-col gap-3">
                     <input type="text" id="ex-name" placeholder="Exercise Name">
                     <div class="grid grid-cols-2 gap-3">
                         <input type="number" id="ex-sets" placeholder="Sets">
                         <input type="number" id="ex-reps" placeholder="Reps">
                     </div>
-                    <button onclick="logWorkout()" id="logBtn" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press mt-2 text-white">Add to History</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="pro-plans" class="tab-content max-w-xl mx-auto text-white">
-            <h2 class="text-4xl font-black italic uppercase mb-2">Pro <span class="text-rose-600">Plans</span></h2>
-            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Physio-verified results</p>
-
-            <div class="space-y-4">
-                <div class="glass p-6 rounded-[2rem] flex justify-between items-center">
-                    <div><h4 class="text-xl font-black uppercase italic mb-1">Custom Workout</h4><p class="text-[10px] text-neutral-500 uppercase font-black">4 Weeks Plan</p></div>
-                    <div class="price-tag text-center min-w-[100px]">2,000 <br><span class="text-[8px] opacity-60">INR</span></div>
-                </div>
-
-                <div class="glass p-6 rounded-[2rem] flex justify-between items-center border-rose-600/40 bg-rose-600/5">
-                    <div>
-                        <h4 class="text-xl font-black uppercase italic mb-1">60 Sessions</h4>
-                        <p class="text-[10px] text-rose-500 uppercase font-black">Transformation Master</p>
-                    </div>
-                    <div class="price-tag text-center min-w-[100px]">28,150 <br><span class="text-[8px] opacity-60">INR</span></div>
-                </div>
-
-                <div class="glass p-6 rounded-[2rem] flex justify-between items-center">
-                    <div><h4 class="text-xl font-black uppercase italic mb-1">25 Sessions</h4><p class="text-[10px] text-neutral-500 uppercase font-black italic">Physio-led PT</p></div>
-                    <div class="price-tag text-center min-w-[100px]">13,300 <br><span class="text-[8px] opacity-60">INR</span></div>
-                </div>
-            </div>
-            
-            <a href="https://wa.me/919899550279" class="block w-full bg-[#25D366] text-center py-5 rounded-2xl font-black uppercase italic mt-10 text-white no-underline">Enroll via WhatsApp</a>
-        </section>
-
-        <section id="kitchen" class="tab-content max-w-xl mx-auto">
-            <h2 class="text-3xl font-black italic uppercase mb-8 text-white">The Kitchen</h2>
-            <div class="space-y-4">
-                <div class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
-                    <h3 class="text-2xl font-black italic uppercase text-white">Weight Loss</h3><span class="text-2xl">🥗</span>
-                </div>
-                <div class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
-                    <h3 class="text-2xl font-black italic uppercase text-white">Bulking Fuel</h3><span class="text-2xl">🥩</span>
+                    <button id="addBtn" onclick="logWorkout()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white">Add to History</button>
                 </div>
             </div>
         </section>
@@ -169,104 +114,80 @@
 
     <script>
         const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt";
-        let activeClientId = ""; 
+        let activeClientId = "";
 
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
             document.getElementById(tabId).classList.add('active');
             document.getElementById('nav-' + tabId).classList.add('nav-active');
-            window.scrollTo(0,0);
         }
 
         async function fetchClientData() {
             const id = document.getElementById('clientIdInput').value.trim();
             const loginBtn = document.getElementById('loginBtn');
-            const errorMsg = document.getElementById('loginError');
-
             if (!id) return;
             loginBtn.innerText = "VERIFYING...";
             
             try {
-                const response = await fetch(`${SHEETDB_URL}/search?id=${id}`);
-                const data = await response.json();
+                const profileRes = await fetch(`${SHEETDB_URL}/search?id=${id}`);
+                const profileData = await profileRes.json();
 
-                if (data && data.length > 0 && data[0].id.toLowerCase() === id.toLowerCase()) {
-                    const client = data[0];
-                    activeClientId = client.id; // Remember for logging
-
-                    // Map UI
+                if (profileData && profileData.length > 0) {
+                    const client = profileData[0];
+                    activeClientId = client.id;
                     document.getElementById('clientName').innerText = client.name;
                     document.getElementById('p-weight').innerText = client.weight;
                     document.getElementById('p-schedule').innerHTML = (client.schedule || "Rest Day").replaceAll('\n', '<br>');
 
-                    // BMI Math
-                    const h = parseFloat(client.height);
-                    const w = parseFloat(client.weight);
-                    if (h > 0 && w > 0) {
-                        document.getElementById('p-bmi').innerText = (w / ((h/100)**2)).toFixed(1);
-                    }
-
-                    // Journal
+                    const historyRes = await fetch(`${SHEETDB_URL}/search?id=${id}&sheet=Workouts`);
+                    const historyData = await historyRes.json();
                     const journal = document.getElementById('p-journal');
                     journal.innerHTML = "";
-                    if (client.lifts) {
-                        client.lifts.split(',').forEach(item => {
-                            if (item.includes(':')) {
-                                const [ex, wt] = item.split(':');
-                                journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 text-white uppercase">${ex}</td><td class="p-4 text-rose-500 text-right">${wt}</td></tr>`;
-                            }
+
+                    if (historyData.length > 0) {
+                        historyData.reverse().slice(0, 5).forEach(log => {
+                            journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 uppercase text-[10px]">${log.exercise}<br><span class="text-neutral-600 text-[8px]">${log.date}</span></td><td class="p-4 text-rose-500 text-right font-black italic">${log.sets}x${log.reps}</td></tr>`;
                         });
                     }
-
                     document.getElementById('login-view').classList.add('hidden');
                     document.getElementById('profile-view').classList.remove('hidden');
-                } else {
-                    errorMsg.classList.remove('hidden');
-                    loginBtn.innerText = "Access Profile";
-                }
-            } catch (e) { loginBtn.innerText = "Error Connecting"; }
+                } else { loginBtn.innerText = "ID NOT FOUND"; }
+            } catch (e) { loginBtn.innerText = "ERROR"; }
         }
 
         async function logWorkout() {
-            if (!activeClientId) { 
-                alert("Please log in to your Portal first."); 
-                showTab('portal');
-                return; 
-            }
-            
+            if (!activeClientId) { alert("Please login in Portal first!"); return; }
             const name = document.getElementById('ex-name').value;
             const sets = document.getElementById('ex-sets').value;
             const reps = document.getElementById('ex-reps').value;
-            const logBtn = document.getElementById('logBtn');
+            const btn = document.getElementById('addBtn');
 
-            if (!name || !sets || !reps) return;
-            logBtn.innerText = "SAVING...";
+            if(!name || !sets || !reps) return;
+            btn.innerText = "SAVING...";
+
+            const data = { 
+                id: activeClientId, 
+                date: new Date().toLocaleDateString('en-GB'), 
+                exercise: name, 
+                sets: sets, 
+                reps: reps 
+            };
 
             try {
                 const res = await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        data: [{ 'id': activeClientId, 'date': new Date().toLocaleDateString(), 'exercise': name, 'sets': sets, 'reps': reps }]
-                    })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ data: [data] })
                 });
-                if (res.ok) {
+                if(res.ok) {
                     alert("Workout Logged!");
+                    btn.innerText = "ADD TO HISTORY";
                     document.getElementById('ex-name').value = '';
-                    logBtn.innerText = "Add to History";
+                    fetchClientData(); // Refresh list
                 }
-            } catch (e) { logBtn.innerText = "Try Again"; }
+            } catch (e) { btn.innerText = "ERROR"; }
         }
-
-        function logout() {
-            activeClientId = "";
-            document.getElementById('login-view').classList.remove('hidden');
-            document.getElementById('profile-view').classList.add('hidden');
-            document.getElementById('clientIdInput').value = "";
-        }
-
-        window.onload = () => showTab('home');
     </script>
 </body>
 </html>
