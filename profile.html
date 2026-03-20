@@ -50,56 +50,60 @@
 
 <script>
     // 1. Setup API Details
-    const urlParams = new URLSearchParams(window.location.search);
-    const clientId = urlParams.get('id'); 
-    const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt"; // Replace with your ID
-
     async function fetchClientData() {
-        if (!clientId) {
-            document.getElementById('clientName').innerText = "No Client ID Provided";
-            return;
-        }
+    if (!clientId) return;
 
-        try {
-            const response = await fetch(`${SHEETDB_URL}?id=${clientId}`);
-            const data = await response.json();
+    try {
+        const response = await fetch(`${SHEETDB_URL}?id=${clientId}`);
+        const data = await response.json();
 
-            if (data.length > 0) {
-                const client = data[0];
-                
-                // 2. Map Data to HTML
-                document.getElementById('clientName').innerText = client.name;
-                document.getElementById('age').innerText = client.age;
-                document.getElementById('weight').innerText = client.weight;
-                document.getElementById('height').innerText = client.height;
-                document.getElementById('fat').innerText = client.fat_percent;
-                document.getElementById('package').innerText = client.package;
+        if (data.length > 0) {
+            const client = data[0];
+            
+            // 1. Map Text Fields (Ensure keys match Sheet headers exactly)
+            document.getElementById('clientName').innerText = client.name || "N/A";
+            document.getElementById('package').innerText = client.package || "No Package";
+            document.getElementById('age').innerText = client.age || "--";
+            document.getElementById('weight').innerText = client.weight || "--";
+            document.getElementById('height').innerText = client.height || "--";
+            document.getElementById('fat').innerText = client.fat_percent || "--";
 
-                // 3. BMI Calculation Logic
-                const hMeters = client.height / 100;
-                const bmiValue = (client.weight / (hMeters * hMeters)).toFixed(1);
+            // 2. BMI Calculation (With safety check)
+            const w = parseFloat(client.weight);
+            const h = parseFloat(client.height);
+
+            if (w > 0 && h > 0) {
+                const hMeters = h / 100;
+                const bmiValue = (w / (hMeters * hMeters)).toFixed(1);
                 document.getElementById('bmi').innerText = bmiValue;
-
-                // 4. Handle Journal (Lifts)
-                // Assuming "lifts" is a comma-separated string in your sheet: "Bench:100kg, Squat:140kg"
-                const journalBody = document.getElementById('journalBody');
-                if(client.lifts) {
-                    const lifts = client.lifts.split(',');
-                    lifts.forEach(item => {
-                        const [ex, wt] = item.split(':');
-                        journalBody.innerHTML += `<tr><td>${ex}</td><td>${wt}</td></tr>`;
-                    });
-                }
-
             } else {
-                document.getElementById('clientName').innerText = "Client Not Found";
+                document.getElementById('bmi').innerText = "Check Data";
             }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    }
 
-    fetchClientData();
+            // 3. Workout Journal (The Loop)
+            const journalBody = document.getElementById('journalBody');
+            journalBody.innerHTML = ""; // Clear existing rows
+
+            if (client.lifts) {
+                // Splits by comma first, then by colon
+                const liftArray = client.lifts.split(','); 
+                liftArray.forEach(item => {
+                    if (item.includes(':')) {
+                        const [ex, wt] = item.split(':');
+                        const row = `<tr>
+                            <td>${ex.trim()}</td>
+                            <td style="color: #ff4d00; font-weight: bold;">${wt.trim()}</td>
+                        </tr>`;
+                        journalBody.innerHTML += row;
+                    }
+                });
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
 </script>
 
 </body>
