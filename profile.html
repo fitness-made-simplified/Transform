@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Profile | Transform</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        body { background-color: #111; color: white; font-family: 'Arial', sans-serif; }
+        .profile-container { max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #333; border-radius: 15px; background: #1a1a1a; }
+        .accent { color: #ff4d00; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 30px; }
+        .stat-box { background: #222; padding: 20px; border-radius: 10px; text-align: center; border-bottom: 3px solid #ff4d00; }
+        .stat-box h3 { margin: 0; font-size: 0.9rem; color: #888; text-transform: uppercase; }
+        .stat-box p { margin: 10px 0 0; font-size: 1.5rem; font-weight: bold; }
+        .package-badge { display: inline-block; background: #ff4d00; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-top: 10px; }
+        .journal-section { margin-top: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { text-align: left; color: #ff4d00; padding: 10px; border-bottom: 1px solid #333; }
+        td { padding: 10px; border-bottom: 1px solid #222; }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <h1 id="clientName">Loading...</h1>
+    <div id="package" class="package-badge">Searching Package...</div>
+
+    <div class="stats-grid">
+        <div class="stat-box"><h3>Age</h3><p id="age">--</p></div>
+        <div class="stat-box"><h3>Weight</h3><p><span id="weight">--</span> kg</p></div>
+        <div class="stat-box"><h3>Height</h3><p><span id="height">--</span> cm</p></div>
+        <div class="stat-box"><h3>BMI</h3><p id="bmi" class="accent">--</p></div>
+        <div class="stat-box"><h3>Fat %</h3><p><span id="fat">--</span>%</p></div>
+    </div>
+
+    <div class="journal-section">
+        <h2>Workout Journal <span class="accent">(Heaviest Lifts)</span></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercise/Machine</th>
+                    <th>Max Weight</th>
+                </tr>
+            </thead>
+            <tbody id="journalBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // 1. Setup API Details
+    const urlParams = new URLSearchParams(window.location.search);
+    const clientId = urlParams.get('id'); 
+    const SHEETDB_URL = "https://sheetdb.io/api/v1/YOUR_API_ID"; // Replace with your ID
+
+    async function fetchClientData() {
+        if (!clientId) {
+            document.getElementById('clientName').innerText = "No Client ID Provided";
+            return;
+        }
+
+        try {
+            const response = await fetch(`${SHEETDB_URL}?id=${clientId}`);
+            const data = await response.json();
+
+            if (data.length > 0) {
+                const client = data[0];
+                
+                // 2. Map Data to HTML
+                document.getElementById('clientName').innerText = client.name;
+                document.getElementById('age').innerText = client.age;
+                document.getElementById('weight').innerText = client.weight;
+                document.getElementById('height').innerText = client.height;
+                document.getElementById('fat').innerText = client.fat_percent;
+                document.getElementById('package').innerText = client.package;
+
+                // 3. BMI Calculation Logic
+                const hMeters = client.height / 100;
+                const bmiValue = (client.weight / (hMeters * hMeters)).toFixed(1);
+                document.getElementById('bmi').innerText = bmiValue;
+
+                // 4. Handle Journal (Lifts)
+                // Assuming "lifts" is a comma-separated string in your sheet: "Bench:100kg, Squat:140kg"
+                const journalBody = document.getElementById('journalBody');
+                if(client.lifts) {
+                    const lifts = client.lifts.split(',');
+                    lifts.forEach(item => {
+                        const [ex, wt] = item.split(':');
+                        journalBody.innerHTML += `<tr><td>${ex}</td><td>${wt}</td></tr>`;
+                    });
+                }
+
+            } else {
+                document.getElementById('clientName').innerText = "Client Not Found";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    fetchClientData();
+</script>
+
+</body>
+</html>
+
