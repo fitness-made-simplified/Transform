@@ -57,69 +57,61 @@
                     <h1 class="text-2xl font-black italic uppercase tracking-tighter text-white">Simplified</h1>
                 </div>
             </div>
+
             <div class="relative rounded-[2.5rem] overflow-hidden h-[450px] mb-8 group cursor-pointer">
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80" alt="Sushant">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div class="absolute bottom-8 left-8">
                     <p class="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em] mb-2">Physiotherapist & Master Coach</p>
-                    <h3 class="text-5xl font-black uppercase italic leading-none mb-2">Sushant</h3>
+                    <h3 class="text-5xl font-black uppercase italic leading-none mb-2 text-white">Sushant</h3>
                     <p class="text-xs font-medium text-neutral-400 italic">BPT • NDDY • ACE CPT • MBA</p>
                 </div>
             </div>
+
+            <button onclick="showTab('portal')" class="w-full rose-gradient py-5 rounded-2xl font-black uppercase italic tracking-tighter btn-press shadow-2xl text-white mb-4">
+                View My Progress
+            </button>
         </section>
 
         <section id="portal" class="tab-content max-w-xl mx-auto">
             <div id="login-view">
                 <h2 class="text-3xl font-black italic uppercase mb-2 text-white">Client <span class="text-rose-600">Portal</span></h2>
                 <p class="text-neutral-500 text-[10px] font-bold uppercase mb-8">Verification Required</p>
-                <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g., Fms1325)" class="mb-4">
-                <button onclick="fetchClientData()" id="loginBtn" class="rose-gradient w-full py-4 rounded-xl font-black uppercase text-xs text-white">View Transformation</button>
+                <div class="flex gap-2 mb-4">
+                    <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. Fms1325)">
+                    <button onclick="fetchClientData()" id="loginBtn" class="rose-gradient px-8 rounded-xl font-black uppercase text-xs text-white">GO</button>
+                </div>
             </div>
 
             <div id="profile-view" class="hidden">
                 <div class="flex justify-between items-end mb-8">
-                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter">--</h1>
+                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter text-white">--</h1>
                     <button onclick="window.location.reload()" class="text-[8px] font-black uppercase text-neutral-500 mb-2">Logout</button>
                 </div>
-                
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="glass p-5 text-center">
-                        <p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p>
-                        <p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p>
-                    </div>
-                    <div class="glass p-5 text-center border-b-2 border-rose-500">
-                        <p class="text-[9px] uppercase text-rose-500 mb-1 text-white">BMI Score</p>
-                        <p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p>
-                    </div>
+                <div class="grid grid-cols-2 gap-4 mb-6 text-white">
+                    <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
+                    <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
                 </div>
-
                 <div class="mb-10">
                     <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest italic">Weekly Schedule</h3>
                     <div class="glass p-6 bg-blue-500/5 border-t border-blue-500/20">
-                        <p id="p-schedule" class="text-sm italic leading-relaxed text-neutral-300">Loading plan...</p>
+                        <p id="p-schedule" class="text-sm italic leading-relaxed text-neutral-300">Loading...</p>
                     </div>
                 </div>
-
                 <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History (Last 25)</h3>
-                <div class="glass overflow-hidden max-h-[500px] overflow-y-auto">
-                    <table class="w-full text-left text-sm">
-                        <tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody>
-                    </table>
+                <div class="glass overflow-hidden max-h-[400px] overflow-y-auto">
+                    <table class="w-full text-left text-sm"><tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody></table>
                 </div>
             </div>
         </section>
 
         <section id="transform" class="tab-content max-w-xl mx-auto">
             <h2 class="text-3xl font-black italic uppercase mb-2 text-white">Activity <span class="text-rose-600">Track</span></h2>
-            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8">Daily Progress Journal</p>
-            <div class="glass p-6 rounded-[2rem] mb-6">
+            <div class="glass p-6 rounded-[2rem] mb-6 mt-8">
                 <h3 class="text-xs font-black uppercase text-rose-500 mb-4 tracking-widest">Log Today's Entry</h3>
                 <div class="flex flex-col gap-3">
                     <input type="text" id="ex-name" placeholder="Exercise Name">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="number" id="ex-sets" placeholder="Sets">
-                        <input type="number" id="ex-reps" placeholder="Reps">
-                    </div>
+                    <div class="grid grid-cols-2 gap-3"><input type="number" id="ex-sets" placeholder="Sets"><input type="number" id="ex-reps" placeholder="Reps"></div>
                     <button id="addBtn" onclick="logWorkout()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white">Add to History</button>
                 </div>
             </div>
@@ -139,8 +131,7 @@
 
         <section id="pro-plans" class="tab-content max-w-xl mx-auto">
             <h2 class="text-4xl font-black italic uppercase mb-2 text-white">Pro <span class="text-rose-600">Plans</span></h2>
-            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Physio-verified results</p>
-            <div class="space-y-4">
+            <div class="space-y-4 mt-10">
                 <div class="glass p-6 rounded-[2rem] flex justify-between items-center border-rose-600/40 bg-rose-600/5">
                     <div><h4 class="text-xl font-black uppercase italic mb-1 text-white">60 Sessions</h4><p class="text-[10px] text-rose-500 uppercase font-black">Transformation Master</p></div>
                     <div class="price-tag text-center min-w-[100px]">28,150 <br><span class="text-[8px] opacity-60">INR</span></div>
@@ -162,16 +153,19 @@
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
-            document.getElementById(tabId).classList.add('active');
-            document.getElementById('nav-' + tabId).classList.add('nav-active');
+            const activeTab = document.getElementById(tabId);
+            if(activeTab) activeTab.classList.add('active');
+            const navBtn = document.getElementById('nav-' + tabId);
+            if(navBtn) navBtn.classList.add('nav-active');
             window.scrollTo(0,0);
         }
 
         async function fetchClientData() {
-            const id = document.getElementById('clientIdInput').value.trim();
+            const idInput = document.getElementById('clientIdInput');
+            const id = idInput.value.trim();
             const loginBtn = document.getElementById('loginBtn');
             if (!id) return;
-            loginBtn.innerText = "VERIFYING...";
+            loginBtn.innerText = "...";
             
             try {
                 const profileRes = await fetch(`${SHEETDB_URL}/search?id=${id}`);
@@ -188,34 +182,30 @@
                     const w = parseFloat(client.weight);
                     if (h > 0 && w > 0) { document.getElementById('p-bmi').innerText = (w / ((h/100)**2)).toFixed(1); }
 
-                    // Fetch Last 25 Workouts from History
                     const historyRes = await fetch(`${SHEETDB_URL}/search?id=${id}&sheet=Workouts`);
                     const historyData = await historyRes.json();
                     const journal = document.getElementById('p-journal');
                     journal.innerHTML = "";
 
                     if (Array.isArray(historyData) && historyData.length > 0) {
-                        // Increase slice from 5 to 25
                         historyData.reverse().slice(0, 25).forEach(log => {
-                            journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 uppercase text-[10px]">${log.exercise}<br><span class="text-neutral-600 text-[8px]">${log.date}</span></td><td class="p-4 text-rose-500 text-right font-black italic">${log.sets}x${log.reps}</td></tr>`;
+                            journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 uppercase text-[10px] text-white">${log.exercise}<br><span class="text-neutral-600 text-[8px]">${log.date}</span></td><td class="p-4 text-rose-500 text-right font-black italic">${log.sets}x${log.reps}</td></tr>`;
                         });
                     }
                     document.getElementById('login-view').classList.add('hidden');
                     document.getElementById('profile-view').classList.remove('hidden');
-                } else { loginBtn.innerText = "ID NOT FOUND"; }
-            } catch (e) { loginBtn.innerText = "ERROR"; }
+                } else { loginBtn.innerText = "!"; }
+            } catch (e) { loginBtn.innerText = "ERR"; }
         }
 
         async function logWorkout() {
-            if (!activeClientId) { alert("Please login in Portal first!"); return; }
+            if (!activeClientId) { showTab('portal'); return; }
             const name = document.getElementById('ex-name').value;
             const sets = document.getElementById('ex-sets').value;
             const reps = document.getElementById('ex-reps').value;
             const btn = document.getElementById('addBtn');
-
             if(!name || !sets || !reps) return;
             btn.innerText = "SAVING...";
-
             try {
                 const res = await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
                     method: 'POST',
@@ -223,8 +213,8 @@
                     body: JSON.stringify({ data: [{ id: activeClientId, date: new Date().toLocaleDateString('en-GB'), exercise: name, sets: sets, reps: reps }] })
                 });
                 if(res.ok) {
-                    alert("Workout Logged!");
-                    btn.innerText = "ADD TO HISTORY";
+                    btn.innerText = "SUCCESS!";
+                    setTimeout(() => { btn.innerText = "Add to History"; }, 2000);
                     document.getElementById('ex-name').value = '';
                     fetchClientData(); 
                 }
