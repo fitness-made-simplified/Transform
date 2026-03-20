@@ -40,7 +40,35 @@
     </style>
 </head>
 <body class="pb-32">
+<section id="client-access" style="padding: 60px 20px; text-align: center; background: #000;">
+    <h2 style="color: #fff; text-transform: uppercase; letter-spacing: 2px;">Client <span style="color: #ff4d00;">Portal</span></h2>
+    <p style="color: #ccc; margin-bottom: 30px;">Enter your unique Client ID to view your transformation progress.</p>
+    
+    <div style="max-width: 400px; margin: 0 auto; display: flex; gap: 10px;">
+        <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. 1)" 
+            style="flex: 1; padding: 12px; border-radius: 5px; border: 1px solid #333; background: #1a1a1a; color: #fff;">
+        <button onclick="goToProfile()" 
+            style="padding: 12px 25px; background: #ff4d00; border: none; border-radius: 5px; color: #fff; font-weight: bold; cursor: pointer;">
+            GO
+        </button>
+    </div>
+    <p id="loginError" style="color: #ff4d00; margin-top: 15px; display: none;">Please enter a valid ID.</p>
+</section>
 
+<script>
+    function goToProfile() {
+        const id = document.getElementById('clientIdInput').value.trim();
+        const errorMsg = document.getElementById('loginError');
+        
+        if (id) {
+            // Redirects to your profile page with the ID as a parameter
+            window.location.href = `profile.html?id=${id}`;
+        } else {
+            errorMsg.style.display = 'block';
+        }
+    }
+</script>
+    
     <!-- Navigation -->
     <a href="profile.html?id=1" class="btn-client-portal" style="background: #ff4d00; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
     VIEW MY PROGRESS
