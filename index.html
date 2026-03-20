@@ -50,8 +50,8 @@
                 <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic text-white">FS</div>
                 <h1 class="text-2xl font-black italic uppercase tracking-tighter text-white">Simplified</h1>
             </div>
-            <div class="relative rounded-[2.5rem] overflow-hidden h-[450px] mb-8 group">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80">
+            <div class="relative rounded-[2.5rem] overflow-hidden h-[450px] mb-8 group cursor-pointer">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80" alt="Sushant">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div class="absolute bottom-8 left-8 text-white">
                     <p class="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em] mb-2">Physiotherapist & Master Coach</p>
@@ -71,18 +71,20 @@
                 </div>
             </div>
 
-            <div id="profile-view" class="hidden text-white">
-                <div class="flex justify-between items-end mb-8">
+            <div id="profile-view" class="hidden">
+                <div class="flex justify-between items-end mb-8 text-white">
                     <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter">--</h1>
-                    <button onclick="window.location.reload()" class="text-[8px] font-black uppercase text-neutral-500 mb-2">Logout</button>
+                    <button onclick="window.location.reload()" class="text-[8px] font-black uppercase text-neutral-500 mb-2 tracking-widest">Logout</button>
                 </div>
-                <div class="grid grid-cols-2 gap-4 mb-10">
+                <div class="grid grid-cols-2 gap-4 mb-10 text-white">
                     <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
                     <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
                 </div>
                 <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History (Last 25)</h3>
                 <div class="glass overflow-hidden max-h-[500px] overflow-y-auto">
-                    <table class="w-full text-left text-sm"><tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody></table>
+                    <table class="w-full text-left text-sm">
+                        <tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -101,7 +103,6 @@
                     <button id="addBtn" onclick="logWorkout()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white btn-press">Add to History</button>
                 </div>
                 <div id="share-section" class="hidden mt-6 pt-6 border-t border-white/10">
-                    <p class="text-[10px] text-center font-black uppercase text-neutral-500 mb-3">Update your coach</p>
                     <button id="whatsappBtn" class="w-full bg-[#25D366] py-4 rounded-xl font-black uppercase text-xs text-white flex items-center justify-center gap-2">
                         Share on WhatsApp
                     </button>
@@ -113,14 +114,14 @@
             <h2 class="text-3xl font-black italic uppercase mb-4">The Kitchen</h2>
             <p class="text-neutral-500 text-xs italic">Personalized diet plans appearing soon...</p>
         </section>
+
     </main>
 
     <script>
         const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt";
         let activeClientId = "";
-        let clientName = "";
+        let currentClientName = "";
         let lastEntry = null;
-        let isNewPB = false;
 
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -141,8 +142,8 @@
                 if (profileData && profileData.length > 0) {
                     const client = profileData[0];
                     activeClientId = client.id;
-                    clientName = client.name;
-                    document.getElementById('clientName').innerText = clientName;
+                    currentClientName = client.name;
+                    document.getElementById('clientName').innerText = client.name;
                     document.getElementById('p-weight').innerText = client.weight;
                     const h = parseFloat(client.height), w = parseFloat(client.weight);
                     if (h > 0 && w > 0) document.getElementById('p-bmi').innerText = (w / ((h/100)**2)).toFixed(1);
@@ -193,38 +194,24 @@
             btn.innerText = "SAVING...";
 
             try {
-                // Check if this is a PB before saving
-                const historyRes = await fetch(`${SHEETDB_URL}/search?id=${activeClientId}&exercise=${name}&sheet=Workouts`);
-                const historyData = await historyRes.json();
-                let currentMax = 0;
-                if (Array.isArray(historyData)) {
-                    historyData.forEach(l => { if(parseFloat(l.weight) > currentMax) currentMax = parseFloat(l.weight); });
-                }
-                isNewPB = parseFloat(weight) > currentMax;
-
                 const res = await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ data: [{ id: activeClientId, date: new Date().toLocaleDateString('en-GB'), exercise: name, sets: sets, reps: reps, weight: weight }] })
                 });
-                
                 if(res.ok) {
-                    btn.innerText = "SAVED!";
                     lastEntry = { name, sets, reps, weight };
+                    btn.innerText = "SAVED!";
                     document.getElementById('share-section').classList.remove('hidden');
-                    document.getElementById('whatsappBtn').onclick = shareOnWhatsApp;
+                    document.getElementById('whatsappBtn').onclick = () => {
+                        const msg = `💪 *Workout Update: ${currentClientName}*\n\n✅ *Exercise:* ${name}\n🔢 *Volume:* ${sets} sets x ${reps} reps\n⚖️ *Weight:* ${weight}kg\n\n_FMS Simplified Portal_`;
+                        window.open(`https://wa.me/919899550279?text=${encodeURIComponent(msg)}`, '_blank');
+                    };
                     setTimeout(() => btn.innerText = "Add to History", 2000);
                     fetchClientData();
                 }
             } catch (e) { btn.innerText = "ERR"; }
         }
-
-        function shareOnWhatsApp() {
-            const pbText = isNewPB ? " *[NEW PERSONAL BEST! 🔥]*" : "";
-            const message = `💪 *Workout Update: ${clientName}*\n\n✅ *Exercise:* ${lastEntry.name}${pbText}\n🔢 *Volume:* ${lastEntry.sets} sets x ${lastEntry.reps} reps\n⚖️ *Weight:* ${lastEntry.weight}kg\n\n_Logged via FMS Simplified Portal_`;
-            window.open(`https://wa.me/919899550279?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
         window.onload = () => showTab('home');
     </script>
 </body>
