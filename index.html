@@ -8,463 +8,265 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         
-        body { 
-            background-color: #050505; 
-            color: #ffffff; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            overflow-x: hidden; 
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .btn-press:active { transform: scale(0.96); }
         ::-webkit-scrollbar { display: none; }
-        
         .price-tag { background: rgba(225, 29, 72, 0.15); color: #e11d48; padding: 6px 14px; border-radius: 99px; font-weight: 900; font-size: 14px; border: 1px solid rgba(225, 29, 72, 0.3); }
-        .nav-active { color: #e11d48; opacity: 1 !important; }
-
+        .nav-active { color: #e11d48 !important; opacity: 1 !important; }
         input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; outline: none; transition: 0.3s; width: 100%; }
         input:focus { border-color: #e11d48; background: rgba(255,255,255,0.08); }
-        
-        a { text-decoration: none; color: inherit; }
+        .hidden { display: none; }
     </style>
 </head>
 <body class="pb-32">
-<section id="client-access" style="padding: 60px 20px; text-align: center; background: #000;">
-    <h2 style="color: #fff; text-transform: uppercase; letter-spacing: 2px;">Client <span style="color: #ff4d00;">Portal</span></h2>
-    <p style="color: #ccc; margin-bottom: 30px;">Enter your unique Client ID to view your transformation progress.</p>
-    
-    <div style="max-width: 400px; margin: 0 auto; display: flex; gap: 10px;">
-        <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. 1)" 
-            style="flex: 1; padding: 12px; border-radius: 5px; border: 1px solid #333; background: #1a1a1a; color: #fff;">
-        <button onclick="goToProfile()" 
-            style="padding: 12px 25px; background: #ff4d00; border: none; border-radius: 5px; color: #fff; font-weight: bold; cursor: pointer;">
-            GO
-        </button>
-    </div>
-    <p id="loginError" style="color: #ff4d00; margin-top: 15px; display: none;">Please enter a valid ID.</p>
-</section>
 
-<script>
-    function goToProfile() {
-        const id = document.getElementById('clientIdInput').value.trim();
-        const errorMsg = document.getElementById('loginError');
-        
-        if (id) {
-            // Redirects to your profile page with the ID as a parameter
-            window.location.href = `profile.html?id=${id}`;
-        } else {
-            errorMsg.style.display = 'block';
-        }
-    }
-</script>
-    
-    <!-- Navigation -->
-    <a href="profile.html?id=1" class="btn-client-portal" style="background: #ff4d00; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-    VIEW MY PROGRESS
-    </a>
-    
     <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
         <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
             <button onclick="showTab('home')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-home">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest">Coach</span>
+                <span class="text-[8px] font-black uppercase tracking-widest text-white">Coach</span>
             </button>
             <button onclick="showTab('transform')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-transform">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h.01"/><path d="M7 16h10"/><path d="M9 12h6"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest">Track</span>
+                <span class="text-[8px] font-black uppercase tracking-widest text-white">Track</span>
+            </button>
+            <button onclick="showTab('portal')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-portal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="text-[8px] font-black uppercase tracking-widest text-white">Portal</span>
             </button>
             <button onclick="showTab('kitchen')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-kitchen">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest">Kitchen</span>
-            </button>
-            <button onclick="showTab('learn')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-learn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest">Learn</span>
+                <span class="text-[8px] font-black uppercase tracking-widest text-white">Kitchen</span>
             </button>
             <button onclick="showTab('pro-plans')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-pro-plans">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-widest">Pro</span>
+                <span class="text-[8px] font-black uppercase tracking-widest text-white">Pro</span>
             </button>
         </div>
     </nav>
 
     <main class="p-6 pt-12">
         
-        <!-- HOME / COACH TAB -->
         <section id="home" class="tab-content active max-w-xl mx-auto">
             <div class="mb-10 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic text-white">FS</div>
                     <h1 class="text-2xl font-black italic uppercase tracking-tighter text-white">Simplified</h1>
                 </div>
-                <button onclick="showTab('contact-hub')" class="bg-white text-black px-4 py-2 rounded-full text-[10px] font-black uppercase">Contact</button>
+                <button onclick="showTab('portal')" class="bg-white text-black px-4 py-2 rounded-full text-[10px] font-black uppercase">Client Login</button>
             </div>
-
-            <div class="relative rounded-[2.5rem] overflow-hidden h-[450px] mb-8 group cursor-pointer" onclick="showTab('profile-detail')">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 transition-all duration-700" alt="Sushant">
+            <div class="relative rounded-[2.5rem] overflow-hidden h-[450px] mb-8 group cursor-pointer">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80" alt="Sushant">
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div class="absolute bottom-8 left-8">
                     <p class="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em] mb-2">Physiotherapist & Master Coach</p>
                     <h3 class="text-5xl font-black uppercase italic leading-none mb-2">Sushant</h3>
-                    <p class="text-xs font-medium text-neutral-400">BPT • NDDY • ACE CPT • MBA</p>
-                    <div class="mt-4 flex gap-2">
-                        <span class="bg-white/10 px-3 py-1 rounded-full text-[8px] font-bold uppercase">15+ Yrs Exp</span>
-                        <span class="bg-white/10 px-3 py-1 rounded-full text-[8px] font-bold uppercase">Rehab Expert</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass p-6 btn-press" onclick="showTab('pro-plans')">
-                    <p class="text-[9px] font-black uppercase text-rose-500 mb-1">Results</p>
-                    <p class="text-lg font-black uppercase italic leading-none">Pro Plans</p>
-                </div>
-                <div class="glass p-6 btn-press" onclick="showTab('profile-detail')">
-                    <p class="text-[9px] font-black uppercase text-blue-500 mb-1">Verified</p>
-                    <p class="text-lg font-black uppercase italic leading-none">Experience</p>
+                    <p class="text-xs font-medium text-neutral-400 italic">BPT • NDDY • ACE CPT • MBA</p>
                 </div>
             </div>
         </section>
 
-        <!-- LEARN TAB -->
-        <section id="learn" class="tab-content max-w-xl mx-auto">
-            <div id="learn-list" class="space-y-4">
-                <h2 class="text-4xl font-black italic uppercase mb-2">Knowledge <span class="text-rose-600">Base</span></h2>
-                <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Physio & Nutrition Insights</p>
-
-                <div class="glass p-6 rounded-3xl btn-press cursor-pointer" onclick="openBlog('posture')">
-                    <div class="w-10 h-10 bg-rose-500/20 rounded-xl flex items-center justify-center mb-4">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-black italic uppercase mb-1 text-white">Posture Correction</h3>
-                    <p class="text-[10px] text-rose-500 font-bold uppercase tracking-widest">Read Article →</p>
-                </div>
-
-                <div class="glass p-6 rounded-3xl btn-press cursor-pointer" onclick="openBlog('macro')">
-                    <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/></svg>
-                    </div>
-                    <h3 class="text-xl font-black italic uppercase mb-1 text-white">Macro Fundamentals</h3>
-                    <p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Read Article →</p>
-                </div>
-
-                <div class="glass p-6 rounded-3xl btn-press cursor-pointer" onclick="openBlog('rehab')">
-                    <div class="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center mb-4">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-black italic uppercase mb-1 text-white">Rehab Exercises</h3>
-                    <p class="text-[10px] text-green-500 font-bold uppercase tracking-widest">Read Article →</p>
+        <section id="portal" class="tab-content max-w-xl mx-auto">
+            <div id="login-view" class="text-center pt-10">
+                <h2 class="text-3xl font-black uppercase italic mb-2 text-white">Client <span class="text-rose-600">Portal</span></h2>
+                <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Verification Required</p>
+                <div class="flex flex-col gap-4 max-w-xs mx-auto">
+                    <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g. Fms1325)">
+                    <button id="loginBtn" onclick="fetchClientData()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press text-white">Access Profile</button>
+                    <p id="loginError" class="text-rose-500 text-[10px] font-bold uppercase hidden">Invalid ID. Try again.</p>
                 </div>
             </div>
 
-            <!-- Blog View Container -->
-            <div id="blog-view" class="hidden">
-                <button onclick="closeBlog()" class="mb-6 text-rose-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2">← Back to Learn</button>
-                <div class="glass p-8 rounded-[2.5rem]">
-                    <h2 id="blog-title" class="text-3xl font-black italic uppercase mb-4 leading-none text-white"></h2>
-                    <div id="blog-content" class="text-sm text-neutral-300 leading-relaxed space-y-4 font-medium italic"></div>
+            <div id="profile-view" class="hidden">
+                <div class="flex justify-between items-center mb-10">
+                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter text-white">--</h1>
+                    <button onclick="logout()" class="text-[10px] font-black uppercase text-rose-500 tracking-widest">Logout</button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
+                    <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest">Active Schedule</h3>
+                    <div class="glass p-6 bg-blue-500/5 border-t border-blue-500/30">
+                        <p id="p-schedule" class="text-sm italic leading-relaxed text-neutral-300 font-medium">No schedule assigned.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest">Heaviest Lifts</h3>
+                <div class="glass overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <tbody id="p-journal" class="font-bold italic"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
 
-        <!-- TRACK TAB -->
         <section id="transform" class="tab-content max-w-xl mx-auto">
             <h2 class="text-3xl font-black italic uppercase mb-2">Activity <span class="text-rose-600">Track</span></h2>
-            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8">Daily Progress Journal</p>
+            <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8 text-white">Daily Progress Journal</p>
 
             <div class="glass p-6 rounded-[2rem] mb-6">
-                <h3 class="text-xs font-black uppercase text-rose-500 mb-4 tracking-widest">Log Workout</h3>
+                <h3 class="text-xs font-black uppercase text-rose-500 mb-4 tracking-widest text-white">Log Today's Entry</h3>
                 <div class="flex flex-col gap-3">
                     <input type="text" id="ex-name" placeholder="Exercise Name">
                     <div class="grid grid-cols-2 gap-3">
                         <input type="number" id="ex-sets" placeholder="Sets">
                         <input type="number" id="ex-reps" placeholder="Reps">
                     </div>
-                    <button onclick="logWorkout()" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press mt-2 text-white">Add Entry</button>
+                    <button onclick="logWorkout()" id="logBtn" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs tracking-widest btn-press mt-2 text-white">Add to History</button>
                 </div>
-            </div>
-
-            <div id="workout-logs" class="space-y-3 pb-10">
-                <div class="text-center py-10 opacity-30 italic text-sm text-white">No entries yet</div>
             </div>
         </section>
 
-        <!-- PRO PLANS -->
-        <section id="pro-plans" class="tab-content max-w-xl mx-auto">
+        <section id="pro-plans" class="tab-content max-w-xl mx-auto text-white">
             <h2 class="text-4xl font-black italic uppercase mb-2">Pro <span class="text-rose-600">Plans</span></h2>
             <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Physio-verified results</p>
 
             <div class="space-y-4">
-                <div class="glass p-6 rounded-[2rem] flex justify-between items-center group">
-                    <div>
-                        <h4 class="text-xl font-black uppercase italic mb-1">Custom Workout</h4>
-                        <p class="text-[10px] text-neutral-500 uppercase font-black">4 Weeks Duration</p>
-                    </div>
+                <div class="glass p-6 rounded-[2rem] flex justify-between items-center">
+                    <div><h4 class="text-xl font-black uppercase italic mb-1">Custom Workout</h4><p class="text-[10px] text-neutral-500 uppercase font-black">4 Weeks Plan</p></div>
                     <div class="price-tag text-center min-w-[100px]">2,000 <br><span class="text-[8px] opacity-60">INR</span></div>
                 </div>
 
-                <div class="glass p-6 rounded-[2rem] flex justify-between items-center group">
+                <div class="glass p-6 rounded-[2rem] flex justify-between items-center border-rose-600/40 bg-rose-600/5">
                     <div>
-                        <h4 class="text-xl font-black uppercase italic mb-1">Custom Diet Plan</h4>
-                        <p class="text-[10px] text-neutral-500 uppercase font-black">4 Weeks Duration</p>
+                        <h4 class="text-xl font-black uppercase italic mb-1">60 Sessions</h4>
+                        <p class="text-[10px] text-rose-500 uppercase font-black">Transformation Master</p>
                     </div>
-                    <div class="price-tag text-center min-w-[100px]">2,000 <br><span class="text-[8px] opacity-60">INR</span></div>
-                </div>
-
-                <div class="pt-6 pb-2">
-                    <h3 class="text-[10px] font-black uppercase text-rose-500 tracking-[0.3em]">One on One PT Training</h3>
+                    <div class="price-tag text-center min-w-[100px]">28,150 <br><span class="text-[8px] opacity-60">INR</span></div>
                 </div>
 
                 <div class="glass p-6 rounded-[2rem] flex justify-between items-center">
-                    <div>
-                        <h4 class="text-xl font-black uppercase italic mb-1 text-white">12 Sessions</h4>
-                        <p class="text-[10px] text-neutral-500 uppercase font-black italic">Starter Phase</p>
-                    </div>
-                    <div class="price-tag text-center min-w-[100px]">7,000 <br><span class="text-[8px] opacity-60">INR</span></div>
-                </div>
-
-                <div class="glass p-6 rounded-[2rem] flex justify-between items-center border-rose-600/30">
-                    <div>
-                        <h4 class="text-xl font-black uppercase italic mb-1 text-white">25 Sessions</h4>
-                        <p class="text-[10px] text-rose-500 uppercase font-black italic">Most Popular</p>
-                    </div>
+                    <div><h4 class="text-xl font-black uppercase italic mb-1">25 Sessions</h4><p class="text-[10px] text-neutral-500 uppercase font-black italic">Physio-led PT</p></div>
                     <div class="price-tag text-center min-w-[100px]">13,300 <br><span class="text-[8px] opacity-60">INR</span></div>
                 </div>
-
-                <!-- TRUST & AUTHORITY SECTION -->
-                <div class="mt-10 p-8 glass border-rose-600/20 rounded-[2.5rem] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <h3 class="text-xs font-black uppercase text-rose-500 tracking-[0.2em] mb-4">Authority & Trust</h3>
-                    <p class="text-lg font-black italic uppercase leading-tight text-white mb-3">
-                        "Cookie-cutter plans don't work for unique bodies."
-                    </p>
-                    <p class="text-xs text-neutral-400 font-medium leading-relaxed italic">
-                        Every single plan I build is <span class="text-white font-bold">100% customized</span> based on your biomechanics and goals. We start with a <span class="text-white font-bold">one-on-one consult</span> (Call or Email) to ensure your path is safe, scientific, and effective.
-                    </p>
-                </div>
-
-                <!-- ENROLL BUTTONS -->
-                <div class="flex flex-col gap-3 mt-4">
-                    <a href="https://wa.me/919899550279" target="_blank" class="w-full bg-[#25D366] py-5 rounded-2xl font-black uppercase italic tracking-tighter btn-press shadow-2xl flex flex-col items-center justify-center text-white no-underline">
-                        <span class="text-[10px] opacity-80 mb-1">Enrol via WhatsApp</span>
-                        <span class="text-lg">+91 98995 50279</span>
-                    </a>
-                    
-                    <a href="mailto:sushhant290186@gmail.com" class="w-full glass py-5 rounded-2xl font-black uppercase italic tracking-tighter btn-press flex flex-col items-center justify-center text-white no-underline">
-                        <span class="text-[10px] opacity-80 mb-1 text-rose-500">Enrol via Email</span>
-                        <span class="text-sm">sushhant290186@gmail.com</span>
-                    </a>
-                </div>
             </div>
+            
+            <a href="https://wa.me/919899550279" class="block w-full bg-[#25D366] text-center py-5 rounded-2xl font-black uppercase italic mt-10 text-white no-underline">Enroll via WhatsApp</a>
         </section>
 
-        <!-- KITCHEN -->
         <section id="kitchen" class="tab-content max-w-xl mx-auto">
-            <h2 class="text-3xl font-black italic uppercase mb-8">The Kitchen</h2>
+            <h2 class="text-3xl font-black italic uppercase mb-8 text-white">The Kitchen</h2>
             <div class="space-y-4">
-                <div onclick="showRecipeList('wt-loss')" class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
-                    <h3 class="text-2xl font-black italic uppercase text-white">Weight Loss</h3>
-                    <span class="text-2xl">🥗</span>
+                <div class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Weight Loss</h3><span class="text-2xl">🥗</span>
                 </div>
-                <div onclick="showRecipeList('bulking')" class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
-                    <h3 class="text-2xl font-black italic uppercase text-white">Bulking Fuel</h3>
-                    <span class="text-2xl">🥩</span>
+                <div class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Bulking Fuel</h3><span class="text-2xl">🥩</span>
                 </div>
-            </div>
-        </section>
-
-        <!-- PROFILE DETAIL -->
-        <section id="profile-detail" class="tab-content max-w-xl mx-auto">
-            <button onclick="showTab('home')" class="mb-6 text-rose-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2">← Back</button>
-            <h2 class="text-3xl font-black italic uppercase mb-8">Professional <br><span class="text-rose-600">Background</span></h2>
-            <div class="space-y-8">
-                 <div class="glass p-6 rounded-3xl border-rose-500/20">
-                     <h4 class="text-rose-500 text-[10px] font-black uppercase tracking-widest mb-4">Qualifications</h4>
-                     <p class="font-bold italic text-sm mb-2 text-white">Bachelors in Physiotherapy (BPT)</p>
-                     <p class="font-bold italic text-sm mb-2 text-white">Diploma in Naturopathy & Yoga (NDDY)</p>
-                     <p class="font-bold italic text-sm mb-2 text-white">MBA in Hospital Admin</p>
-                     <p class="font-bold italic text-sm mb-2 text-white">ACE CPT & ACE NC</p>
-                 </div>
-                 <div class="glass p-6 rounded-3xl border-blue-500/20">
-                     <h4 class="text-blue-500 text-[10px] font-black uppercase tracking-widest mb-4">Experience</h4>
-                     <p class="text-xs text-neutral-400 mb-4 uppercase font-black tracking-tighter italic">Master Coach @ Celebrity Fitness <span class="text-blue-500">2008-09</span></p>
-                     <p class="text-xs text-neutral-400 mb-4 uppercase font-black tracking-tighter italic">Platinum Trainer @ Fitness First <span class="text-blue-500">2009-18</span></p>
-                     <p class="text-xs text-neutral-400 mb-4 uppercase font-black tracking-tighter italic">Fitness Manager @ Crossabs <span class="text-blue-500">2019-20</span></p>
-                 </div>
-            </div>
-        </section>
-
-        <!-- RECIPE PAGES -->
-        <section id="recipe-list" class="tab-content max-w-xl mx-auto">
-            <button onclick="showTab('kitchen')" class="mb-6 text-rose-500 font-black uppercase text-[10px] tracking-widest">← Categories</button>
-            <h2 id="recipe-cat-title" class="text-3xl font-black italic uppercase mb-8 text-rose-600"></h2>
-            <div id="recipe-items-container" class="space-y-4"></div>
-        </section>
-        <section id="recipe-detail" class="tab-content max-w-xl mx-auto">
-            <button onclick="showTab('recipe-list')" class="mb-6 text-rose-500 font-black uppercase text-[10px] tracking-widest">← Back</button>
-            <div id="recipe-detail-card" class="glass p-8 rounded-[3rem]"></div>
-        </section>
-
-        <!-- CONTACT HUB -->
-        <section id="contact-hub" class="tab-content max-w-xl mx-auto">
-            <button onclick="showTab('home')" class="mb-6 text-rose-500 font-black uppercase text-[10px] tracking-widest">← Back</button>
-            <h2 class="text-3xl font-black italic uppercase mb-8 text-white">Consultation</h2>
-            <div class="space-y-4">
-                <a href="https://wa.me/919899550279" target="_blank" class="glass flex items-center gap-4 p-8 rounded-3xl btn-press no-underline">
-                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center bg-green-500 text-white font-black text-xs">WA</div>
-                    <div><p class="text-lg font-black text-white">+91 98995 50279</p></div>
-                </a>
-                <a href="mailto:sushhant290186@gmail.com" class="glass flex items-center gap-4 p-8 rounded-3xl btn-press no-underline">
-                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center bg-rose-500 text-white font-black text-xs">EM</div>
-                    <div><p class="text-sm font-black text-white">sushhant290186@gmail.com</p></div>
-                </a>
             </div>
         </section>
 
     </main>
 
     <script>
-        const blogData = {
-            posture: {
-                title: "Posture Correction",
-                content: `
-                    <p>Good posture is the foundation of athletic movement. As a Physio, I prioritize alignment to avoid injuries.</p>
-                    <p><strong>Neutral Spine:</strong> Maintain natural 'S' curve while sitting or lifting.</p>
-                    <p><strong>Core Bracing:</strong> Protect your lower back by engaging your 360-degree cylinder.</p>
-                `
-            },
-            macro: {
-                title: "Macro Fundamentals",
-                content: `
-                    <p>Fuel your body with the right balance.</p>
-                    <p><strong>Protein:</strong> Aim for 1.6-2g per kg for muscle repair.</p>
-                    <p><strong>Carbs:</strong> Use complex carbs for steady energy during training.</p>
-                `
-            },
-            rehab: {
-                title: "Rehab Exercises",
-                content: `
-                    <p>Pre-hab keeps you in the game longer.</p>
-                    <p><strong>Dead Bugs:</strong> Core stability without spinal stress.</p>
-                    <p><strong>Glute Bridges:</strong> Fix back pain by waking up sleepy glutes.</p>
-                `
-            }
-        };
-
-        const recipeData = {
-            'wt-loss': [
-                { name: "Metabolic Salad", cal: "350 KCAL", desc: "High protein, low carb mix.", ingredients: ["200g Grilled Chicken", "Mixed Greens", "Cucumber", "1 tsp Olive Oil", "ACV"], method: "1. Grill chicken. 2. Toss greens. 3. Mix dressing. 4. Serve." },
-                { name: "Zucchini Noodles", cal: "280 KCAL", desc: "Light pasta alternative.", ingredients: ["2 Zucchinis", "100g Chicken", "Cherry Tomatoes", "Garlic"], method: "1. Spiralize zucchinis. 2. Sauté with garlic/chicken. 3. Serve." }
-            ],
-            'bulking': [
-                { name: "Growth Porridge", cal: "850 KCAL", desc: "Mass gainer bowl.", ingredients: ["100g Oats", "1 Scoop Whey", "2 tbsp Peanut Butter", "1 Banana"], method: "1. Cook oats in milk. 2. Stir in whey. 3. Top with PB and banana." }
-            ]
-        };
-
-        let workouts = [];
+        const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt";
+        let activeClientId = ""; 
 
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
-            const activeTab = document.getElementById(tabId);
-            if(activeTab) activeTab.classList.add('active');
-            const navBtn = document.getElementById('nav-' + tabId);
-            if(navBtn) navBtn.classList.add('nav-active');
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('nav-active');
             window.scrollTo(0,0);
         }
 
-        function openBlog(slug) {
-            const data = blogData[slug];
-            document.getElementById('learn-list').classList.add('hidden');
-            document.getElementById('blog-view').classList.remove('hidden');
-            document.getElementById('blog-title').innerText = data.title;
-            document.getElementById('blog-content').innerHTML = data.content;
-            window.scrollTo(0,0);
+        async function fetchClientData() {
+            const id = document.getElementById('clientIdInput').value.trim();
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('loginError');
+
+            if (!id) return;
+            loginBtn.innerText = "VERIFYING...";
+            
+            try {
+                const response = await fetch(`${SHEETDB_URL}/search?id=${id}`);
+                const data = await response.json();
+
+                if (data && data.length > 0 && data[0].id.toLowerCase() === id.toLowerCase()) {
+                    const client = data[0];
+                    activeClientId = client.id; // Remember for logging
+
+                    // Map UI
+                    document.getElementById('clientName').innerText = client.name;
+                    document.getElementById('p-weight').innerText = client.weight;
+                    document.getElementById('p-schedule').innerHTML = (client.schedule || "Rest Day").replaceAll('\n', '<br>');
+
+                    // BMI Math
+                    const h = parseFloat(client.height);
+                    const w = parseFloat(client.weight);
+                    if (h > 0 && w > 0) {
+                        document.getElementById('p-bmi').innerText = (w / ((h/100)**2)).toFixed(1);
+                    }
+
+                    // Journal
+                    const journal = document.getElementById('p-journal');
+                    journal.innerHTML = "";
+                    if (client.lifts) {
+                        client.lifts.split(',').forEach(item => {
+                            if (item.includes(':')) {
+                                const [ex, wt] = item.split(':');
+                                journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 text-white uppercase">${ex}</td><td class="p-4 text-rose-500 text-right">${wt}</td></tr>`;
+                            }
+                        });
+                    }
+
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('profile-view').classList.remove('hidden');
+                } else {
+                    errorMsg.classList.remove('hidden');
+                    loginBtn.innerText = "Access Profile";
+                }
+            } catch (e) { loginBtn.innerText = "Error Connecting"; }
         }
 
-        function closeBlog() {
-            document.getElementById('learn-list').classList.remove('hidden');
-            document.getElementById('blog-view').classList.add('hidden');
-        }
-
-        function logWorkout() {
+        async function logWorkout() {
+            if (!activeClientId) { 
+                alert("Please log in to your Portal first."); 
+                showTab('portal');
+                return; 
+            }
+            
             const name = document.getElementById('ex-name').value;
             const sets = document.getElementById('ex-sets').value;
             const reps = document.getElementById('ex-reps').value;
-            if(!name || !sets || !reps) return;
-            workouts.unshift({ name, sets, reps, date: new Date().toLocaleDateString() });
-            renderLogs();
-            document.getElementById('ex-name').value = '';
-            document.getElementById('ex-sets').value = '';
-            document.getElementById('ex-reps').value = '';
+            const logBtn = document.getElementById('logBtn');
+
+            if (!name || !sets || !reps) return;
+            logBtn.innerText = "SAVING...";
+
+            try {
+                const res = await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        data: [{ 'id': activeClientId, 'date': new Date().toLocaleDateString(), 'exercise': name, 'sets': sets, 'reps': reps }]
+                    })
+                });
+                if (res.ok) {
+                    alert("Workout Logged!");
+                    document.getElementById('ex-name').value = '';
+                    logBtn.innerText = "Add to History";
+                }
+            } catch (e) { logBtn.innerText = "Try Again"; }
         }
 
-        function renderLogs() {
-            const container = document.getElementById('workout-logs');
-            if(workouts.length === 0) {
-                container.innerHTML = '<div class="text-center py-10 opacity-30 italic text-sm text-white">No entries yet</div>';
-                return;
-            }
-            container.innerHTML = workouts.map(log => `
-                <div class="glass p-5 rounded-2xl flex justify-between items-center animate-fadeIn">
-                    <div>
-                        <h4 class="text-rose-500 font-black uppercase text-xs">${log.name}</h4>
-                        <p class="text-neutral-500 text-[10px] uppercase font-bold mt-1">${log.date}</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-lg font-black italic text-white">${log.sets} x ${log.reps}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function showRecipeList(cat) {
-            const list = recipeData[cat];
-            const container = document.getElementById('recipe-items-container');
-            document.getElementById('recipe-cat-title').innerText = cat === 'wt-loss' ? 'WT LOSS' : 'BULKING FUEL';
-            container.innerHTML = list.map((item, index) => `
-                <div onclick="viewRecipeDetail('${cat}', ${index})" class="glass p-6 rounded-[2rem] btn-press cursor-pointer">
-                    <h3 class="text-xl font-black italic uppercase text-white">${item.name}</h3>
-                    <p class="text-rose-500 text-[10px] font-black uppercase mb-3">${item.cal}</p>
-                    <p class="text-neutral-400 text-xs italic">${item.desc}</p>
-                </div>
-            `).join('');
-            showTab('recipe-list');
-        }
-
-        function viewRecipeDetail(cat, index) {
-            const recipe = recipeData[cat][index];
-            const card = document.getElementById('recipe-detail-card');
-            card.innerHTML = `
-                <h2 class="text-3xl font-black italic uppercase mb-2 text-white">${recipe.name}</h2>
-                <p class="text-rose-500 font-black uppercase text-xs mb-8">${recipe.cal}</p>
-                <div class="mb-8 text-white italic text-sm">
-                    <h4 class="text-neutral-500 text-[10px] font-black uppercase mb-4 tracking-widest text-white">Ingredients</h4>
-                    ${recipe.ingredients.map(i => `• ${i}<br>`).join('')}
-                </div>
-                <div class="text-neutral-400 text-sm italic">
-                    <h4 class="text-neutral-500 text-[10px] font-black uppercase mb-4 tracking-widest text-white">Steps</h4>
-                    ${recipe.method}
-                </div>
-            `;
-            showTab('recipe-detail');
+        function logout() {
+            activeClientId = "";
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('profile-view').classList.add('hidden');
+            document.getElementById('clientIdInput').value = "";
         }
 
         window.onload = () => showTab('home');
     </script>
 </body>
 </html>
-
