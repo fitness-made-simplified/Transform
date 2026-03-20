@@ -21,7 +21,7 @@
 
     <div id="main-content" class="hidden max-w-xl mx-auto">
         <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] z-50">
-            <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
+            <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
                 <button onclick="showTab('view-profile')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Dashboard</span></button>
                 <button onclick="showTab('view-track')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Track Lift</span></button>
                 <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase opacity-50">Logout</span></button>
@@ -30,11 +30,20 @@
 
         <section id="view-profile" class="tab-content active">
             <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter mb-8">--</h1>
-            <div class="grid grid-cols-2 gap-4 mb-10 text-white">
+            
+            <div class="grid grid-cols-2 gap-4 mb-8 text-white">
                 <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
                 <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
             </div>
-            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History (Last 25)</h3>
+
+            <div class="mb-8">
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Today's Prescribed Plan</h3>
+                <div class="glass p-6 border-l-2 border-rose-600">
+                    <p id="p-schedule" class="text-sm font-bold italic text-neutral-200 leading-relaxed">No plan assigned for today.</p>
+                </div>
+            </div>
+
+            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Activity History & PBs</h3>
             <div class="glass overflow-hidden max-h-[400px] overflow-y-auto">
                 <table class="w-full text-left text-sm"><tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody></table>
             </div>
@@ -64,7 +73,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('id');
         let currentName = "";
-        let isPB = false;
 
         function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -77,17 +85,25 @@
                 const res = await fetch(`${SHEETDB_URL}/search?id=${clientId}`);
                 const data = await res.json();
                 if(data.length > 0) {
-                    currentName = data[0].name;
+                    const client = data[0];
+                    currentName = client.name;
                     document.getElementById('clientName').innerText = currentName;
-                    document.getElementById('p-weight').innerText = data[0].weight;
-                    const h = parseFloat(data[0].height), w = parseFloat(data[0].weight);
+                    document.getElementById('p-weight').innerText = client.weight;
+                    
+                    // Update Schedule Section
+                    if(client.schedule) {
+                        document.getElementById('p-schedule').innerHTML = client.schedule.replace(/\n/g, '<br>');
+                    }
+
+                    // Calc BMI
+                    const h = parseFloat(client.height), w = parseFloat(client.weight);
                     if(h>0) document.getElementById('p-bmi').innerText = (w/((h/100)**2)).toFixed(1);
                     
                     fetchHistory();
                     document.getElementById('loader').classList.add('hidden');
                     document.getElementById('main-content').classList.remove('hidden');
                 }
-            } catch(e) { alert("Error loading profile"); }
+            } catch(e) { console.error(e); }
         }
 
         async function fetchHistory() {
@@ -120,13 +136,6 @@
             if(!name || !sets || !reps) return;
             btn.innerText = "SAVING...";
 
-            // Check PB
-            const hRes = await fetch(`${SHEETDB_URL}/search?id=${clientId}&exercise=${name}&sheet=Workouts`);
-            const hData = await hRes.json();
-            let max = 0;
-            if(Array.isArray(hData)) hData.forEach(l => { if(parseFloat(l.weight)>max) max=parseFloat(l.weight); });
-            isPB = parseFloat(weight) > max;
-
             await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -136,8 +145,7 @@
             btn.innerText = "SAVED!";
             document.getElementById('share-section').classList.remove('hidden');
             document.getElementById('whatsappBtn').onclick = () => {
-                const pbText = isPB ? " *[NEW PERSONAL BEST! 🔥]*" : "";
-                const msg = `💪 *Workout Update: ${currentName}*\n\n✅ *Exercise:* ${name}${pbText}\n🔢 *Volume:* ${sets} sets x ${reps} reps\n⚖️ *Weight:* ${weight}kg\n\n_FMS Simplified Portal_`;
+                const msg = `💪 *Workout Update: ${currentName}*\n\n✅ *Exercise:* ${name}\n🔢 *Volume:* ${sets} sets x ${reps} reps\n⚖️ *Weight:* ${weight}kg\n\n_FMS Simplified Portal_`;
                 window.open(`https://wa.me/919899550279?text=${encodeURIComponent(msg)}`);
             };
             fetchHistory();
