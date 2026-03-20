@@ -42,7 +42,7 @@
             <div id="session-box" class="glass p-5 mb-8 hidden">
                 <div class="flex justify-between items-end mb-2">
                     <h3 class="text-[10px] font-black uppercase text-rose-500 tracking-widest italic">Session Tracker</h3>
-                    <p class="text-xs font-black italic"><span id="s-used">0</span> / <span id="s-total">0</span> <span class="text-neutral-500 text-[10px]">Left</span></p>
+                    <p class="text-xs font-black italic"><span id="s-used">0</span> / <span id="s-total">0</span> <span class="text-neutral-500 text-[10px]">Used</span></p>
                 </div>
                 <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
                     <div id="s-bar" class="rose-gradient h-full transition-all duration-1000" style="width: 0%"></div>
@@ -54,10 +54,17 @@
                 <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
             </div>
 
-            <div class="mb-8">
-                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Prescribed Plan</h3>
+            <div id="workout-box" class="mb-8 hidden">
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Workout Plan</h3>
                 <div class="glass p-6 border-l-2 border-rose-600">
-                    <p id="p-schedule" class="text-sm font-bold italic text-neutral-200 leading-relaxed">No plan assigned.</p>
+                    <p id="p-schedule" class="text-sm font-bold italic text-neutral-200 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <div id="diet-box" class="mb-8 hidden">
+                <h3 class="text-[10px] font-black uppercase text-emerald-500 mb-3 tracking-widest italic">Kitchen & Nutrition</h3>
+                <div class="glass p-6 border-l-2 border-emerald-500">
+                    <p id="p-diet" class="text-sm font-bold italic text-neutral-200 leading-relaxed"></p>
                 </div>
             </div>
 
@@ -108,24 +115,33 @@
                     document.getElementById('clientName').innerText = currentName;
                     document.getElementById('p-weight').innerText = client.weight;
                     
-                    // Session Logic
+                    // Session Progress
                     if(client.total_sessions) {
                         document.getElementById('session-box').classList.remove('hidden');
                         const used = parseInt(client.used_sessions) || 0;
                         const total = parseInt(client.total_sessions);
                         document.getElementById('s-used').innerText = used;
                         document.getElementById('s-total').innerText = total;
-                        const percent = (used / total) * 100;
-                        document.getElementById('s-bar').style.width = percent + "%";
+                        document.getElementById('s-bar').style.width = ((used/total)*100) + "%";
                     }
 
-                    // Payment Badge
+                    // Payment Tag
                     if(client.payment_status) {
-                        const status = client.payment_status.toUpperCase();
-                        document.getElementById('payment-tag').innerHTML = `<span class="status-badge ${status === 'PAID' ? 'paid' : 'unpaid'}">${status}</span>`;
+                        const s = client.payment_status.toUpperCase();
+                        document.getElementById('payment-tag').innerHTML = `<span class="status-badge ${s==='PAID'?'paid':'unpaid'}">${s}</span>`;
                     }
 
-                    if(client.schedule) document.getElementById('p-schedule').innerHTML = client.schedule.replace(/\n/g, '<br>');
+                    // Workout Schedule
+                    if(client.schedule) {
+                        document.getElementById('workout-box').classList.remove('hidden');
+                        document.getElementById('p-schedule').innerHTML = client.schedule.replace(/\n/g, '<br>');
+                    }
+
+                    // Diet Plan (NEW)
+                    if(client.diet_plan) {
+                        document.getElementById('diet-box').classList.remove('hidden');
+                        document.getElementById('p-diet').innerHTML = client.diet_plan.replace(/\n/g, '<br>');
+                    }
 
                     const h = parseFloat(client.height), w = parseFloat(client.weight);
                     if(h>0) document.getElementById('p-bmi').innerText = (w/((h/100)**2)).toFixed(1);
@@ -150,9 +166,9 @@
                 });
                 historyData.reverse().slice(0, 25).forEach(log => {
                     const curW = parseFloat(log.weight) || 0;
-                    const pbBadge = (curW > 0 && curW === pbs[log.exercise]) ? '<span class="text-rose-500 ml-2">PB 🔥</span>' : '';
-                    journal.innerHTML += `<tr class="border-t border-white/5 ${pbBadge?'pb-glow':''}">
-                        <td class="p-4 uppercase text-[10px]">${log.exercise}${pbBadge}<br><span class="opacity-40 text-[8px]">${log.date}</span></td>
+                    const isPB = (curW > 0 && curW === pbs[log.exercise]);
+                    journal.innerHTML += `<tr class="border-t border-white/5 ${isPB?'pb-glow':''}">
+                        <td class="p-4 uppercase text-[10px]">${log.exercise}${isPB?' <span class="text-rose-500">PB 🔥</span>':''}<br><span class="opacity-40 text-[8px]">${log.date}</span></td>
                         <td class="p-4 text-right text-xs text-rose-500">${log.sets}x${log.reps}<br><span class="text-white opacity-60">${log.weight}kg</span></td></tr>`;
                 });
             }
