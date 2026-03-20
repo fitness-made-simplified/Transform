@@ -37,6 +37,10 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h.01"/><path d="M7 16h10"/><path d="M9 12h6"/></svg>
                 <span class="text-[8px] font-black uppercase tracking-widest">Track</span>
             </button>
+            <button onclick="showTab('kitchen')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-kitchen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/></svg>
+                <span class="text-[8px] font-black uppercase tracking-widest">Diet</span>
+            </button>
             <button onclick="showTab('pro-plans')" class="nav-btn flex flex-col items-center gap-1 opacity-50" id="nav-pro-plans">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                 <span class="text-[8px] font-black uppercase tracking-widest">Pro</span>
@@ -66,7 +70,7 @@
 
         <section id="portal" class="tab-content max-w-xl mx-auto">
             <div id="login-view">
-                <h2 class="text-3xl font-black italic uppercase mb-2">Client <span class="text-rose-600">Portal</span></h2>
+                <h2 class="text-3xl font-black italic uppercase mb-2 text-white">Client <span class="text-rose-600">Portal</span></h2>
                 <p class="text-neutral-500 text-[10px] font-bold uppercase mb-8">Verification Required</p>
                 <input type="text" id="clientIdInput" placeholder="Enter Client ID (e.g., Fms1325)" class="mb-4">
                 <button onclick="fetchClientData()" id="loginBtn" class="rose-gradient w-full py-4 rounded-xl font-black uppercase text-xs text-white">View Transformation</button>
@@ -84,20 +88,20 @@
                         <p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p>
                     </div>
                     <div class="glass p-5 text-center border-b-2 border-rose-500">
-                        <p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p>
+                        <p class="text-[9px] uppercase text-rose-500 mb-1 text-white">BMI Score</p>
                         <p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p>
                     </div>
                 </div>
 
                 <div class="mb-10">
-                    <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest italic">Active Schedule</h3>
+                    <h3 class="text-[10px] font-black uppercase text-blue-500 mb-4 tracking-widest italic">Weekly Schedule</h3>
                     <div class="glass p-6 bg-blue-500/5 border-t border-blue-500/20">
                         <p id="p-schedule" class="text-sm italic leading-relaxed text-neutral-300">Loading plan...</p>
                     </div>
                 </div>
 
-                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History</h3>
-                <div class="glass overflow-hidden">
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-4 tracking-widest italic">Workout History (Last 25)</h3>
+                <div class="glass overflow-hidden max-h-[500px] overflow-y-auto">
                     <table class="w-full text-left text-sm">
                         <tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody>
                     </table>
@@ -106,7 +110,7 @@
         </section>
 
         <section id="transform" class="tab-content max-w-xl mx-auto">
-            <h2 class="text-3xl font-black italic uppercase mb-2">Activity <span class="text-rose-600">Track</span></h2>
+            <h2 class="text-3xl font-black italic uppercase mb-2 text-white">Activity <span class="text-rose-600">Track</span></h2>
             <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8">Daily Progress Journal</p>
             <div class="glass p-6 rounded-[2rem] mb-6">
                 <h3 class="text-xs font-black uppercase text-rose-500 mb-4 tracking-widest">Log Today's Entry</h3>
@@ -121,16 +125,28 @@
             </div>
         </section>
 
+        <section id="kitchen" class="tab-content max-w-xl mx-auto">
+            <h2 class="text-3xl font-black italic uppercase mb-8 text-white">The Kitchen</h2>
+            <div class="space-y-4">
+                <div class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Weight Loss</h3><span class="text-2xl">🥗</span>
+                </div>
+                <div class="glass p-8 rounded-[2.5rem] flex justify-between items-center btn-press cursor-pointer">
+                    <h3 class="text-2xl font-black italic uppercase text-white">Bulking Fuel</h3><span class="text-2xl">🥩</span>
+                </div>
+            </div>
+        </section>
+
         <section id="pro-plans" class="tab-content max-w-xl mx-auto">
-            <h2 class="text-4xl font-black italic uppercase mb-2">Pro <span class="text-rose-600">Plans</span></h2>
+            <h2 class="text-4xl font-black italic uppercase mb-2 text-white">Pro <span class="text-rose-600">Plans</span></h2>
             <p class="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-10">Physio-verified results</p>
             <div class="space-y-4">
                 <div class="glass p-6 rounded-[2rem] flex justify-between items-center border-rose-600/40 bg-rose-600/5">
-                    <div><h4 class="text-xl font-black uppercase italic mb-1">60 Sessions</h4><p class="text-[10px] text-rose-500 uppercase font-black">Transformation Master</p></div>
+                    <div><h4 class="text-xl font-black uppercase italic mb-1 text-white">60 Sessions</h4><p class="text-[10px] text-rose-500 uppercase font-black">Transformation Master</p></div>
                     <div class="price-tag text-center min-w-[100px]">28,150 <br><span class="text-[8px] opacity-60">INR</span></div>
                 </div>
                 <div class="glass p-6 rounded-[2rem] flex justify-between items-center">
-                    <div><h4 class="text-xl font-black uppercase italic mb-1">25 Sessions</h4><p class="text-[10px] text-neutral-500 uppercase font-black italic">Physio-led PT</p></div>
+                    <div><h4 class="text-xl font-black uppercase italic mb-1 text-white">25 Sessions</h4><p class="text-[10px] text-neutral-500 uppercase font-black italic">Physio-led PT</p></div>
                     <div class="price-tag text-center min-w-[100px]">13,300 <br><span class="text-[8px] opacity-60">INR</span></div>
                 </div>
             </div>
@@ -168,19 +184,19 @@
                     document.getElementById('p-weight').innerText = client.weight;
                     document.getElementById('p-schedule').innerHTML = (client.schedule || "Rest Day").replaceAll('\n', '<br>');
 
-                    // BMI Math
                     const h = parseFloat(client.height);
                     const w = parseFloat(client.weight);
                     if (h > 0 && w > 0) { document.getElementById('p-bmi').innerText = (w / ((h/100)**2)).toFixed(1); }
 
-                    // Fetch History from Workouts Tab
+                    // Fetch Last 25 Workouts from History
                     const historyRes = await fetch(`${SHEETDB_URL}/search?id=${id}&sheet=Workouts`);
                     const historyData = await historyRes.json();
                     const journal = document.getElementById('p-journal');
                     journal.innerHTML = "";
 
                     if (Array.isArray(historyData) && historyData.length > 0) {
-                        historyData.reverse().slice(0, 5).forEach(log => {
+                        // Increase slice from 5 to 25
+                        historyData.reverse().slice(0, 25).forEach(log => {
                             journal.innerHTML += `<tr class="border-t border-white/5"><td class="p-4 uppercase text-[10px]">${log.exercise}<br><span class="text-neutral-600 text-[8px]">${log.date}</span></td><td class="p-4 text-rose-500 text-right font-black italic">${log.sets}x${log.reps}</td></tr>`;
                         });
                     }
@@ -210,7 +226,7 @@
                     alert("Workout Logged!");
                     btn.innerText = "ADD TO HISTORY";
                     document.getElementById('ex-name').value = '';
-                    fetchClientData(); // Refresh history
+                    fetchClientData(); 
                 }
             } catch (e) { btn.innerText = "ERROR"; }
         }
