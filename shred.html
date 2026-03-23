@@ -10,18 +10,18 @@
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
         .day-tile { aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
-        .day-tile:active { transform: scale(0.9); }
         .active-day { background: rgba(225, 29, 72, 0.1); border-color: #e11d48; color: #e11d48; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
     </style>
 </head>
 <body class="p-6 pb-20">
-    <header class="mb-10 pt-4">
+    <header class="mb-8 pt-4">
         <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← BACK</a>
-        <h1 class="text-5xl font-black uppercase italic leading-none tracking-tighter">30 DAY<br><span class="text-rose-600">SHRED</span></h1>
+        <h1 class="text-4xl font-black uppercase italic leading-none">30 DAY <span class="text-rose-600">SHRED</span></h1>
+        <p class="text-[10px] uppercase text-neutral-500 font-bold mt-2">"Your transformation is earned, not given."</p>
     </header>
 
-    <div class="grid grid-cols-5 gap-3 mb-12">
+    <div class="grid grid-cols-5 gap-3 mb-10">
         <script>
             for(let i=1; i<=30; i++) {
                 document.write(`<div onclick="openDay(${i})" class="glass day-tile active-day"><span class="text-[8px] uppercase opacity-50 not-italic">Day</span>${i}</div>`);
@@ -29,23 +29,24 @@
         </script>
     </div>
 
+    <div class="glass p-8 border-t-4 border-rose-600 text-center mb-10">
+        <h3 class="text-xl font-black italic uppercase mb-2">Static plans hit plateaus.</h3>
+        <p class="text-sm text-neutral-400 mb-6 italic">Get a Physio-Led plan designed for YOUR metabolism and injury history.</p>
+        <a href="https://wa.me/919899550279?text=I want to upgrade to a Custom Shred Plan" class="inline-block rose-gradient px-8 py-4 rounded-xl font-black uppercase text-xs">Unlock Custom Portal</a>
+    </div>
+
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
         <div class="glass p-8 w-full max-w-sm border-t-4 border-rose-600" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-4xl font-black italic uppercase text-white mb-2"></h2>
-            <div id="modalContent" class="text-neutral-300 text-sm italic space-y-4 leading-relaxed"></div>
-            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-8 w-full py-4 bg-white/5 rounded-xl font-black uppercase text-[10px] border border-white/10">Got it</button>
+            <h2 id="modalTitle" class="text-3xl font-black italic uppercase mb-4"></h2>
+            <div id="modalContent" class="text-neutral-300 text-sm italic space-y-2 leading-relaxed"></div>
+            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-8 w-full py-4 bg-white/10 rounded-xl font-black uppercase text-[10px]">Continue Shred</button>
         </div>
     </div>
 
     <script>
-        const shredWorkouts = {
-            1: "<b>Warmup:</b> Jacks/High Knees<br><b>Main:</b> Squats 20, Pushups 15, Lunges 20, Plank 45s<br><b>Finisher:</b> Burpees 15",
-            4: "<b>Rest & Recovery:</b> Light walking & mobility work.",
-            // Other days follow pattern...
-        };
         function openDay(day) {
             document.getElementById('modalTitle').innerText = "DAY " + day;
-            document.getElementById('modalContent').innerHTML = (day % 4 == 0) ? shredWorkouts[4] : shredWorkouts[1];
+            document.getElementById('modalContent').innerHTML = (day % 4 == 0) ? "<b>Rest & Recovery:</b> Light mobility work and 20 min walk." : "<b>High Intensity Circuit:</b><br>• Squats 20<br>• Pushups 15<br>• Plank 45s<br>• Burpees 15";
             document.getElementById('dayModal').style.display = 'flex';
         }
     </script>
