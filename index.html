@@ -13,90 +13,85 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; outline: none; width: 100%; }
+        .btn-press { transition: transform 0.1s; }
         .btn-press:active { transform: scale(0.96); }
-        .coach-overlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 100; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     </style>
 </head>
-<body class="pb-32">
+<body class="p-6 pb-24">
 
-    <div id="coachProfile" class="coach-overlay">
-        <button onclick="closeCoach()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
-        </button>
-        
-        <h2 class="text-4xl font-black italic uppercase tracking-tighter mb-2">Sushant <span class="text-rose-600">FMS</span></h2>
-        <p class="text-neutral-400 italic text-sm mb-8 text-justify leading-relaxed">Expert Physiotherapist and Master Coach dedicated to science-backed fitness transformations. Combining clinical knowledge with elite strength training to bridge the gap between rehab and performance.</p>
-
-        <div class="space-y-6">
-            <div class="glass p-6">
-                <h3 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4">Academics & Certs</h3>
-                <ul class="text-sm font-bold italic space-y-2 opacity-90 text-neutral-200">
-                    <li>• Bachelors in Physiotherapy (BPT)</li>
-                    <li>• Diploma in Naturopathy & Yoga (NDDY)</li>
-                    <li>• MBA in Hospital Administration</li>
-                    <li>• ACE Certified Personal Trainer (CPT)</li>
-                    <li>• ACE Nutrition Specialist (NC)</li>
-                </ul>
+    <div id="coachProfile" class="fixed inset-0 z-[100] bg-black hidden p-6 overflow-y-auto">
+        <button onclick="closeCoach()" class="absolute top-6 right-6 text-white uppercase font-black text-xs">Close [X]</button>
+        <div class="max-w-xl mx-auto pt-10">
+            <h2 class="text-4xl font-black italic uppercase text-rose-600 mb-6">About Me</h2>
+            <div class="glass p-8 text-neutral-300 leading-relaxed italic space-y-4">
+                <p>I am a <span class="text-white font-bold">Clinical Physiotherapist</span> and Strength Coach dedicated to moving you without injury.</p>
+                <p>My approach combines medical science with high-performance training to ensure you reach your peak physical state safely and effectively.</p>
+                <p class="text-white font-bold border-l-2 border-rose-600 pl-4">"Fitness isn't just about looking good; it's about moving right for a lifetime."</p>
             </div>
-
-            <div class="glass p-6 border-l-2 border-rose-600">
-                <h3 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4">Professional Timeline</h3>
-                <div class="space-y-4 text-xs">
-                    <div>
-                        <p class="text-white font-black italic">2020 - Present</p>
-                        <p class="text-neutral-400">Freelance Online & Offline Elite Coach</p>
-                    </div>
-                    <div>
-                        <p class="text-white font-black italic">2019 - 2020</p>
-                        <p class="text-neutral-400">Fitness Manager | Crossabs Gyms, Panipat</p>
-                    </div>
-                    <div>
-                        <p class="text-white font-black italic">2009 - 2018</p>
-                        <p class="text-neutral-400">Platinum Trainer & Diet Counsellor | Fitness First Saket</p>
-                    </div>
-                    <div>
-                        <p class="text-white font-black italic">2008 - 2009</p>
-                        <p class="text-neutral-400">Master Coach | Celebrity Fitness Gurgaon</p>
-                    </div>
-                </div>
+            <div class="mt-8 grid grid-cols-2 gap-4">
+                <div class="glass p-4 text-center"><p class="text-2xl font-black italic">500+</p><p class="text-[9px] uppercase opacity-50">Transformed</p></div>
+                <div class="glass p-4 text-center"><p class="text-2xl font-black italic">8 Yrs</p><p class="text-[9px] uppercase opacity-50">Experience</p></div>
             </div>
         </div>
     </div>
 
-    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
-        <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
-            <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="text-[8px] font-black uppercase">Coach</span></button>
-            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="text-[8px] font-black uppercase">Portal</span></button>
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-50">
+        <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
+            <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Home</span></button>
+            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Portal</span></button>
+            <button onclick="window.open('https://wa.me/919899550279')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase text-rose-500">Contact</span></button>
         </div>
     </nav>
 
-    <main class="p-6 pt-12">
-        <section id="home" class="tab-content active max-w-xl mx-auto">
-            <div class="mb-10 flex items-center gap-3">
-                <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic">FS</div>
-                <h1 class="text-2xl font-black italic uppercase tracking-tighter">Simplified</h1>
-            </div>
-            
-            <div class="relative rounded-[2.5rem] overflow-hidden h-[400px] mb-8">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80">
-                <div class="absolute bottom-8 left-8">
-                    <h3 class="text-5xl font-black uppercase italic leading-none">Sushant</h3>
-                    <button onclick="openCoach()" class="mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                        Know Your Coach <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
+    <main class="max-w-xl mx-auto">
+        <section id="home" class="tab-content active pt-10">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="w-16 h-16 rounded-full bg-rose-600 flex items-center justify-center font-black italic text-xl border-2 border-white/10">FMS</div>
+                <div>
+                    <h1 class="text-2xl font-black italic uppercase leading-none">Simplified<br><span class="text-rose-600">Performance</span></h1>
+                    <p class="text-[10px] uppercase tracking-widest opacity-40 mt-1">Physio-Led Movement Specialist</p>
                 </div>
             </div>
 
-            <button onclick="showTab('portal')" class="w-full rose-gradient py-5 rounded-2xl font-black uppercase italic tracking-tighter text-white btn-press">Enter Client Portal</button>
+            <div class="glass p-1 mb-10 overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop" class="w-full h-80 object-cover rounded-[22px] grayscale contrast-125">
+                <div class="absolute bottom-6 left-6 right-6">
+                    <button onclick="openCoach()" class="w-full glass py-4 font-black uppercase italic text-xs tracking-widest backdrop-blur-xl border-white/20">Know Your Coach</button>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-6 tracking-[0.3em] italic">Free Performance Programs</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <a href="shred.html" class="glass p-1 flex items-center gap-4 overflow-hidden btn-press border-l-4 border-rose-600 group">
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c64b52d3?q=80&w=200&auto=format&fit=crop" class="w-24 h-24 object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all">
+                        <div>
+                            <p class="text-[8px] font-black uppercase text-rose-500">30 Day Protocol</p>
+                            <h4 class="text-xl font-black uppercase italic leading-none">The Shred</h4>
+                            <p class="text-[10px] opacity-50 font-bold uppercase mt-1">Fat Loss & Conditioning</p>
+                        </div>
+                    </a>
+
+                    <a href="bulk.html" class="glass p-1 flex items-center gap-4 overflow-hidden btn-press border-l-4 border-amber-500 group">
+                        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2ec617?q=80&w=200&auto=format&fit=crop" class="w-24 h-24 object-cover rounded-2xl grayscale group-hover:grayscale-0 transition-all">
+                        <div>
+                            <p class="text-[8px] font-black uppercase text-amber-500">4 Week Program</p>
+                            <h4 class="text-xl font-black uppercase italic leading-none">Muscle Pack</h4>
+                            <p class="text-[10px] opacity-50 font-bold uppercase mt-1">Hypertrophy & Power</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <button onclick="showTab('portal')" class="w-full rose-gradient py-5 rounded-2xl font-black uppercase italic tracking-tighter text-white btn-press shadow-2xl shadow-rose-900/40">Enter Client Portal</button>
         </section>
 
-        <section id="portal" class="tab-content max-w-xl mx-auto pt-10">
-            <h2 class="text-3xl font-black italic uppercase mb-8">Client <span class="text-rose-600">Portal</span></h2>
-            <div class="flex gap-2">
-                <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. Fms1325)">
-                <button onclick="login()" id="loginBtn" class="rose-gradient px-8 rounded-xl font-black uppercase text-xs text-white">GO</button>
+        <section id="portal" class="tab-content max-w-xl mx-auto pt-10 text-center">
+            <h2 class="text-3xl font-black italic uppercase mb-2">Member <span class="text-rose-600">Access</span></h2>
+            <p class="text-[10px] uppercase tracking-widest opacity-40 mb-8">Personalized Training & Nutrition</p>
+            <div class="flex flex-col gap-4">
+                <input type="text" id="clientIdInput" class="glass p-5 rounded-xl text-center font-black uppercase italic tracking-widest placeholder:opacity-30 border-white/10" placeholder="ENTER CLIENT ID">
+                <button onclick="login()" id="loginBtn" class="rose-gradient py-5 rounded-xl font-black uppercase text-xs text-white btn-press">Verify & Enter</button>
             </div>
         </section>
     </main>
@@ -106,8 +101,8 @@
             document.querySelectorAll('.tab-content').forEach(s=>s.classList.remove('active'));
             document.getElementById(t).classList.add('active');
         }
-        function openCoach() { document.getElementById('coachProfile').style.display = 'block'; }
-        function closeCoach() { document.getElementById('coachProfile').style.display = 'none'; }
+        function openCoach() { document.getElementById('coachProfile').classList.remove('hidden'); }
+        function closeCoach() { document.getElementById('coachProfile').classList.add('hidden'); }
         function login(){
             const id = document.getElementById('clientIdInput').value.trim();
             if(id) window.location.href = `profile.html?id=${id}`;
