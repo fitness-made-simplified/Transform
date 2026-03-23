@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FMS | Muscle Pack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .day-tile { aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
+        .active-day { background: rgba(251, 191, 36, 0.1); border-color: #fbbf24; color: #fbbf24; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body class="p-6 pb-20">
+    <header class="mb-10 pt-4">
+        <a href="index.html" class="text-amber-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← BACK TO HOME</a>
+        <h1 class="text-5xl font-black uppercase italic leading-none tracking-tighter">MUSCLE<br><span class="text-amber-500">PACK</span></h1>
+        <p class="text-[10px] font-black uppercase text-neutral-500 mt-4 tracking-[0.3em]">Hypertrophy • Strength • Power</p>
+    </header>
+
+    <div class="grid grid-cols-5 gap-3 mb-12">
+        <script>
+            for(let i=1; i<=28; i++) {
+                document.write(`<div onclick="openDay(${i})" class="glass day-tile active-day"><span class="text-[8px] uppercase opacity-50 not-italic">Day</span>${i}</div>`);
+            }
+        </script>
+    </div>
+
+    <div class="glass p-8 border-t-4 border-amber-500 text-center shadow-2xl shadow-amber-900/10">
+        <h2 class="text-2xl font-black italic uppercase mb-2 text-amber-500">Want Explosive Growth?</h2>
+        <p class="text-sm text-neutral-400 mb-6 italic">Muscle growth requires precision, not just weight. Get a custom schedule designed for your injury history and biomechanics.</p>
+        <a href="https://wa.me/919899550279?text=Hi Coach, I want a Custom Hypertrophy Program" class="inline-block bg-white text-black px-10 py-4 rounded-xl font-black uppercase text-xs tracking-widest">Claim Custom Plan</a>
+    </div>
+
+    <div id="dayModal" class="modal" onclick="closeDay()">
+        <div class="glass p-8 w-full max-w-sm border-t-4 border-amber-500" onclick="event.stopPropagation()">
+            <h2 id="modalTitle" class="text-4xl font-black italic uppercase text-white mb-2">Day --</h2>
+            <div id="modalContent" class="text-neutral-300 text-sm italic space-y-4 leading-relaxed"></div>
+            <button onclick="closeDay()" class="mt-8 w-full py-4 bg-white/5 rounded-xl font-black uppercase text-[10px] tracking-widest border border-white/10">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function openDay(day) {
+            document.getElementById('modalTitle').innerText = "DAY " + day;
+            document.getElementById('modalContent').innerHTML = `
+                <b>Full Body Strength Focus:</b><br>
+                • Squats / Leg Press: 4x8-12<br>
+                • Bench Press / Pushups: 4x8-12<br>
+                • Deadlift / RDL: 3x6-10<br>
+                • Lat Pulldown: 4x8-12<br>
+                • Shoulder Press: 3x10<br>
+                • Plank: 3 Sets<br><br>
+                <span class="text-amber-500 uppercase font-black tracking-widest text-[10px]">Coach Tip: Lift Heavy. Eat Big. Recover Harder.</span>
+            `;
+            document.getElementById('dayModal').style.display = 'flex';
+        }
+        function closeDay() { document.getElementById('dayModal').style.display = 'none'; }
+    </script>
+</body>
+</html>
