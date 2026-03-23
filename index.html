@@ -56,6 +56,10 @@
                         <p class="text-white font-black italic">2009 - 2018</p>
                         <p class="text-neutral-400">Platinum Trainer & Diet Counsellor | Fitness First Saket</p>
                     </div>
+                    <div>
+                        <p class="text-white font-black italic">2008 - 2009</p>
+                        <p class="text-neutral-400">Master Coach | Celebrity Fitness Gurgaon</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,6 +68,7 @@
     <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
         <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
             <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Coach</span></button>
+            <button onclick="showTab('plans')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Pro Plans</span></button>
             <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Portal</span></button>
         </div>
     </nav>
@@ -102,7 +107,52 @@
                 </a>
             </div>
 
-            <button onclick="showTab('portal')" class="w-full rose-gradient py-5 rounded-2xl font-black uppercase italic tracking-tighter text-white btn-press shadow-xl shadow-rose-900/20">Enter Client Portal</button>
+            <button onclick="showTab('plans')" class="w-full rose-gradient py-5 rounded-2xl font-black uppercase italic tracking-tighter text-white btn-press shadow-xl shadow-rose-900/20">Explore Pro Plans</button>
+        </section>
+
+        <section id="plans" class="tab-content max-w-xl mx-auto">
+            <h2 class="text-3xl font-black italic uppercase mb-8">Pro <span class="text-rose-600">Plans</span></h2>
+            <div class="space-y-6">
+                <div class="glass p-6 border-l-4 border-rose-600">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-xl font-black uppercase italic">Elite Coaching</h4>
+                            <p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">Personalized Protocol</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-black text-rose-500 uppercase">Starts From</p>
+                            <p class="text-2xl font-black italic">₹49,999</p>
+                        </div>
+                    </div>
+                    <ul class="text-[11px] space-y-2 mb-6 opacity-70 font-bold italic">
+                        <li>• Custom Physio-Led Workout Plan</li>
+                        <li>• Bio-Individual Nutrition Strategy</li>
+                        <li>• Weekly 1-on-1 Deep Dive Calls</li>
+                        <li>• 24/7 WhatsApp Priority Support</li>
+                    </ul>
+                    <button onclick="window.open('https://wa.me/919899550279?text=I want to join Elite Coaching')" class="w-full py-3 bg-white text-black rounded-xl font-black uppercase text-[10px] tracking-widest">Claim Your Spot</button>
+                </div>
+
+                <div class="glass p-6 border-l-4 border-neutral-600">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-xl font-black uppercase italic">Standard Pack</h4>
+                            <p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">Self-Paced Excellence</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-black text-rose-500 uppercase">One-Time</p>
+                            <p class="text-2xl font-black italic">₹19,999</p>
+                        </div>
+                    </div>
+                    <ul class="text-[11px] space-y-2 mb-6 opacity-70 font-bold italic">
+                        <li>• 12 Week Transformation Routine</li>
+                        <li>• Standardized Nutrition Guide</li>
+                        <li>• Exercise Library Access</li>
+                        <li>• Monthly Progress Check-ins</li>
+                    </ul>
+                    <button onclick="window.open('https://wa.me/919899550279?text=I want to join Standard Pack')" class="w-full py-3 bg-white/10 rounded-xl font-black uppercase text-[10px] tracking-widest border border-white/20">Get Started</button>
+                </div>
+            </div>
         </section>
 
         <section id="portal" class="tab-content max-w-xl mx-auto pt-10">
@@ -118,6 +168,7 @@
         function showTab(t){
             document.querySelectorAll('.tab-content').forEach(s=>s.classList.remove('active'));
             document.getElementById(t).classList.add('active');
+            window.scrollTo(0, 0);
         }
         function openCoach() { document.getElementById('coachProfile').style.display = 'block'; }
         function closeCoach() { document.getElementById('coachProfile').style.display = 'none'; }
