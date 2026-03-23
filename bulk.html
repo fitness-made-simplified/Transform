@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FMS | Muscle Gain</title>
+    <title>FMS | Muscle Pack</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
         .day-tile { aspect-ratio: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); }
-        .day-tile:active { transform: scale(0.9); }
         .active-day { background: rgba(251, 191, 36, 0.1); border-color: #fbbf24; color: #fbbf24; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 20px; align-items: center; justify-content: center; }
     </style>
 </head>
 <body class="p-6 pb-20">
-    <header class="mb-10 pt-4">
+    <header class="mb-8 pt-4">
         <a href="index.html" class="text-amber-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← BACK</a>
-        <h1 class="text-5xl font-black uppercase italic leading-none tracking-tighter">MUSCLE<br><span class="text-amber-500">PACK</span></h1>
+        <h1 class="text-4xl font-black uppercase italic leading-none">MUSCLE <span class="text-amber-500">PACK</span></h1>
+        <p class="text-[10px] uppercase text-neutral-500 font-bold mt-2">"Lift heavy. Eat big. Recover harder."</p>
     </header>
 
-    <div class="grid grid-cols-5 gap-3 mb-12">
+    <div class="grid grid-cols-5 gap-3 mb-10">
         <script>
             for(let i=1; i<=28; i++) {
                 document.write(`<div onclick="openDay(${i})" class="glass day-tile active-day"><span class="text-[8px] uppercase opacity-50 not-italic">Day</span>${i}</div>`);
@@ -29,19 +29,24 @@
         </script>
     </div>
 
+    <div class="glass p-8 border-t-4 border-amber-500 text-center mb-10">
+        <h3 class="text-xl font-black italic uppercase mb-2">Build without Injury.</h3>
+        <p class="text-sm text-neutral-400 mb-6 italic">Unlock a custom Hypertrophy schedule based on your specific biomechanics.</p>
+        <a href="https://wa.me/919899550279?text=I want to upgrade to a Custom Muscle Plan" class="inline-block bg-amber-500 text-black px-8 py-4 rounded-xl font-black uppercase text-xs">Unlock Custom Portal</a>
+    </div>
+
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
         <div class="glass p-8 w-full max-w-sm border-t-4 border-amber-500" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-4xl font-black italic uppercase text-white mb-2"></h2>
-            <div id="modalContent" class="text-neutral-300 text-sm italic space-y-4 leading-relaxed"></div>
-            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-8 w-full py-4 bg-white/5 rounded-xl font-black uppercase text-[10px] border border-white/10 text-amber-500">Close</button>
+            <h2 id="modalTitle" class="text-3xl font-black italic uppercase mb-4"></h2>
+            <div id="modalContent" class="text-neutral-300 text-sm italic space-y-2 leading-relaxed"></div>
+            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-8 w-full py-4 bg-white/10 rounded-xl font-black uppercase text-[10px] text-amber-500">Continue Growth</button>
         </div>
     </div>
 
     <script>
         function openDay(day) {
             document.getElementById('modalTitle').innerText = "DAY " + day;
-            document.getElementById('modalContent').innerHTML = `
-                <b>Strength Split:</b><br>• Squats 4x10<br>• Bench Press 4x10<br>• Deadlift 3x8<br>• Lat Pulldowns 4x12<br>• Shoulder Press 3x10<br><br><b>Intensity:</b> Heavy`;
+            document.getElementById('modalContent').innerHTML = "<b>Hypertrophy Split:</b><br>• Squats 4x10<br>• Bench Press 4x10<br>• Deadlift 3x8<br>• Lat Pulldown 4x12";
             document.getElementById('dayModal').style.display = 'flex';
         }
     </script>
