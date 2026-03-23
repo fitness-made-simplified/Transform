@@ -15,73 +15,53 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .btn-press { transition: transform 0.1s; }
         .btn-press:active { transform: scale(0.96); }
-        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; width: 100%; }
     </style>
 </head>
-<body class="p-6 pb-24">
+<body class="p-6 pb-32">
 
-    <div id="coachProfile" class="fixed inset-0 z-[100] bg-black hidden p-6 overflow-y-auto">
-        <button onclick="closeCoach()" class="absolute top-6 right-6 text-white uppercase font-black text-xs">Close [X]</button>
-        <div class="max-w-xl mx-auto pt-10 text-center">
-            <h2 class="text-4xl font-black italic uppercase text-rose-600 mb-6">Expertise</h2>
-            <div class="glass p-8 text-neutral-300 leading-relaxed italic space-y-6">
-                <p>Clinical Physiotherapist & Strength Coach dedicated to injury-free performance.</p>
-                <div class="grid grid-cols-1 gap-4 text-left">
-                    <div class="bg-white/5 p-4 rounded-xl border-l-4 border-rose-600">
-                        <p class="text-[10px] uppercase font-black text-rose-500">Qualification</p>
-                        <p class="text-sm font-bold text-white uppercase">Clinical Physiotherapy (BPT)</p>
-                    </div>
-                    <div class="bg-white/5 p-4 rounded-xl border-l-4 border-rose-600">
-                        <p class="text-[10px] uppercase font-black text-rose-500">Experience</p>
-                        <p class="text-sm font-bold text-white uppercase">8+ Years Strength & Rehab</p>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-8 grid grid-cols-2 gap-4">
-                <div class="glass p-6"><p class="text-3xl font-black italic">500+</p><p class="text-[9px] uppercase opacity-50 font-bold">Transformed</p></div>
-                <div class="glass p-6"><p class="text-3xl font-black italic">100%</p><p class="text-[9px] uppercase opacity-50 font-bold">Injury Safe</p></div>
-            </div>
+    <div class="flex items-center gap-4 mb-8 max-w-xl mx-auto">
+        <div class="w-14 h-14 rounded-full bg-rose-600 flex items-center justify-center font-black italic text-lg border-2 border-white/10 shadow-lg shadow-rose-900/20">FMS</div>
+        <div>
+            <h1 class="text-2xl font-black italic uppercase leading-none">Simplified<br><span class="text-rose-600">Performance</span></h1>
+            <p class="text-[9px] uppercase tracking-widest opacity-40 mt-1 font-bold">Physio-Led Movement Specialist</p>
         </div>
     </div>
 
-    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-50">
-        <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
-            <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Home</span></button>
-            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Portal</span></button>
-            <button onclick="window.open('https://wa.me/919899550279')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase text-rose-500">Contact</span></button>
-        </div>
-    </nav>
-
     <main class="max-w-xl mx-auto">
-        <section id="home" class="tab-content active pt-10">
-            <div class="flex items-center gap-4 mb-10">
-                <div class="w-14 h-14 rounded-full bg-rose-600 flex items-center justify-center font-black italic text-lg border-2 border-white/10 shadow-lg shadow-rose-900/20">FMS</div>
-                <div>
-                    <h1 class="text-2xl font-black italic uppercase leading-none">Simplified<br><span class="text-rose-600">Performance</span></h1>
-                    <p class="text-[9px] uppercase tracking-widest opacity-40 mt-1 font-bold">Physio-Led Movement Specialist</p>
-                </div>
-            </div>
-
+        <section id="home" class="tab-content active">
             <div class="glass p-1 mb-8 overflow-hidden relative shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop" class="w-full h-[400px] object-cover rounded-[22px] grayscale contrast-125 brightness-75">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                <img src="1000418257.png" class="w-full h-auto object-cover rounded-[22px] grayscale contrast-125">
                 <div class="absolute bottom-6 left-6 right-6">
                     <button onclick="openCoach()" class="w-full glass py-4 font-black uppercase italic text-xs tracking-[0.2em] backdrop-blur-xl border-white/20 active:scale-95 transition-transform">Know Your Coach</button>
                 </div>
             </div>
 
+            <div id="coachDetails" class="grid grid-cols-2 gap-4 mb-10">
+                <div class="glass p-5 text-center border-b-2 border-rose-600">
+                    <p class="text-[9px] uppercase text-rose-500 font-black mb-1">Experience</p>
+                    <p class="text-xl font-black italic">8+ YEARS</p>
+                </div>
+                <div class="glass p-5 text-center border-b-2 border-rose-600">
+                    <p class="text-[9px] uppercase text-rose-500 font-black mb-1">Transformed</p>
+                    <p class="text-xl font-black italic">500+ LIVES</p>
+                </div>
+                <div class="glass p-4 col-span-2 text-center">
+                    <p class="text-[10px] font-black uppercase text-neutral-500 italic">BPT • Clinical Physiotherapist • Strength Coach</p>
+                </div>
+            </div>
+
             <div class="mb-10">
-                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-6 tracking-[0.3em] italic px-2">Free Expert Challenges</h3>
+                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-6 tracking-[0.3em] italic px-2 text-center">Free Performance Challenges</h3>
                 <div class="grid grid-cols-1 gap-4">
                     <a href="shred.html" class="glass p-2 flex items-center gap-4 border-l-4 border-rose-600 btn-press">
-                        <img src="https://images.unsplash.com/photo-1541534741688-6078c64b52d3?q=80&w=200&auto=format&fit=crop" class="w-20 h-20 object-cover rounded-xl grayscale">
+                        <img src="1000418343.png" class="w-20 h-20 object-cover rounded-xl grayscale">
                         <div>
                             <p class="text-[8px] font-black uppercase text-rose-500">30 Day Protocol</p>
                             <h4 class="text-xl font-black uppercase italic leading-none">The Shred</h4>
                         </div>
                     </a>
                     <a href="bulk.html" class="glass p-2 flex items-center gap-4 border-l-4 border-amber-500 btn-press">
-                        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2ec617?q=80&w=200&auto=format&fit=crop" class="w-20 h-20 object-cover rounded-xl grayscale">
+                        <img src="1000418342.png" class="w-20 h-20 object-cover rounded-xl grayscale">
                         <div>
                             <p class="text-[8px] font-black uppercase text-amber-500">4 Week Program</p>
                             <h4 class="text-xl font-black uppercase italic leading-none text-amber-500">Muscle Pack</h4>
@@ -95,13 +75,20 @@
 
         <section id="portal" class="tab-content pt-20 text-center">
             <h2 class="text-4xl font-black italic uppercase mb-2">Member <span class="text-rose-600">Login</span></h2>
-            <p class="text-[10px] uppercase tracking-widest opacity-40 mb-10 font-bold italic">Verification Required</p>
-            <div class="max-w-xs mx-auto flex flex-col gap-4">
-                <input type="text" id="clientIdInput" class="text-center font-black uppercase italic tracking-widest placeholder:opacity-30" placeholder="ENTER ID">
-                <button onclick="login()" class="rose-gradient py-5 rounded-xl font-black uppercase text-xs text-white btn-press shadow-xl">Verify & Enter</button>
+            <div class="max-w-xs mx-auto flex flex-col gap-4 mt-10">
+                <input type="text" id="clientIdInput" class="glass p-5 text-center font-black uppercase italic tracking-widest" placeholder="ENTER ID">
+                <button onclick="login()" class="rose-gradient py-5 rounded-xl font-black uppercase text-xs text-white btn-press">Verify & Enter</button>
             </div>
         </section>
     </main>
+
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-50">
+        <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
+            <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Home</span></button>
+            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Portal</span></button>
+            <button onclick="window.open('https://wa.me/919899550279')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase text-rose-500">Contact</span></button>
+        </div>
+    </nav>
 
     <script>
         function showTab(t){
@@ -109,12 +96,11 @@
             document.getElementById(t).classList.add('active');
             window.scrollTo(0,0);
         }
-        function openCoach() { document.getElementById('coachProfile').classList.remove('hidden'); }
-        function closeCoach() { document.getElementById('coachProfile').classList.add('hidden'); }
         function login(){
             const id = document.getElementById('clientIdInput').value.trim();
             if(id) window.location.href = `profile.html?id=${id}`;
         }
+        function openCoach() { alert("Clinical Physiotherapist (BPT)\nSpecialized in Strength & Rehab\n8+ Years Experience"); }
     </script>
 </body>
 </html>
