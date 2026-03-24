@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Setup Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; padding: 24px; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        input, select { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; color: white; outline: none; width: 100%; margin-bottom: 16px; font-weight: bold; }
+        .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="glass p-8 w-full max-w-sm border-t-4 border-rose-600">
+        <h2 class="text-2xl font-black italic uppercase mb-2">Create <span class="text-rose-600">Profile</span></h2>
+        <p id="displayId" class="text-[10px] font-black text-neutral-500 mb-8 tracking-widest uppercase"></p>
+        
+        <input type="text" id="guestName" placeholder="Full Name">
+        <input type="number" id="guestWeight" placeholder="Current Weight (kg)">
+        <select id="guestProgram">
+            <option value="The Shred">The Shred (30 Day)</option>
+            <option value="Muscle Pack">Muscle Pack (4 Week)</option>
+        </select>
+
+        <button onclick="saveAndStart()" id="setupBtn" class="w-full rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white shadow-lg shadow-rose-900/20">Start Tracking</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestId = urlParams.get('id');
+        document.getElementById('displayId').innerText = "ASSIGNED ID: " + guestId;
+
+        async function saveAndStart() {
+            const btn = document.getElementById('setupBtn');
+            const name = document.getElementById('guestName').value;
+            const weight = document.getElementById('guestWeight').value;
+            const program = document.getElementById('guestProgram').value;
+
+            if(!name || !weight) return alert("Please fill all details");
+
+            btn.innerText = "CREATING...";
+            btn.disabled = true;
+
+            const guestData = {
+                "Client ID": guestId,
+                "Name": name,
+                "Weight": weight,
+                "Program": program,
+                "Status": "Free Tier",
+                "Join Date": new Date().toLocaleDateString()
+            };
+
+            try {
+                const response = await fetch('https://sheetdb.io/api/v1/q4n4z3yr8dbyt', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ data: [guestData] })
+                });
+                
+                if(response.ok) {
+                    alert("Profile Created! Your ID is: " + guestId);
+                    window.location.href = `profile.html?id=${guestId}`;
+                } else {
+                    throw new Error("API Error");
+                }
+            } catch (e) {
+                alert("Error connecting to sheet. Please try again.");
+                btn.innerText = "Start Tracking";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
