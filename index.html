@@ -157,9 +157,18 @@
 
         <section id="portal" class="tab-content max-w-xl mx-auto pt-10">
             <h2 class="text-3xl font-black italic uppercase mb-8 text-center">Client <span class="text-rose-600">Portal</span></h2>
-            <div class="flex gap-2">
+            
+            <div class="flex gap-2 mb-12">
                 <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. Fms1325)">
                 <button onclick="login()" id="loginBtn" class="rose-gradient px-8 rounded-xl font-black uppercase text-xs text-white">GO</button>
+            </div>
+
+            <div class="pt-8 border-t border-white/10 text-center">
+                <p class="text-[10px] text-neutral-500 uppercase font-black mb-4 tracking-widest">New to the Challenge?</p>
+                <button onclick="createGuestProfile()" class="w-full glass py-4 text-[10px] font-black uppercase tracking-widest text-rose-500 border-rose-500/20 active:scale-95 transition-transform">
+                    Create Free Tracker Profile
+                </button>
+                <p class="text-[9px] text-neutral-600 mt-4 italic">Track your lifts and follow day-wise schedules for free.</p>
             </div>
         </section>
     </main>
@@ -172,9 +181,16 @@
         }
         function openCoach() { document.getElementById('coachProfile').style.display = 'block'; }
         function closeCoach() { document.getElementById('coachProfile').style.display = 'none'; }
+        
         function login(){
             const id = document.getElementById('clientIdInput').value.trim();
             if(id) window.location.href = `profile.html?id=${id}`;
+        }
+
+        function createGuestProfile() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            const guestId = 'FMS-FREE-' + randomNum;
+            window.location.href = `setup-guest.html?id=${guestId}`;
         }
     </script>
 </body>
