@@ -16,13 +16,13 @@
 <body class="flex items-center justify-center min-h-screen">
     <div class="glass p-8 w-full max-w-sm border-t-4 border-rose-600">
         <h2 class="text-2xl font-black italic uppercase mb-2">Create <span class="text-rose-600">Profile</span></h2>
-        <p id="displayId" class="text-[10px] font-black text-neutral-500 mb-8 tracking-widest"></p>
+        <p id="displayId" class="text-[10px] font-black text-neutral-500 mb-8 tracking-widest uppercase"></p>
         
         <input type="text" id="guestName" placeholder="Full Name">
         <input type="number" id="guestWeight" placeholder="Current Weight (kg)">
         <select id="guestProgram">
-            <option value="The Shred">Joining: The Shred (30 Day)</option>
-            <option value="Muscle Pack">Joining: Muscle Pack (4 Week)</option>
+            <option value="The Shred">The Shred (30 Day)</option>
+            <option value="Muscle Pack">Muscle Pack (4 Week)</option>
         </select>
 
         <button onclick="saveAndStart()" id="setupBtn" class="w-full rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white shadow-lg shadow-rose-900/20">Start Tracking</button>
@@ -54,17 +54,21 @@
             };
 
             try {
-                // Replace THIS URL with your actual SheetDB/API endpoint
-                await fetch('YOUR_SHEETDB_API_URL', {
+                // Integrated with your specific SheetDB API URL
+                const response = await fetch('https://sheetdb.io/api/v1/q4n4z3yr8dbyt', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ data: [guestData] })
                 });
                 
-                alert("Profile Active! Use ID: " + guestId + " to login anytime.");
-                window.location.href = `profile.html?id=${guestId}`;
+                if(response.ok) {
+                    alert("Profile Created Successfully! Your ID is: " + guestId);
+                    window.location.href = `profile.html?id=${guestId}`;
+                } else {
+                    throw new Error("API Error");
+                }
             } catch (e) {
-                alert("Error connecting to server. Try again.");
+                alert("Error connecting to sheet. Please try again.");
                 btn.innerText = "Start Tracking";
                 btn.disabled = false;
             }
