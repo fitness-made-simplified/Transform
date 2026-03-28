@@ -17,10 +17,17 @@
         .btn-press:active { transform: scale(0.96); }
         .coach-overlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 100; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        /* Tool Overlay Styles */
+        #toolOverlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 110; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .question { display: none; }
+        .question.active { display: block; }
+        .result-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body class="pb-32">
 
+    <!-- Existing Coach Profile Overlay (unchanged) -->
     <div id="coachProfile" class="coach-overlay">
         <button onclick="closeCoach()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
@@ -65,6 +72,33 @@
         </div>
     </div>
 
+    <!-- New Tool Overlay -->
+    <div id="toolOverlay" class="coach-overlay">
+        <button onclick="closeTool()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
+        </button>
+        
+        <h2 class="text-3xl font-black italic uppercase tracking-tighter mb-2 text-center">Transformation<br>Readiness <span class="text-rose-600">Scorecard</span></h2>
+        <p class="text-neutral-400 text-sm mb-8 text-center">Physio-led assessment for sustainable fat loss & strength gains in 2026</p>
+
+        <!-- Quiz Container -->
+        <div id="quizContainer" class="glass p-6 max-w-xl mx-auto">
+            <!-- Questions will be injected by JS -->
+        </div>
+
+        <!-- Result Screen (hidden initially) -->
+        <div id="resultScreen" class="hidden glass p-6 max-w-xl mx-auto result-card">
+            <div class="text-center mb-6">
+                <div id="scoreCircle" class="mx-auto w-32 h-32 rounded-full border-8 border-rose-600 flex items-center justify-center text-5xl font-black">85</div>
+                <p id="readinessLevel" class="text-xl font-black mt-4"></p>
+            </div>
+            <div id="actionPlan" class="text-sm space-y-3"></div>
+            
+            <button onclick="bookSessionFromTool()" class="w-full mt-8 py-4 rose-gradient rounded-2xl font-black uppercase text-sm tracking-widest">Book Personalized 1:1 Session</button>
+            <button onclick="restartTool()" class="w-full mt-3 py-3 text-neutral-400 font-bold uppercase text-xs">Retake Assessment</button>
+        </div>
+    </div>
+
     <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
         <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
             <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Coach</span></button>
@@ -91,6 +125,7 @@
             </div>
 
             <div class="grid grid-cols-1 gap-4 mb-8">
+                <!-- Existing Shred Card -->
                 <a href="shred.html" class="glass p-4 flex items-center justify-between border-l-4 border-rose-600 btn-press">
                     <div>
                         <p class="text-[8px] font-black uppercase text-rose-500 mb-1">30 Day Protocol</p>
@@ -98,6 +133,8 @@
                     </div>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600"><path d="m9 18 6-6-6-6"/></svg>
                 </a>
+                
+                <!-- Existing Bulk Card -->
                 <a href="bulk.html" class="glass p-4 flex items-center justify-between border-l-4 border-amber-500 btn-press">
                     <div>
                         <p class="text-[8px] font-black uppercase text-amber-500 mb-1">4 Week Program</p>
@@ -105,9 +142,20 @@
                     </div>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-amber-500"><path d="m9 18 6-6-6-6"/></svg>
                 </a>
+
+                <!-- NEW Transformation Readiness Scorecard Card -->
+                <div onclick="openTool()" class="glass p-4 flex items-center justify-between border-l-4 border-emerald-500 btn-press cursor-pointer">
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-emerald-400 mb-1">Free Physio Tool</p>
+                        <h4 class="text-xl font-black uppercase italic">Transformation Readiness</h4>
+                        <p class="text-xs text-neutral-400 mt-1">Assess your readiness • Get instant action plan</p>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
             </div>
         </section>
 
+        <!-- Existing Plans and Portal sections (unchanged) -->
         <section id="plans" class="tab-content max-w-xl mx-auto">
             <h2 class="text-3xl font-black italic uppercase mb-8">Pro <span class="text-rose-600">Plans</span></h2>
             
@@ -174,6 +222,7 @@
     </main>
 
     <script>
+        // Existing functions (unchanged)
         function showTab(t){
             document.querySelectorAll('.tab-content').forEach(s=>s.classList.remove('active'));
             document.getElementById(t).classList.add('active');
@@ -192,6 +241,134 @@
             const guestId = 'FMS-FREE-' + randomNum;
             window.location.href = `setup-guest.html?id=${guestId}`;
         }
+
+        // New Tool Functions
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questions = [
+            {
+                q: "How many days per week do you currently strength train?",
+                options: ["0-1 day", "2 days", "3-4 days", "5+ days"],
+                points: [0, 20, 40, 60]
+            },
+            {
+                q: "Do you experience any recurring joint pain or stiffness?",
+                options: ["Yes, frequently", "Occasionally", "Rarely", "Never"],
+                points: [0, 20, 40, 60]
+            },
+            {
+                q: "How would you rate your daily mobility & posture awareness?",
+                options: ["Poor (mostly sedentary)", "Average", "Good", "Excellent"],
+                points: [0, 20, 40, 60]
+            },
+            {
+                q: "How consistent is your protein & fiber intake?",
+                options: ["Inconsistent", "Moderate", "Good", "Very consistent"],
+                points: [0, 20, 40, 60]
+            },
+            {
+                q: "Average sleep per night?",
+                options: ["<6 hours", "6-7 hours", "7-8 hours", "8+ hours"],
+                points: [0, 20, 40, 60]
+            }
+        ];
+
+        function openTool() {
+            document.getElementById('toolOverlay').style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function closeTool() {
+            document.getElementById('toolOverlay').style.display = 'none';
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = `
+                <div class="mb-6">
+                    <div class="h-1 bg-neutral-700 rounded-full mb-4">
+                        <div class="h-1 bg-rose-600 rounded-full transition-all" style="width: ${(currentQuestion / questions.length) * 100}%"></div>
+                    </div>
+                    <p class="text-xs uppercase tracking-widest text-neutral-400">Question ${currentQuestion + 1} of ${questions.length}</p>
+                    <p class="text-lg font-bold mt-2">${questions[currentQuestion].q}</p>
+                </div>
+                <div class="space-y-3">
+                    ${questions[currentQuestion].options.map((opt, i) => `
+                        <button onclick="selectAnswer(${i})" class="w-full text-left p-4 glass hover:bg-white/10 rounded-2xl transition-colors">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectAnswer(optionIndex) {
+            score += questions[currentQuestion].points[optionIndex];
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            const resultScreen = document.getElementById('resultScreen');
+            resultScreen.classList.remove('hidden');
+
+            const percentage = Math.min(Math.round(score / 3), 100); // Normalize to 0-100
+            document.getElementById('scoreCircle').textContent = percentage;
+            document.getElementById('scoreCircle').style.borderColor = percentage > 70 ? '#10b981' : (percentage > 40 ? '#eab308' : '#ef4444');
+
+            let level = "";
+            let planHTML = "";
+
+            if (percentage >= 80) {
+                level = "Advanced Readiness";
+                planHTML = `<p class="text-emerald-400">Excellent foundation. Focus on progressive overload and recovery optimization.</p>`;
+            } else if (percentage >= 50) {
+                level = "Intermediate Readiness";
+                planHTML = `<p class="text-amber-400">Solid base. Prioritize mobility work and consistent nutrition to accelerate results.</p>`;
+            } else {
+                level = "Beginner Readiness";
+                planHTML = `<p class="text-rose-400">Great starting point. Begin with foundational mobility and habit building to prevent injury.</p>`;
+            }
+
+            planHTML += `
+                <div class="mt-6 text-xs space-y-2">
+                    <p class="font-bold uppercase tracking-widest text-neutral-400">Next Steps:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Daily 10-min mobility routine</li>
+                        <li>Focus on protein + fiber targets</li>
+                        <li>Schedule consistent strength sessions</li>
+                    </ul>
+                </div>
+            `;
+
+            document.getElementById('readinessLevel').innerHTML = level;
+            document.getElementById('actionPlan').innerHTML = planHTML;
+        }
+
+        function restartTool() {
+            openTool();
+        }
+
+        function bookSessionFromTool() {
+            closeTool();
+            window.open('https://wa.me/919899550279?text=I completed the Transformation Readiness Scorecard and want to discuss my personalized training plan', '_blank');
+        }
+
+        // Initialize
+        window.onload = function() {
+            // Any additional init if needed
+        };
     </script>
 </body>
 </html>
