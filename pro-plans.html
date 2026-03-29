@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Pro Plans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; padding: 24px; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .pro-card { border-top: 4px solid #e11d48; transition: transform 0.2s; }
+        .pro-card:hover { transform: translateY(-5px); }
+        .btn-wa { background: #25D366; color: black; }
+    </style>
+</head>
+<body class="pb-20">
+    <header class="mb-10">
+        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← Back to Home</a>
+        <h1 class="text-4xl font-black uppercase italic leading-none mb-2">PRO <span class="text-rose-600">PLANS</span></h1>
+        <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">Premium Coaching & Custom Results</p>
+    </header>
+
+    <div class="space-y-6">
+        <!-- 60 Sessions Plan -->
+        <div class="glass p-6 pro-card">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-xl font-black uppercase italic">Elite Transformation</h3>
+                    <p class="text-xs text-neutral-400 italic">60 Personal Training Sessions</p>
+                </div>
+                <span class="text-rose-500 font-black text-lg">₹28,150</span>
+            </div>
+            <a href="https://wa.me/919899550279?text=I'm interested in the 60 Sessions Elite Plan" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Enquire via WhatsApp</a>
+        </div>
+
+        <!-- 25 Sessions Plan -->
+        <div class="glass p-6 pro-card">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-xl font-black uppercase italic">Kickstarter Pack</h3>
+                    <p class="text-xs text-neutral-400 italic">25 Personal Training Sessions</p>
+                </div>
+                <span class="text-rose-500 font-black text-lg">₹13,300</span>
+            </div>
+            <a href="https://wa.me/919899550279?text=I'm interested in the 25 Sessions Kickstarter Plan" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Enquire via WhatsApp</a>
+        </div>
+
+        <!-- Diet Chart -->
+        <div class="glass p-6 pro-card border-rose-400">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-xl font-black uppercase italic">Custom Diet</h3>
+                    <p class="text-xs text-neutral-400 italic">1 Month Personalized Nutrition</p>
+                </div>
+                <span class="text-rose-500 font-black text-lg">₹2,000</span>
+            </div>
+            <a href="https://wa.me/919899550279?text=I want a Custom Diet Chart for 1 month" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Get Nutrition Plan</a>
+        </div>
+
+        <!-- Workout Chart -->
+        <div class="glass p-6 pro-card border-rose-400">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="text-xl font-black uppercase italic">Custom Workout</h3>
+                    <p class="text-xs text-neutral-400 italic">1 Month Tailored Training Chart</p>
+                </div>
+                <span class="text-rose-500 font-black text-lg">₹2,000</span>
+            </div>
+            <a href="https://wa.me/919899550279?text=I want a Custom Workout Chart for 1 month" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Get Workout Plan</a>
+        </div>
+    </div>
+
+    <!-- Contact Footer -->
+    <footer class="mt-12 pt-8 border-t border-white/10 text-center">
+        <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-2">Direct Contact</p>
+        <p class="text-sm italic mb-1">sushhant290186@gmail.com</p>
+        <p class="text-sm italic">+91 9899550279</p>
+    </footer>
+</body>
+</html>
