@@ -21,7 +21,7 @@
         <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">"Your transformation is earned, not given."</p>
     </header>
 
-    <div class="grid grid-cols-5 gap-3 mb-12">
+    <div class="grid grid-cols-5 gap-3 mb-12" id="daysGrid">
         <script>
             for(let i=1; i<=30; i++) {
                 document.write(`<div onclick="openDay(${i})" class="glass day-card">${i}</div>`);
@@ -44,9 +44,41 @@
     </div>
 
     <script>
+        const exercises = [
+            "Jumping Jacks", "High Knees", "Spot Jog", "Inchworm", "Squats",
+            "Push Ups", "Tricep Dips", "Sumo Squats", "Side Kicks Standing", "Lunges",
+            "Lunge Kicks", "Jump Squats", "Burpees", "Mountain Climbers", "Plank Jacks",
+            "Duck Walk", "Crunches", "Rockers", "Sit Ups", "Leg Raises"
+        ];
+
         function openDay(day) {
-            document.getElementById('modalTitle').innerText = "DAY " + day;
-            document.getElementById('modalContent').innerHTML = (day % 4 == 0) ? "<b>Rest & Recovery:</b> Focus on mobility and 20 min light walk." : "<b>High Intensity Circuit:</b><br>• Burpees: 3x15<br>• Mountain Climbers: 3x40<br>• Plank: 3x60s<br>• Bodyweight Squats: 3x20";
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            modalTitle.innerText = "DAY " + day;
+
+            if (day % 4 === 0) {
+                modalContent.innerHTML = "<b>Rest & Recovery:</b><br>Focus on mobility and a 20-min light walk to recover muscle fibers.";
+            } else {
+                // Progression logic: Increase reps/sets every 4 days
+                const block = Math.floor((day - 1) / 4); 
+                const baseReps = 12 + (block * 2); // Start at 12, add 2 reps every block
+                const baseSets = 3 + Math.floor(block / 2); // Start at 3 sets, increase slowly
+                
+                // Selection logic: Pick 4 different exercises based on the day
+                const startIdx = (day % exercises.length);
+                const dailyRoutine = [
+                    exercises[startIdx % exercises.length],
+                    exercises[(startIdx + 1) % exercises.length],
+                    exercises[(startIdx + 2) % exercises.length],
+                    exercises[(startIdx + 3) % exercises.length]
+                ];
+
+                let html = "<b>High Intensity Circuit:</b><br>";
+                dailyRoutine.forEach(ex => {
+                    html += `• ${ex}: ${baseSets}x${baseReps}<br>`;
+                });
+                modalContent.innerHTML = html;
+            }
             document.getElementById('dayModal').style.display = 'flex';
         }
     </script>
