@@ -21,9 +21,10 @@
         <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">"Build without injury. Perform with power."</p>
     </header>
 
-    <div class="grid grid-cols-5 gap-3 mb-12">
+    <div class="grid grid-cols-5 gap-3 mb-12" id="daysGrid">
         <script>
-            for(let i=1; i<=28; i++) {
+            // Render 30 days as requested
+            for(let i=1; i<=30; i++) {
                 document.write(`<div onclick="openDay(${i})" class="glass day-card">${i}</div>`);
             }
         </script>
@@ -45,8 +46,58 @@
 
     <script>
         function openDay(day) {
-            document.getElementById('modalTitle').innerText = "DAY " + day;
-            document.getElementById('modalContent').innerHTML = "<b>Strength Focus:</b><br>• Squats: 4x10<br>• Bench Press: 4x10<br>• Deadlift: 3x8<br>• Pullups: 3xMax<br><br><b>Coach Tip:</b> Focus on the tempo.";
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            modalTitle.innerText = "DAY " + day;
+
+            // Rest day every 4th day
+            if (day % 4 === 0) {
+                modalContent.innerHTML = "<b>Recovery Phase:</b><br>Focus on deep stretching and quality sleep. Muscle grows during rest, not work.";
+                document.getElementById('dayModal').style.display = 'flex';
+                return;
+            }
+
+            // Progression Logic: Every 4-day cycle adds 4 reps
+            const cycle = Math.floor((day - 1) / 4);
+            const extraReps = cycle * 4;
+            const baseSets = 3;
+            const baseReps = 10 + extraReps;
+
+            // Determine Workout Rotation (A or B)
+            const workoutNumber = Math.ceil(day / 4);
+            const isVersionB = workoutNumber % 2 === 0;
+
+            let html = "";
+
+            // Day 1 Type: Chest/Shoulder/Tricep
+            if (day % 4 === 1) {
+                html = "<b>Push Focus (C/S/T):</b><br>";
+                if (!isVersionB) {
+                    html += `• Push Ups: ${baseSets}x${baseReps}<br>• DB Chest Fly: ${baseSets}x${baseReps}<br>• Side Raises: ${baseSets}x${baseReps}<br>• Front Raises: ${baseSets}x${baseReps}<br>• Overhead Ext: ${baseSets}x15`;
+                } else {
+                    html += `• DB Chest Press: ${baseSets}x${baseReps}<br>• DB Pullover: ${baseSets}x${baseReps}<br>• Arnold Press: ${baseSets}x${baseReps}<br>• Tricep Dips: ${baseSets}xMax<br>• Kickbacks: ${baseSets}x15`;
+                }
+            } 
+            // Day 2 Type: Back/Traps/Bicep
+            else if (day % 4 === 2) {
+                html = "<b>Pull Focus (B/T/B):</b><br>";
+                if (!isVersionB) {
+                    html += `• DB Row (Overhand): ${baseSets}x${baseReps}<br>• Single Arm Row: ${baseSets}x${baseReps}<br>• Upright Rows: ${baseSets}x${baseReps}<br>• DB Shrugs: ${baseSets}x${baseReps}<br>• DB Curls: ${baseSets}x${baseReps}`;
+                } else {
+                    html += `• Neutral Grip Row: ${baseSets}x${baseReps}<br>• DB Deadlifts: ${baseSets}x${baseReps}<br>• DB Shrugs: ${baseSets}x${baseReps}<br>• Hammer Curls: ${baseSets}x${baseReps}<br>• Concentration Curls: ${baseSets}x12`;
+                }
+            }
+            // Day 3 Type: Legs
+            else if (day % 4 === 3) {
+                html = "<b>Lower Body Focus:</b><br>";
+                if (!isVersionB) {
+                    html += `• Squats: ${baseSets}x${baseReps}<br>• Front Squats: ${baseSets}x${baseReps}<br>• Donkey Kicks: ${baseSets}x20<br>• Jump Squats: ${baseSets}x10`;
+                } else {
+                    html += `• Walking Lunges: ${baseSets}x${baseReps} (Steps)<br>• Sumo Squats: ${baseSets}x${baseReps}<br>• Calf Raises: ${baseSets}x20<br>• Jump Squats: ${baseSets}x10`;
+                }
+            }
+
+            modalContent.innerHTML = html + `<br><br><b>Progression:</b> +4 reps added from previous cycle.`;
             document.getElementById('dayModal').style.display = 'flex';
         }
     </script>
