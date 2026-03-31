@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FMS | 30 Day Shred</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- We use Font Awesome for the icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -13,8 +14,7 @@
         .day-card { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border: 1px solid rgba(225, 29, 72, 0.2); border-radius: 12px; cursor: pointer; transition: 0.2s; }
         .day-card:active { transform: scale(0.9); }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 24px; align-items: center; justify-content: center; }
-        .exercise-list::-webkit-scrollbar { width: 4px; }
-        .exercise-list::-webkit-scrollbar-thumb { background: rgba(225, 29, 72, 0.5); border-radius: 10px; }
+        .exercise-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; border-left: 4px solid #e11d48; }
     </style>
 </head>
 <body class="pb-20">
@@ -32,30 +32,30 @@
     </div>
 
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
-        <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col border border-rose-600/20" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-6 text-center underline decoration-rose-600/30"></h2>
-            <div id="modalContent" class="exercise-list overflow-y-auto pr-2 space-y-8"></div>
+        <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col" onclick="event.stopPropagation()">
+            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-6 text-center"></h2>
+            <div id="modalContent" class="overflow-y-auto pr-2 space-y-4"></div>
             <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-6 w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase text-[10px]">Close Workout</button>
         </div>
     </div>
 
     <script>
-        // Manually mapped reliable images for each shred exercise
+        // stable icon library
         const exerciseLibrary = {
-            "Jumping Jacks": "https://www.spotebi.com/wp-content/uploads/2014/10/jumping-jacks-exercise-illustration.jpg",
-            "High Knees": "https://www.spotebi.com/wp-content/uploads/2014/10/high-knees-exercise-illustration.jpg",
-            "Spot Jog": "https://media.istockphoto.com/id/1210831610/vector/man-running-on-the-spot-jogging-icon.jpg?s=612x612&w=0&k=20&c=u-8D1m_vL4uW60XGfI4L_V3RkE_D8GfXp5V9-Y-R26M=",
-            "Inchworm": "https://www.spotebi.com/wp-content/uploads/2015/01/inchworm-exercise-illustration.jpg",
-            "Squats": "https://www.spotebi.com/wp-content/uploads/2014/10/bodyweight-squats-exercise-illustration.jpg",
-            "Push Ups": "https://www.spotebi.com/wp-content/uploads/2014/10/push-ups-exercise-illustration.jpg",
-            "Tricep Dips": "https://www.spotebi.com/wp-content/uploads/2014/10/tricep-dips-exercise-illustration.jpg",
-            "Sumo Squats": "https://www.spotebi.com/wp-content/uploads/2015/01/sumo-squat-exercise-illustration.jpg",
-            "Lunges": "https://www.spotebi.com/wp-content/uploads/2014/10/lunges-exercise-illustration.jpg",
-            "Burpees": "https://www.spotebi.com/wp-content/uploads/2014/10/burpees-exercise-illustration.jpg",
-            "Mountain Climbers": "https://www.spotebi.com/wp-content/uploads/2014/10/mountain-climbers-exercise-illustration.jpg",
-            "Crunches": "https://www.spotebi.com/wp-content/uploads/2014/10/abdominal-crunches-exercise-illustration.jpg",
-            "Leg Raises": "https://www.spotebi.com/wp-content/uploads/2014/10/leg-raises-exercise-illustration.jpg",
-            "Plank Jacks": "https://www.spotebi.com/wp-content/uploads/2015/03/plank-jacks-exercise-illustration.jpg"
+            "Jumping Jacks": { icon: "fa-person-walking-arrow-loop-left", color: "text-blue-400" },
+            "High Knees": { icon: "fa-person-running", color: "text-orange-400" },
+            "Spot Jog": { icon: "fa-stopwatch-20", color: "text-yellow-400" },
+            "Inchworm": { icon: "fa-bug", color: "text-green-400" },
+            "Squats": { icon: "fa-arrows-up-down", color: "text-purple-400" },
+            "Push Ups": { icon: "fa-mound", color: "text-rose-400" },
+            "Tricep Dips": { icon: "fa-chair", color: "text-neutral-400" },
+            "Sumo Squats": { icon: "fa-child-reaching", color: "text-red-400" },
+            "Lunges": { icon: "fa-shoe-prints", color: "text-emerald-400" },
+            "Burpees": { icon: "fa-bolt", color: "text-amber-400" },
+            "Mountain Climbers": { icon: "fa-mountain", color: "text-sky-400" },
+            "Crunches": { icon: "fa-user-ninja", color: "text-indigo-400" },
+            "Leg Raises": { icon: "fa-up-long", color: "text-cyan-400" },
+            "Plank Jacks": { icon: "fa-grip-lines", color: "text-slate-400" }
         };
 
         const names = Object.keys(exerciseLibrary);
@@ -66,23 +66,22 @@
             modalTitle.innerText = "DAY " + day;
 
             if (day % 4 === 0) {
-                modalContent.innerHTML = `<div class="text-center py-10"><i class="fas fa-couch text-rose-600 text-5xl mb-4"></i><p class="text-lg italic font-black">RECOVERY</p></div>`;
+                modalContent.innerHTML = `<div class="text-center py-10"><i class="fas fa-couch text-rose-600 text-5xl mb-4"></i><p class="text-lg italic font-black text-rose-500 uppercase">Recovery Day</p><p class="text-xs text-neutral-500 mt-2 italic">Muscle is built during rest. Focus on hydration and mobility.</p></div>`;
             } else {
                 const reps = 12 + (Math.floor(day/4) * 2);
                 let html = "";
                 
-                // Logic to pick 3 exercises based on the day
                 for(let i=0; i<3; i++) {
-                    const ex = names[(day + i) % names.length];
-                    const img = exerciseLibrary[ex];
+                    const exName = names[(day + i) % names.length];
+                    const exData = exerciseLibrary[exName];
                     html += `
-                    <div class="space-y-3">
-                        <div class="h-44 w-full rounded-xl overflow-hidden border border-white/10 bg-white p-2">
-                            <img src="${img}" class="w-full h-full object-contain" loading="eager">
+                    <div class="exercise-card flex items-center gap-4">
+                        <div class="w-12 h-12 flex items-center justify-center bg-white/5 rounded-lg border border-white/10">
+                            <i class="fas ${exData.icon} ${exData.color} text-xl"></i>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-black uppercase italic text-sm tracking-widest text-white">${ex}</span>
-                            <span class="text-rose-500 font-black italic text-lg">3x${reps}</span>
+                        <div class="flex-1">
+                            <p class="font-black uppercase italic text-sm tracking-widest text-white">${exName}</p>
+                            <p class="text-[10px] uppercase font-bold text-neutral-500">Target: <span class="text-rose-500 font-black">3 x ${reps}</span></p>
                         </div>
                     </div>`;
                 }
