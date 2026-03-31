@@ -12,7 +12,7 @@
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
         .day-card { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border: 1px solid rgba(225, 29, 72, 0.2); border-radius: 12px; cursor: pointer; transition: 0.2s; }
         .day-card:active { transform: scale(0.9); }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; padding: 24px; align-items: center; justify-content: center; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 24px; align-items: center; justify-content: center; }
         .exercise-list::-webkit-scrollbar { width: 4px; }
         .exercise-list::-webkit-scrollbar-thumb { background: rgba(225, 29, 72, 0.5); border-radius: 10px; }
     </style>
@@ -21,7 +21,6 @@
     <header class="mb-10">
         <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← Back</a>
         <h1 class="text-4xl font-black uppercase italic leading-none mb-2">30 DAY <span class="text-rose-600">SHRED</span></h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">"No shortcuts. No excuses."</p>
     </header>
 
     <div class="grid grid-cols-5 gap-3 mb-12" id="daysGrid">
@@ -33,24 +32,30 @@
     </div>
 
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
-        <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col border-2 border-rose-600/30" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-6 text-center"></h2>
+        <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col border border-rose-600/20" onclick="event.stopPropagation()">
+            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-6 text-center underline decoration-rose-600/30"></h2>
             <div id="modalContent" class="exercise-list overflow-y-auto pr-2 space-y-8"></div>
             <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-6 w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase text-[10px]">Close Workout</button>
         </div>
     </div>
 
     <script>
-        // Using high-speed placeholder visuals for immediate results
+        // Manually mapped reliable images for each shred exercise
         const exerciseLibrary = {
-            "Push Ups": "https://images.unsplash.com/photo-1598971639058-aba0033ff972?auto=format&fit=crop&q=80&w=400",
-            "Jumping Jacks": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&q=80&w=400",
-            "High Knees": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400",
-            "Squats": "https://images.unsplash.com/photo-1574673139084-c2a72d07a928?auto=format&fit=crop&q=80&w=400",
-            "Mountain Climbers": "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?auto=format&fit=crop&q=80&w=400",
-            "Burpees": "https://images.unsplash.com/photo-1599058917233-35836d395ee7?auto=format&fit=crop&q=80&w=400",
-            "Crunches": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=400",
-            "Lunges": "https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=80&w=400"
+            "Jumping Jacks": "https://www.spotebi.com/wp-content/uploads/2014/10/jumping-jacks-exercise-illustration.jpg",
+            "High Knees": "https://www.spotebi.com/wp-content/uploads/2014/10/high-knees-exercise-illustration.jpg",
+            "Spot Jog": "https://media.istockphoto.com/id/1210831610/vector/man-running-on-the-spot-jogging-icon.jpg?s=612x612&w=0&k=20&c=u-8D1m_vL4uW60XGfI4L_V3RkE_D8GfXp5V9-Y-R26M=",
+            "Inchworm": "https://www.spotebi.com/wp-content/uploads/2015/01/inchworm-exercise-illustration.jpg",
+            "Squats": "https://www.spotebi.com/wp-content/uploads/2014/10/bodyweight-squats-exercise-illustration.jpg",
+            "Push Ups": "https://www.spotebi.com/wp-content/uploads/2014/10/push-ups-exercise-illustration.jpg",
+            "Tricep Dips": "https://www.spotebi.com/wp-content/uploads/2014/10/tricep-dips-exercise-illustration.jpg",
+            "Sumo Squats": "https://www.spotebi.com/wp-content/uploads/2015/01/sumo-squat-exercise-illustration.jpg",
+            "Lunges": "https://www.spotebi.com/wp-content/uploads/2014/10/lunges-exercise-illustration.jpg",
+            "Burpees": "https://www.spotebi.com/wp-content/uploads/2014/10/burpees-exercise-illustration.jpg",
+            "Mountain Climbers": "https://www.spotebi.com/wp-content/uploads/2014/10/mountain-climbers-exercise-illustration.jpg",
+            "Crunches": "https://www.spotebi.com/wp-content/uploads/2014/10/abdominal-crunches-exercise-illustration.jpg",
+            "Leg Raises": "https://www.spotebi.com/wp-content/uploads/2014/10/leg-raises-exercise-illustration.jpg",
+            "Plank Jacks": "https://www.spotebi.com/wp-content/uploads/2015/03/plank-jacks-exercise-illustration.jpg"
         };
 
         const names = Object.keys(exerciseLibrary);
@@ -66,18 +71,18 @@
                 const reps = 12 + (Math.floor(day/4) * 2);
                 let html = "";
                 
-                // Show 3 exercises per day
+                // Logic to pick 3 exercises based on the day
                 for(let i=0; i<3; i++) {
                     const ex = names[(day + i) % names.length];
                     const img = exerciseLibrary[ex];
                     html += `
                     <div class="space-y-3">
-                        <div class="h-40 w-full rounded-xl overflow-hidden border border-white/10 bg-neutral-900">
-                            <img src="${img}" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" loading="eager">
+                        <div class="h-44 w-full rounded-xl overflow-hidden border border-white/10 bg-white p-2">
+                            <img src="${img}" class="w-full h-full object-contain" loading="eager">
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="font-black uppercase italic text-sm tracking-widest">${ex}</span>
-                            <span class="text-rose-500 font-black italic">3x${reps}</span>
+                            <span class="font-black uppercase italic text-sm tracking-widest text-white">${ex}</span>
+                            <span class="text-rose-500 font-black italic text-lg">3x${reps}</span>
                         </div>
                     </div>`;
                 }
