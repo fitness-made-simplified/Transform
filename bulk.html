@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FMS | Muscle Pack</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Stable Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -12,18 +13,18 @@
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
         .day-card { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 12px; cursor: pointer; transition: 0.2s; }
         .day-card:active { transform: scale(0.9); }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; padding: 24px; align-items: center; justify-content: center; }
-        .exercise-list::-webkit-scrollbar { width: 4px; }
-        .exercise-list::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.5); border-radius: 10px; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 24px; align-items: center; justify-content: center; }
+        .exercise-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; border-left: 4px solid #f59e0b; }
     </style>
 </head>
 <body class="pb-20">
     <header class="mb-10">
         <a href="index.html" class="text-amber-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← Back</a>
         <h1 class="text-4xl font-black uppercase italic leading-none mb-2">MUSCLE <span class="text-amber-500">PACK</span></h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">"Build without injury. Perform with power."</p>
+        <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">"Hypertrophy Protocol: Build & Conquer."</p>
     </header>
 
+    <!-- 30 Day Grid -->
     <div class="grid grid-cols-5 gap-3 mb-12" id="daysGrid">
         <script>
             for(let i=1; i<=30; i++) {
@@ -32,50 +33,40 @@
         </script>
     </div>
 
+    <!-- CTA Section -->
     <div class="glass p-8 text-center border-t-2 border-amber-500">
-        <h3 class="font-black italic text-xl uppercase mb-2">Hypertrophy Masterplan</h3>
-        <p class="text-sm text-neutral-400 mb-6 italic leading-relaxed">Muscle growth requires precision. Get a custom schedule designed for your biomechanics and injury history.</p>
-        <a href="https://wa.me/919899550279?text=I want a Custom Muscle Program" class="inline-block bg-amber-500 text-black px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest">Get Custom Plan</a>
+        <h3 class="font-black italic text-xl uppercase mb-2 text-amber-500">Mass Builder Pro</h3>
+        <p class="text-[11px] text-neutral-400 mb-6 uppercase tracking-wider">Custom Nutrition & Load Progression</p>
+        <a href="https://wa.me/919899550279?text=I'm ready for the Bulk Protocol" class="inline-block bg-amber-500 text-black px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest">Get Custom Plan</a>
     </div>
 
-    <!-- Enhanced Bulk Modal -->
+    <!-- Workout Modal -->
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
-        <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-amber-500 mb-4"></h2>
-            <div id="modalContent" class="exercise-list overflow-y-auto pr-2 text-neutral-200 text-sm italic space-y-6 leading-relaxed"></div>
-            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-6 w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase text-[10px] tracking-widest">Close</button>
+        <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col border border-amber-600/20" onclick="event.stopPropagation()">
+            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-amber-500 mb-6 text-center"></h2>
+            <div id="modalContent" class="overflow-y-auto pr-2 space-y-4"></div>
+            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-6 w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase text-[10px]">Close Workout</button>
         </div>
     </div>
 
     <script>
+        // Specific Weightlifting Icons for Bulk Section
         const exerciseLibrary = {
-            "Push Ups": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Push_Ups/1.gif",
-            "DB Chest Fly": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Chest_Fly/1.gif",
-            "Side Raises": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Lateral_Raises/1.gif",
-            "Front Raises": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Front_Raises/1.gif",
-            "Overhead Ext": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Overhead_Tricep_Extension/1.gif",
-            "DB Chest Press": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Bench_Press/1.gif",
-            "DB Pullover": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Pullover/1.gif",
-            "Arnold Press": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Arnold_Press/1.gif",
-            "Tricep Dips": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Tricep_Dips_On_Floor/1.gif",
-            "Kickbacks": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Tricep_Kickbacks/1.gif",
-            "DB Row (Overhand)": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Rows/1.gif",
-            "Single Arm Row": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Single_Arm_Dumbbell_Row/1.gif",
-            "Upright Rows": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Upright_Rows/1.gif",
-            "DB Shrugs": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Shrugs/1.gif",
-            "DB Curls": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Curls/1.gif",
-            "Neutral Grip Row": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Neutral_Grip_Row/1.gif",
-            "DB Deadlifts": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Deadlifts/1.gif",
-            "Hammer Curls": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Hammer_Curls/1.gif",
-            "Concentration Curls": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Concentration_Curls/1.gif",
-            "Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Squats/1.gif",
-            "Front Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Front_Squats/1.gif",
-            "Donkey Kicks": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Donkey_Kicks/1.gif",
-            "Jump Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Jump_Squats/1.gif",
-            "Walking Lunges": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Walking_Lunges/1.gif",
-            "Sumo Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Sumo_Squats/1.gif",
-            "Calf Raises": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Dumbbell_Calf_Raises/1.gif"
+            "DB Chest Press": { icon: "fa-dumbbell", color: "text-amber-400" },
+            "Push Ups": { icon: "fa-mound", color: "text-amber-200" },
+            "Arnold Press": { icon: "fa-arrows-up-to-line", color: "text-yellow-500" },
+            "DB Row": { icon: "fa-hand-back-fist", color: "text-orange-400" },
+            "Deadlifts": { icon: "fa-weight-hanging", color: "text-amber-600" },
+            "DB Curls": { icon: "fa-person-walking-luggage", color: "text-yellow-400" },
+            "Squats": { icon: "fa-arrows-up-down", color: "text-amber-500" },
+            "Walking Lunges": { icon: "fa-shoe-prints", color: "text-orange-300" },
+            "Calf Raises": { icon: "fa-up-long", color: "text-amber-300" },
+            "Hammer Curls": { icon: "fa-gear", color: "text-yellow-200" },
+            "DB Flys": { icon: "fa-arrows-left-right", color: "text-amber-400" },
+            "Tricep Dips": { icon: "fa-chair", color: "text-neutral-400" }
         };
+
+        const names = Object.keys(exerciseLibrary);
 
         function openDay(day) {
             const modalTitle = document.getElementById('modalTitle');
@@ -86,56 +77,31 @@
                 modalContent.innerHTML = `
                     <div class="text-center py-10">
                         <i class="fas fa-bed text-amber-500 text-5xl mb-4"></i>
-                        <p class="text-lg"><b>Recovery Phase</b></p>
-                        <p class="text-neutral-400 mt-2">Focus on deep stretching and quality sleep. Muscle grows during rest, not work.</p>
+                        <p class="text-lg italic font-black text-amber-500 uppercase">Mass Recovery</p>
+                        <p class="text-xs text-neutral-500 mt-2 italic">Eat big. Sleep big. Grow big.</p>
                     </div>`;
-                document.getElementById('dayModal').style.display = 'flex';
-                return;
-            }
-
-            const cycle = Math.floor((day - 1) / 4);
-            const extraReps = cycle * 4;
-            const baseSets = 3;
-            const baseReps = 10 + extraReps;
-            const workoutNumber = Math.ceil(day / 4);
-            const isVersionB = workoutNumber % 2 === 0;
-
-            let dailyRoutine = [];
-            let headerText = "";
-
-            if (day % 4 === 1) {
-                headerText = "Push Focus (C/S/T)";
-                dailyRoutine = !isVersionB ? ["Push Ups", "DB Chest Fly", "Side Raises", "Front Raises", "Overhead Ext"] 
-                                         : ["DB Chest Press", "DB Pullover", "Arnold Press", "Tricep Dips", "Kickbacks"];
-            } else if (day % 4 === 2) {
-                headerText = "Pull Focus (B/T/B)";
-                dailyRoutine = !isVersionB ? ["DB Row (Overhand)", "Single Arm Row", "Upright Rows", "DB Shrugs", "DB Curls"] 
-                                         : ["Neutral Grip Row", "DB Deadlifts", "DB Shrugs", "Hammer Curls", "Concentration Curls"];
-            } else if (day % 4 === 3) {
-                headerText = "Lower Body Focus";
-                dailyRoutine = !isVersionB ? ["Squats", "Front Squats", "Donkey Kicks", "Jump Squats"] 
-                                         : ["Walking Lunges", "Sumo Squats", "Calf Raises", "Jump Squats"];
-            }
-
-            let html = `<b class='text-amber-500 uppercase tracking-tighter'>${headerText}</b><div class='mt-4 space-y-8'>`;
-            dailyRoutine.forEach(ex => {
-                const gifUrl = exerciseLibrary[ex] || "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Push_Ups/1.gif";
-                html += `
-                    <div class="space-y-3">
-                        <div class="relative rounded-xl overflow-hidden border border-white/10">
-                            <img src="${gifUrl}" class="w-full h-40 object-cover opacity-80" alt="${ex}">
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3">
-                                <span class="font-black uppercase italic tracking-widest text-[11px]">${ex}</span>
-                            </div>
+            } else {
+                // Bulk logic: Lower reps (8-12) for higher intensity
+                const reps = 10 + (Math.floor(day/6) * 2);
+                let html = "";
+                
+                // Pick 3 exercises per day from the bulk list
+                for(let i=0; i<3; i++) {
+                    const exName = names[(day + i) % names.length];
+                    const exData = exerciseLibrary[exName];
+                    html += `
+                    <div class="exercise-card flex items-center gap-4">
+                        <div class="w-12 h-12 flex items-center justify-center bg-white/5 rounded-lg border border-white/10">
+                            <i class="fas ${exData.icon} ${exData.color} text-xl"></i>
                         </div>
-                        <div class="flex justify-between items-center px-1">
-                            <span class="text-neutral-400 uppercase text-[10px] font-bold tracking-widest italic tracking-tighter">Volume Plan</span>
-                            <span class="text-white font-black italic">${baseSets} Sets x ${baseReps} Reps</span>
+                        <div class="flex-1">
+                            <p class="font-black uppercase italic text-sm tracking-widest text-white">${exName}</p>
+                            <p class="text-[10px] uppercase font-bold text-neutral-500">Heavy Sets: <span class="text-amber-500 font-black">4 x ${reps}</span></p>
                         </div>
                     </div>`;
-            });
-            html += `</div><p class="mt-6 text-amber-500 font-black italic text-[10px] text-center uppercase tracking-widest underline decoration-amber-500/30">+4 Reps added this cycle</p>`;
-            modalContent.innerHTML = html;
+                }
+                modalContent.innerHTML = html;
+            }
             document.getElementById('dayModal').style.display = 'flex';
         }
     </script>
