@@ -13,7 +13,6 @@
         .day-card { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-style: italic; border: 1px solid rgba(225, 29, 72, 0.2); border-radius: 12px; cursor: pointer; transition: 0.2s; }
         .day-card:active { transform: scale(0.9); }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; padding: 24px; align-items: center; justify-content: center; }
-        /* Custom scrollbar for the exercise list */
         .exercise-list::-webkit-scrollbar { width: 4px; }
         .exercise-list::-webkit-scrollbar-thumb { background: rgba(225, 29, 72, 0.5); border-radius: 10px; }
     </style>
@@ -35,48 +34,40 @@
 
     <div class="glass p-8 text-center border-t-2 border-rose-600">
         <h3 class="font-black italic text-xl uppercase mb-2">Physio-Led Custom Protocol</h3>
-        <p class="text-sm text-neutral-400 mb-6 italic leading-relaxed">Static plans hit plateaus. Generic routines don't know your injuries or metabolism. Get a plan designed for YOU.</p>
         <a href="https://wa.me/919899550279?text=I'm ready for a Personalized Shred Plan" class="inline-block bg-white text-black px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest">Book 1-on-1 PT</a>
     </div>
 
-    <!-- Enhanced Modal -->
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
         <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-4"></h2>
-            
-            <div id="modalContent" class="exercise-list overflow-y-auto pr-2 text-neutral-200 text-sm italic space-y-6 leading-relaxed">
-                <!-- Content injected via JS -->
-            </div>
-
-            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-6 w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white/10 transition-colors">
-                Continue Shred
-            </button>
+            <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-4 text-center"></h2>
+            <div id="modalContent" class="exercise-list overflow-y-auto pr-2 space-y-6"></div>
+            <button onclick="document.getElementById('dayModal').style.display='none'" class="mt-6 w-full py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase text-[10px] tracking-widest">Continue Shred</button>
         </div>
     </div>
 
     <script>
-        // Mapping your exercises to the high-quality Evergreen library GIFs
+        const lib = "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db/exercises/";
         const exerciseLibrary = {
-            "Jumping Jacks": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Jumping_Jacks/1.gif",
-            "High Knees": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/High_Knees/1.gif",
-            "Spot Jog": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Jogging_In_Place/1.gif",
-            "Inchworm": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Inchworms/1.gif",
-            "Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Air_Squats/1.gif",
-            "Push Ups": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Push_Ups/1.gif",
-            "Tricep Dips": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Tricep_Dips_On_Floor/1.gif",
-            "Sumo Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Sumo_Squats/1.gif",
-            "Side Kicks Standing": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Side_Leg_Raises/1.gif",
-            "Lunges": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lunges/1.gif",
-            "Lunge Kicks": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lunge_Front_Kicks/1.gif",
-            "Jump Squats": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Jump_Squats/1.gif",
-            "Burpees": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Burpees/1.gif",
-            "Mountain Climbers": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Mountain_Climbers/1.gif",
-            "Plank Jacks": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Plank_Jacks/1.gif",
-            "Duck Walk": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Duck_Walks/1.gif",
-            "Crunches": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Crunches/1.gif",
-            "Rockers": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Hollow_Body_Rocks/1.gif",
-            "Sit Ups": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Sit_Ups/1.gif",
-            "Leg Raises": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Raises/1.gif"
+            "Jumping Jacks": lib + "Jumping_Jacks/1.gif",
+            "High Knees": lib + "High_Knees/1.gif",
+            "Spot Jog": lib + "Jogging_In_Place/1.gif",
+            "Inchworm": lib + "Inchworms/1.gif",
+            "Squats": lib + "Air_Squats/1.gif",
+            "Push Ups": lib + "Push_Ups/1.gif",
+            "Tricep Dips": lib + "Tricep_Dips_On_Floor/1.gif",
+            "Sumo Squats": lib + "Sumo_Squats/1.gif",
+            "Side Kicks Standing": lib + "Side_Leg_Raises/1.gif",
+            "Lunges": lib + "Lunges/1.gif",
+            "Lunge Kicks": lib + "Lunge_Front_Kicks/1.gif",
+            "Jump Squats": lib + "Jump_Squats/1.gif",
+            "Burpees": lib + "Burpees/1.gif",
+            "Mountain Climbers": lib + "Mountain_Climbers/1.gif",
+            "Plank Jacks": lib + "Plank_Jacks/1.gif",
+            "Duck Walk": lib + "Duck_Walks/1.gif",
+            "Crunches": lib + "Crunches/1.gif",
+            "Rockers": lib + "Hollow_Body_Rocks/1.gif",
+            "Sit Ups": lib + "Sit_Ups/1.gif",
+            "Leg Raises": lib + "Leg_Raises/1.gif"
         };
 
         const exerciseNames = Object.keys(exerciseLibrary);
@@ -87,44 +78,19 @@
             modalTitle.innerText = "DAY " + day;
 
             if (day % 4 === 0) {
-                modalContent.innerHTML = `
-                    <div class="text-center py-10">
-                        <i class="fas fa-couch text-rose-600 text-5xl mb-4"></i>
-                        <p class="text-lg"><b>Rest & Recovery</b></p>
-                        <p class="text-neutral-400 mt-2">Focus on mobility and a 20-min light walk to recover muscle fibers.</p>
-                    </div>`;
+                modalContent.innerHTML = `<div class="text-center py-10"><i class="fas fa-couch text-rose-600 text-5xl mb-4"></i><p class="text-lg italic font-bold">Rest & Recovery</p></div>`;
             } else {
                 const block = Math.floor((day - 1) / 4); 
                 const baseReps = 12 + (block * 2); 
                 const baseSets = 3 + Math.floor(block / 2); 
-                
                 const startIdx = (day % exerciseNames.length);
-                const dailyRoutine = [
-                    exerciseNames[startIdx % exerciseNames.length],
-                    exerciseNames[(startIdx + 1) % exerciseNames.length],
-                    exerciseNames[(startIdx + 2) % exerciseNames.length],
-                    exerciseNames[(startIdx + 3) % exerciseNames.length]
-                ];
+                const routine = [exerciseNames[startIdx], exerciseNames[(startIdx+1)%exerciseNames.length], exerciseNames[(startIdx+2)%exerciseNames.length]];
 
-                let html = "<b class='text-rose-500 uppercase tracking-tighter'>High Intensity Circuit:</b><div class='mt-4 space-y-8'>";
-                dailyRoutine.forEach(ex => {
-                    const gifUrl = exerciseLibrary[ex];
-                    html += `
-                        <div class="space-y-3">
-                            <div class="relative rounded-xl overflow-hidden border border-white/10">
-                                <img src="${gifUrl}" class="w-full h-40 object-cover opacity-80" alt="${ex}">
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3">
-                                    <span class="font-black uppercase italic tracking-widest text-[11px]">${ex}</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center px-1">
-                                <span class="text-neutral-400 uppercase text-[10px] font-bold tracking-widest italic">Prescription</span>
-                                <span class="text-white font-black italic">${baseSets} Sets x ${baseReps} Reps</span>
-                            </div>
-                        </div>`;
+                let html = "<div class='space-y-6'>";
+                routine.forEach(ex => {
+                    html += `<div><img src="${exerciseLibrary[ex]}" class="w-full h-40 object-cover rounded-xl border border-white/10 mb-2 shadow-lg"><div class="flex justify-between items-center px-1"><span class="font-black uppercase italic text-[11px] tracking-widest">${ex}</span><span class="text-rose-500 font-black italic text-[12px]">${baseSets}x${baseReps}</span></div></div>`;
                 });
-                html += "</div>";
-                modalContent.innerHTML = html;
+                modalContent.innerHTML = html + "</div>";
             }
             document.getElementById('dayModal').style.display = 'flex';
         }
