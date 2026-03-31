@@ -24,6 +24,7 @@
         <p class="text-[10px] font-black uppercase text-neutral-500 italic tracking-[0.2em]">"Your transformation is earned, not given."</p>
     </header>
 
+    <!-- 30 Day Grid -->
     <div class="grid grid-cols-5 gap-3 mb-12" id="daysGrid">
         <script>
             for(let i=1; i<=30; i++) {
@@ -32,11 +33,14 @@
         </script>
     </div>
 
+    <!-- CTA Section -->
     <div class="glass p-8 text-center border-t-2 border-rose-600">
         <h3 class="font-black italic text-xl uppercase mb-2">Physio-Led Custom Protocol</h3>
+        <p class="text-sm text-neutral-400 mb-6 italic">Stop guessing. Get a scientifically backed fat-loss plan designed for your body.</p>
         <a href="https://wa.me/919899550279?text=I'm ready for a Personalized Shred Plan" class="inline-block bg-white text-black px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest">Book 1-on-1 PT</a>
     </div>
 
+    <!-- Workout Modal -->
     <div id="dayModal" class="modal" onclick="this.style.display='none'">
         <div class="glass p-6 w-full max-w-sm max-h-[85vh] flex flex-col" onclick="event.stopPropagation()">
             <h2 id="modalTitle" class="text-3xl font-black italic uppercase text-rose-500 mb-4 text-center"></h2>
@@ -46,7 +50,9 @@
     </div>
 
     <script>
-        const lib = "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db/exercises/";
+        // FIXED DIRECT LINKS - Bypasses the 50MB error
+        const lib = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
+        
         const exerciseLibrary = {
             "Jumping Jacks": lib + "Jumping_Jacks/1.gif",
             "High Knees": lib + "High_Knees/1.gif",
@@ -56,7 +62,7 @@
             "Push Ups": lib + "Push_Ups/1.gif",
             "Tricep Dips": lib + "Tricep_Dips_On_Floor/1.gif",
             "Sumo Squats": lib + "Sumo_Squats/1.gif",
-            "Side Kicks Standing": lib + "Side_Leg_Raises/1.gif",
+            "Side Kicks": lib + "Side_Leg_Raises/1.gif",
             "Lunges": lib + "Lunges/1.gif",
             "Lunge Kicks": lib + "Lunge_Front_Kicks/1.gif",
             "Jump Squats": lib + "Jump_Squats/1.gif",
@@ -77,18 +83,47 @@
             const modalContent = document.getElementById('modalContent');
             modalTitle.innerText = "DAY " + day;
 
+            // Rest day every 4th day
             if (day % 4 === 0) {
-                modalContent.innerHTML = `<div class="text-center py-10"><i class="fas fa-couch text-rose-600 text-5xl mb-4"></i><p class="text-lg italic font-bold">Rest & Recovery</p></div>`;
+                modalContent.innerHTML = `
+                    <div class="text-center py-10">
+                        <i class="fas fa-couch text-rose-600 text-5xl mb-4"></i>
+                        <p class="text-lg italic font-bold">Rest & Recovery</p>
+                        <p class="text-neutral-400 text-xs uppercase mt-2 tracking-widest leading-relaxed">Muscle is built during rest.<br>Walk 10k steps and hydrate.</p>
+                    </div>`;
             } else {
                 const block = Math.floor((day - 1) / 4); 
-                const baseReps = 12 + (block * 2); 
-                const baseSets = 3 + Math.floor(block / 2); 
+                const reps = 12 + (block * 2); 
+                const sets = 3; 
+                
+                // Rotates exercises based on the day
                 const startIdx = (day % exerciseNames.length);
-                const routine = [exerciseNames[startIdx], exerciseNames[(startIdx+1)%exerciseNames.length], exerciseNames[(startIdx+2)%exerciseNames.length]];
+                const routine = [
+                    exerciseNames[startIdx % exerciseNames.length],
+                    exerciseNames[(startIdx + 1) % exerciseNames.length],
+                    exerciseNames[(startIdx + 2) % exerciseNames.length]
+                ];
 
                 let html = "<div class='space-y-6'>";
                 routine.forEach(ex => {
-                    html += `<div><img src="${exerciseLibrary[ex]}" class="w-full h-40 object-cover rounded-xl border border-white/10 mb-2 shadow-lg"><div class="flex justify-between items-center px-1"><span class="font-black uppercase italic text-[11px] tracking-widest">${ex}</span><span class="text-rose-500 font-black italic text-[12px]">${baseSets}x${baseReps}</span></div></div>`;
+                    html += `
+                    <div>
+                        <div class="relative w-full h-44 bg-neutral-900 rounded-xl overflow-hidden border border-white/10 shadow-xl">
+                            <img src="${exerciseLibrary[ex]}" 
+                                 onerror="this.src='https://placehold.co/400x300/111/e11d48?text=Loading+Exercise...'"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex justify-between items-end px-1 mt-3">
+                            <div>
+                                <p class="text-neutral-500 uppercase text-[8px] font-bold tracking-[0.2em] mb-1">Exercise</p>
+                                <span class="font-black uppercase italic text-[13px] tracking-wider text-white">${ex}</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-neutral-500 uppercase text-[8px] font-bold tracking-[0.2em] mb-1">Target</p>
+                                <span class="text-rose-500 font-black italic text-[14px]">${sets} x ${reps}</span>
+                            </div>
+                        </div>
+                    </div>`;
                 });
                 modalContent.innerHTML = html + "</div>";
             }
