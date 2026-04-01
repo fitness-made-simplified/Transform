@@ -10,20 +10,23 @@
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; padding: 20px; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
         
-        /* Perspective for Flip Effect */
         .recipe-card-container { perspective: 1000px; height: 320px; display: none; margin-bottom: 20px; }
         .recipe-card-container.show { display: block; animation: fadeIn 0.4s ease; }
         
         .recipe-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
         .recipe-card-inner.flipped { transform: rotateY(180deg); }
         
-        .card-front, .card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-back { transform: rotateY(180deg); overflow-y: auto; }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 20px; }
+        .card-back { transform: rotateY(180deg); overflow-y: auto; background: rgba(20, 20, 20, 0.95); }
 
+        .filter-btn { border: 1px solid rgba(255, 255, 255, 0.1); }
         .filter-btn.active { background: #e11d48; color: white; border-color: #e11d48; }
         .category-tag { font-[900] uppercase text-[8px] px-2 py-1 rounded tracking-widest; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="pb-24">
@@ -34,14 +37,14 @@
     </header>
 
     <div class="mb-6">
-        <input type="text" id="recipeSearch" onkeyup="searchRecipes()" placeholder="Search ingredients..." class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-rose-600">
+        <input type="text" id="recipeSearch" onkeyup="searchRecipes()" placeholder="Search ingredients (e.g. Paneer, Chicken)..." class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-rose-600">
     </div>
 
     <div class="flex gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar">
-        <button onclick="filterRecipes('all')" class="filter-btn active whitespace-nowrap px-6 py-3 glass border font-black uppercase text-[10px] rounded-xl transition-all">All</button>
-        <button onclick="filterRecipes('lean')" class="filter-btn whitespace-nowrap px-6 py-3 glass border font-black uppercase text-[10px] rounded-xl transition-all">Fat Loss</button>
-        <button onclick="filterRecipes('detox')" class="filter-btn whitespace-nowrap px-6 py-3 glass border font-black uppercase text-[10px] rounded-xl transition-all">Detox</button>
-        <button onclick="filterRecipes('bulk')" class="filter-btn whitespace-nowrap px-6 py-3 glass border font-black uppercase text-[10px] rounded-xl transition-all">Budget Bulk</button>
+        <button onclick="filterRecipes('all', this)" class="filter-btn active whitespace-nowrap px-6 py-3 glass font-black uppercase text-[10px] rounded-xl transition-all">All</button>
+        <button onclick="filterRecipes('lean', this)" class="filter-btn whitespace-nowrap px-6 py-3 glass font-black uppercase text-[10px] rounded-xl transition-all">Fat Loss</button>
+        <button onclick="filterRecipes('detox', this)" class="filter-btn whitespace-nowrap px-6 py-3 glass font-black uppercase text-[10px] rounded-xl transition-all">Detox</button>
+        <button onclick="filterRecipes('bulk', this)" class="filter-btn whitespace-nowrap px-6 py-3 glass font-black uppercase text-[10px] rounded-xl transition-all">Budget Bulk</button>
     </div>
 
     <div id="recipeGrid">
@@ -49,31 +52,26 @@
 
     <script>
         const recipes = [
-            // FAT LOSS
-            { id: 1, cat: 'lean', name: 'Paneer Bhurji (Low Fat)', cals: '220', prot: '18g', carbs: '8g', fats: '12g', ing: 'Low-fat paneer (100g), Onion, Tomato, Capsicum, Spices, Olive oil (1tsp)', prep: 'Heat oil, sauté veggies 3m, add spices, crumble paneer and cook 4m.', ben: 'High protein, muscle retention, quick meal.' },
-            { id: 2, cat: 'lean', name: 'Egg White Veg Omelette', cals: '120', prot: '20g', carbs: '3g', fats: '1g', ing: '4 Egg whites, Spinach, Onion, Tomato, Salt, Pepper', prep: 'Mix ingredients, pour on non-stick pan, cook both sides.', ben: 'Ultra low calorie, ideal for breakfast/dinner.' },
-            { id: 3, cat: 'lean', name: 'Grilled Chicken Salad', cals: '250', prot: '35g', carbs: '10g', fats: '5g', ing: 'Chicken breast (150g), Lettuce, Cucumber, Tomato, Lemon juice', prep: 'Grill chicken with salt/pepper, chop veggies, mix with lemon.', ben: 'Lean protein, improves fat loss, low hunger.' },
-            { id: 4, cat: 'lean', name: 'Moong Dal Chilla', cals: '180', prot: '14g', carbs: '25g', fats: '3g', ing: 'Soaked moong dal (1 cup), Ginger, Green chilli, Salt', prep: 'Blend to batter, spread on pan like dosa, cook both sides.', ben: 'Plant protein, easy digestion, veg option.' },
-            { id: 5, cat: 'lean', name: 'Oats Vegetable Upma', cals: '200', prot: '8g', carbs: '30g', fats: '4g', ing: 'Oats (40g), Mixed veggies, Mustard seeds, Curry leaves', prep: 'Dry roast oats, cook veggies with spices, mix oats and cook.', ben: 'High fiber, keeps you full, gut health.' },
-            { id: 6, cat: 'lean', name: 'Soya Chunk Stir Fry', cals: '220', prot: '25g', carbs: '15g', fats: '2g', ing: 'Soya chunks (50g), Onion, Spices', prep: 'Boil soya, squeeze water, stir fry with spices.', ben: 'Budget protein, muscle recovery, fat loss.' },
-            { id: 7, cat: 'lean', name: 'Greek Yogurt Bowl', cals: '180', prot: '15g', carbs: '12g', fats: '4g', ing: 'Hung curd (200g), Chia seeds (1tsp), Fruits (optional)', prep: 'Mix everything in a bowl.', ben: 'Improves digestion, gut-friendly snack.' },
-            { id: 8, cat: 'lean', name: 'Boiled Egg + Salad', cals: '160', prot: '12g', carbs: '4g', fats: '10g', ing: '2 Eggs, Salad veggies', prep: 'Boil eggs, serve with fresh salad.', ben: 'Simple, fast, keeps cravings low.' },
-            { id: 9, cat: 'lean', name: 'Tofu Stir Fry', cals: '180', prot: '15g', carbs: '8g', fats: '9g', ing: 'Tofu (100g), Mixed vegetables, Soy sauce', prep: 'Stir fry tofu and veggies on high heat.', ben: 'Vegan protein, low calorie, great for cutting.' },
-            { id: 10, cat: 'lean', name: 'Chicken Soup', cals: '150', prot: '25g', carbs: '5g', fats: '3g', ing: 'Chicken (100g), Garlic, Ginger, Salt, Pepper', prep: 'Boil all ingredients, simmer for 15 minutes.', ben: 'Light & filling, boosts immunity.' },
-
-            // DETOX
-            { id: 11, cat: 'detox', name: 'Jeera Water', cals: '5', prot: '0g', carbs: '1g', fats: '0g', ing: 'Cumin seeds (1tsp), Water', prep: 'Soak overnight, boil and drink.', ben: 'Improves digestion, reduces bloating.' },
-            { id: 12, cat: 'detox', name: 'Lemon Honey Water', cals: '30', prot: '0g', carbs: '8g', fats: '0g', ing: 'Warm water, Lemon juice, Honey (1tsp)', prep: 'Mix and drink first thing in morning.', ben: 'Boosts metabolism, detoxifies body.' },
-            { id: 13, cat: 'detox', name: 'Cucumber Mint Water', cals: '10', prot: '0g', carbs: '2g', fats: '0g', ing: 'Cucumber slices, Mint leaves, Water', prep: 'Infuse overnight and drink through day.', ben: 'Hydration, reduces water retention.' },
-            { id: 14, cat: 'detox', name: 'ACV Elixir', cals: '5', prot: '0g', carbs: '1g', fats: '0g', ing: 'ACV (1tbsp), Warm water', prep: 'Mix and drink 20 mins before meals.', ben: 'Controls appetite, insulin sensitivity.' },
-            { id: 15, cat: 'detox', name: 'Green Tea', cals: '2', prot: '0g', carbs: '0g', fats: '0g', ing: 'Green tea bag, Water', prep: 'Brew for 2-3 mins in hot water.', ben: 'Fat oxidation, rich in antioxidants.' },
-
-            // BULK
-            { id: 16, cat: 'bulk', name: 'Peanut Banana Shake', cals: '400', prot: '15g', carbs: '45g', fats: '18g', ing: 'Milk (300ml), Banana (1), Peanut butter (1tbsp)', prep: 'Blend all ingredients together.', ben: 'High calorie, cheap bulking option.' },
-            { id: 17, cat: 'bulk', name: 'Soya Curry + Rice', cals: '500', prot: '30g', carbs: '65g', fats: '10g', ing: 'Soya chunks, Rice, Spices', prep: 'Cook soya curry and serve with boiled rice.', ben: 'Muscle building, budget friendly.' },
-            { id: 18, cat: 'bulk', name: 'Egg Bhurji + Roti', cals: '450', prot: '25g', carbs: '40g', fats: '20g', ing: '3 Eggs, 2 Roti, Onion, Spices', prep: 'Cook bhurji and serve with hot rotis.', ben: 'Balanced meal, easy to prepare.' },
-            { id: 19, cat: 'bulk', name: 'Dal Khichdi', cals: '450', prot: '18g', carbs: '60g', fats: '12g', ing: 'Rice, Dal, Ghee', prep: 'Pressure cook together with ghee.', ben: 'Comfort food, easy digestion.' },
-            { id: 20, cat: 'bulk', name: 'Paneer Rice Bowl', cals: '500', prot: '20g', carbs: '60g', fats: '22g', ing: 'Paneer (100g), Rice, Spices', prep: 'Cook paneer cubes and mix with rice.', ben: 'High calorie veg option for mass gain.' }
+            { id: 1, cat: 'lean', name: 'Paneer Bhurji (Low Fat)', cals: '220', prot: '18g', ing: 'Low-fat paneer (100g), Onion, Tomato, Capsicum, Spices, Olive oil (1tsp)', prep: 'Heat oil, sauté veggies 3m, add spices, crumble paneer and cook 4m.', ben: 'High protein, muscle retention, quick meal.' },
+            { id: 2, cat: 'lean', name: 'Egg White Veg Omelette', cals: '120', prot: '20g', ing: '4 Egg whites, Spinach, Onion, Tomato, Salt, Pepper', prep: 'Mix ingredients, pour on non-stick pan, cook both sides.', ben: 'Ultra low calorie, ideal for breakfast/dinner.' },
+            { id: 3, cat: 'lean', name: 'Grilled Chicken Salad', cals: '250', prot: '35g', ing: 'Chicken breast (150g), Lettuce, Cucumber, Tomato, Lemon juice', prep: 'Grill chicken with salt/pepper, chop veggies, mix with lemon.', ben: 'Lean protein, improves fat loss, low hunger.' },
+            { id: 4, cat: 'lean', name: 'Moong Dal Chilla', cals: '180', prot: '14g', ing: 'Soaked moong dal (1 cup), Ginger, Green chilli, Salt', prep: 'Blend to batter, spread on pan like dosa, cook both sides.', ben: 'Plant protein, easy digestion, veg option.' },
+            { id: 5, cat: 'lean', name: 'Oats Vegetable Upma', cals: '200', prot: '8g', ing: 'Oats (40g), Mixed veggies, Mustard seeds, Curry leaves', prep: 'Dry roast oats, cook veggies with spices, mix oats and cook.', ben: 'High fiber, keeps you full, gut health.' },
+            { id: 6, cat: 'lean', name: 'Soya Chunk Stir Fry', cals: '220', prot: '25g', ing: 'Soya chunks (50g), Onion, Spices', prep: 'Boil soya, squeeze water, stir fry with spices.', ben: 'Budget protein, muscle recovery, fat loss.' },
+            { id: 7, cat: 'lean', name: 'Greek Yogurt Bowl', cals: '180', prot: '15g', ing: 'Hung curd (200g), Chia seeds (1tsp), Fruits (optional)', prep: 'Mix everything in a bowl.', ben: 'Improves digestion, gut-friendly snack.' },
+            { id: 8, cat: 'lean', name: 'Boiled Egg + Salad', cals: '160', prot: '12g', ing: '2 Eggs, Salad veggies', prep: 'Boil eggs, serve with fresh salad.', ben: 'Simple, fast, keeps cravings low.' },
+            { id: 9, cat: 'lean', name: 'Tofu Stir Fry', cals: '180', prot: '15g', ing: 'Tofu (100g), Mixed vegetables, Soy sauce', prep: 'Stir fry tofu and veggies on high heat.', ben: 'Vegan protein, low calorie, great for cutting.' },
+            { id: 10, cat: 'lean', name: 'Chicken Soup', cals: '150', prot: '25g', ing: 'Chicken (100g), Garlic, Ginger, Salt, Pepper', prep: 'Boil all ingredients, simmer for 15 minutes.', ben: 'Light & filling, boosts immunity.' },
+            { id: 11, cat: 'detox', name: 'Jeera Water', cals: '5', prot: '0g', ing: 'Cumin seeds (1tsp), Water', prep: 'Soak overnight, boil and drink.', ben: 'Improves digestion, reduces bloating.' },
+            { id: 12, cat: 'detox', name: 'Lemon Honey Water', cals: '30', prot: '0g', ing: 'Warm water, Lemon juice, Honey (1tsp)', prep: 'Mix and drink first thing in morning.', ben: 'Boosts metabolism, detoxifies body.' },
+            { id: 13, cat: 'detox', name: 'Cucumber Mint Water', cals: '10', prot: '0g', ing: 'Cucumber slices, Mint leaves, Water', prep: 'Infuse overnight and drink through day.', ben: 'Hydration, reduces water retention.' },
+            { id: 14, cat: 'detox', name: 'ACV Elixir', cals: '5', prot: '0g', ing: 'ACV (1tbsp), Warm water', prep: 'Mix and drink 20 mins before meals.', ben: 'Controls appetite, insulin sensitivity.' },
+            { id: 15, cat: 'detox', name: 'Green Tea', cals: '2', prot: '0g', ing: 'Green tea bag, Water', prep: 'Brew for 2-3 mins in hot water.', ben: 'Fat oxidation, rich in antioxidants.' },
+            { id: 16, cat: 'bulk', name: 'Peanut Banana Shake', cals: '400', prot: '15g', ing: 'Milk (300ml), Banana (1), Peanut butter (1tbsp)', prep: 'Blend all ingredients together.', ben: 'High calorie, cheap bulking option.' },
+            { id: 17, cat: 'bulk', name: 'Soya Curry + Rice', cals: '500', prot: '30g', ing: 'Soya chunks, Rice, Spices', prep: 'Cook soya curry and serve with boiled rice.', ben: 'Muscle building, budget friendly.' },
+            { id: 18, cat: 'bulk', name: 'Egg Bhurji + Roti', cals: '450', prot: '25g', ing: '3 Eggs, 2 Roti, Onion, Spices', prep: 'Cook bhurji and serve with hot rotis.', ben: 'Balanced meal, easy to prepare.' },
+            { id: 19, cat: 'bulk', name: 'Dal Khichdi', cals: '450', prot: '18g', ing: 'Rice, Dal, Ghee', prep: 'Pressure cook together with ghee.', ben: 'Comfort food, easy digestion.' },
+            { id: 20, cat: 'bulk', name: 'Paneer Rice Bowl', cals: '500', prot: '20g', ing: 'Paneer (100g), Rice, Spices', prep: 'Cook paneer cubes and mix with rice.', ben: 'High calorie veg option for mass gain.' }
         ];
 
         function renderRecipes() {
@@ -91,25 +89,32 @@
                             <div class="flex gap-6 border-t border-white/10 pt-4">
                                 <div><p class="text-[8px] text-neutral-500 uppercase font-black">Calories</p><p class="text-lg font-black italic text-rose-500">${r.cals}</p></div>
                                 <div><p class="text-[8px] text-neutral-500 uppercase font-black">Protein</p><p class="text-lg font-black italic text-white">${r.prot}</p></div>
-                                <p class="ml-auto text-[8px] font-bold text-neutral-500 italic mt-auto uppercase tracking-widest">Tap to view recipe →</p>
+                                <p class="ml-auto text-[8px] font-bold text-neutral-500 italic mt-auto uppercase tracking-widest">Recipe info →</p>
                             </div>
                         </div>
                         <div class="card-back">
-                            <h4 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-2">Instructions</h4>
-                            <p class="text-[11px] mb-4 text-neutral-300"><b>Ingredients:</b> ${r.ing}</p>
-                            <p class="text-[11px] mb-4 text-neutral-300"><b>Method:</b> ${r.prep}</p>
-                            <p class="text-[11px] text-rose-500 italic"><b>Benefit:</b> ${r.ben}</p>
+                            <h4 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-2">Details</h4>
+                            <p class="text-[11px] mb-3 text-neutral-300"><b>Ingredients:</b> ${r.ing}</p>
+                            <p class="text-[11px] mb-3 text-neutral-300"><b>Prepare:</b> ${r.prep}</p>
+                            <p class="text-[10px] text-rose-500 font-bold italic"><b>Benefit:</b> ${r.ben}</p>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function filterRecipes(cat) {
+        function filterRecipes(cat, btn) {
+            // Update buttons
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            btn.classList.add('active');
+            
+            // Filter cards
             document.querySelectorAll('.recipe-card-container').forEach(card => {
-                card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'block' : 'none';
+                if (cat === 'all' || card.getAttribute('data-category') === cat) {
+                    card.classList.add('show');
+                } else {
+                    card.classList.remove('show');
+                }
             });
         }
 
@@ -117,7 +122,11 @@
             let query = document.getElementById('recipeSearch').value.toLowerCase();
             document.querySelectorAll('.recipe-card-container').forEach(card => {
                 let name = card.querySelector('h3').innerText.toLowerCase();
-                card.style.display = name.includes(query) ? 'block' : 'none';
+                if(name.includes(query)) {
+                    card.classList.add('show');
+                } else {
+                    card.classList.remove('show');
+                }
             });
         }
 
