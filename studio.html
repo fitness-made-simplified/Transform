@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | LIVE GX STUDIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; padding: 20px; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .active-class { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
+    </style>
+</head>
+<body class="pb-24">
+    <header class="mb-8 flex justify-between items-start">
+        <div>
+            <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← Exit Studio</a>
+            <h1 class="text-4xl font-black uppercase italic leading-none mb-1">FMS LIVE <span class="text-rose-600">GX</span></h1>
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-rose-600 rounded-full pulse"></span>
+                <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em]">Global Virtual Studio</p>
+            </div>
+        </div>
+        
+        <div class="glass px-4 py-2 text-right border-rose-600/20">
+            <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest">Current IST</p>
+            <p id="istClock" class="text-xl font-black italic tabular-nums leading-none mt-1">00:00:00</p>
+            <p class="text-[7px] text-neutral-500 font-bold uppercase mt-1">New Delhi, IN</p>
+        </div>
+    </header>
+
+    <div class="glass p-5 mb-8 border-rose-600/30 border relative overflow-hidden">
+        <div class="relative z-10">
+            <p class="text-rose-500 font-black uppercase text-[10px] mb-1">Introductory Offer</p>
+            <h2 class="text-xl font-black italic uppercase">3 FREE TRIAL CLASSES</h2>
+            <p class="text-[10px] text-neutral-400 mt-2">Experience the Physio-Led difference. No credit card required.</p>
+            <button onclick="window.open('https://wa.me/919899550279?text=I want to book my 3 Free Trial Classes for the GX Studio')" class="mt-4 w-full py-3 rose-gradient rounded-xl font-black uppercase text-xs tracking-widest active:scale-95 transition-transform">Claim My Free Trial</button>
+        </div>
+    </div>
+
+    <div class="flex justify-between items-end mb-4">
+        <h3 class="text-xs font-black uppercase text-neutral-500 tracking-widest">Weekly Schedule</h3>
+        <p class="text-[9px] italic text-rose-500 font-bold uppercase tracking-tighter">All times in IST (UTC+5:30)</p>
+    </div>
+
+    <div class="space-y-4 mb-10">
+        <div class="glass p-6">
+            <h4 class="text-rose-600 font-black uppercase text-[10px] mb-4 flex items-center gap-2">
+                Mon / Wed / Fri
+            </h4>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                    <div><p class="text-xs font-bold italic">07:00 AM</p><p class="text-lg font-black uppercase italic">METCON 30</p></div>
+                    <span class="text-[8px] bg-white/10 px-2 py-1 rounded uppercase font-black">HIIT</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                    <div><p class="text-xs font-bold italic">01:30 PM</p><p class="text-lg font-black uppercase italic text-rose-500">STRENGTH TRAINING</p></div>
+                    <span class="text-[8px] bg-rose-600/20 text-rose-500 px-2 py-1 rounded uppercase font-black italic">Max 5 Members</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div><p class="text-xs font-bold italic">08:30 PM</p><p class="text-lg font-black uppercase italic">IRON CORE</p></div>
+                    <span class="text-[8px] bg-white/10 px-2 py-1 rounded uppercase font-black text-emerald-500">Stability</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass p-6 opacity-90">
+            <h4 class="text-amber-500 font-black uppercase text-[10px] mb-4">Tue / Thu</h4>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                    <div><p class="text-xs font-bold italic">01:30 PM</p><p class="text-lg font-black uppercase italic">METCON 30</p></div>
+                    <span class="text-[8px] bg-white/10 px-2 py-1 rounded uppercase font-black">HIIT</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div><p class="text-xs font-bold italic">08:30 PM</p><p class="text-lg font-black uppercase italic">CORE HIIT</p></div>
+                    <span class="text-[8px] bg-white/10 px-2 py-1 rounded uppercase font-black text-amber-500">Power</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass p-8 text-center mb-8 border-t-2 border-rose-600">
+        <p class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-2">Studio Membership</p>
+        <h3 class="text-5xl font-black italic mb-2">₹3,999</h3>
+        <p class="text-neutral-400 font-bold uppercase text-[10px]">12 Sessions / Month</p>
+        
+        <div class="mt-8 space-y-3 text-left">
+            <div class="flex items-center gap-3 text-[11px] font-bold italic">
+                <div class="w-4 h-4 rounded-full bg-rose-600/20 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="4"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                Google Meet Live Training
+            </div>
+            <div class="flex items-center gap-3 text-[11px] font-bold italic">
+                <div class="w-4 h-4 rounded-full bg-rose-600/20 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="4"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                Strength Sessions: Max 5 Members
+            </div>
+            <div class="flex items-center gap-3 text-[11px] font-bold italic p-2 bg-emerald-500/5 rounded-lg border border-emerald-500/10 text-emerald-500">
+                <div class="w-4 h-4 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="4"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                Referral Bonus: +2 Extra Classes
+            </div>
+        </div>
+
+        <button onclick="window.open('https://wa.me/919899550279?text=I want to join the FMS Live GX Studio')" class="mt-8 w-full py-4 rose-gradient rounded-2xl font-black uppercase text-sm tracking-widest shadow-xl shadow-rose-600/20 active:scale-95 transition-all">Join the Collective</button>
+    </div>
+
+    <script>
+        function updateClock() {
+            const options = {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const formatter = new Intl.DateTimeFormat('en-US', options);
+            document.getElementById('istClock').textContent = formatter.format(new Date());
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
