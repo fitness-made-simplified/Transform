@@ -17,6 +17,7 @@
         .btn-press:active { transform: scale(0.96); }
         .coach-overlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 100; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
         
         #toolOverlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 110; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .question { display: none; }
@@ -93,6 +94,33 @@
                     <button onclick="openCoach()" class="mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
                         Know Your Coach <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <div class="flex justify-between items-end mb-4 px-1">
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest">Wall of Fame</p>
+                        <h3 class="text-xl font-black uppercase italic">User <span class="text-rose-600">Results</span></h3>
+                    </div>
+                    <a href="reviews.html" class="text-[9px] font-black uppercase border-b border-rose-600 pb-1">View All</a>
+                </div>
+                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                    <div class="glass p-5 min-w-[280px] border-t-2 border-rose-600">
+                        <div class="flex gap-1 mb-2"><span class="text-rose-500 text-xs">★★★★★</span></div>
+                        <p class="text-[11px] italic text-neutral-300 mb-4">"Best physio-led training. My chronic back pain is gone and I've lost 6kg in 2 months. Sushant knows his science!"</p>
+                        <p class="text-[9px] font-black uppercase text-white">— Rahul Sharma</p>
+                    </div>
+                    <div class="glass p-5 min-w-[280px] border-t-2 border-emerald-500">
+                        <div class="flex gap-1 mb-2"><span class="text-emerald-500 text-xs">★★★★★</span></div>
+                        <p class="text-[11px] italic text-neutral-300 mb-4">"The Shred protocol is intense but safe. Finally found a trainer who understands anatomy and performance."</p>
+                        <p class="text-[9px] font-black uppercase text-white">— Priya K.</p>
+                    </div>
+                    <div class="glass p-5 min-w-[280px] border-t-2 border-amber-500">
+                        <div class="flex gap-1 mb-2"><span class="text-amber-500 text-xs">★★★★★</span></div>
+                        <p class="text-[11px] italic text-neutral-300 mb-4">"Highly recommended for anyone looking for serious transformations. The diet charts are very sustainable."</p>
+                        <p class="text-[9px] font-black uppercase text-white">— Amit Verma</p>
+                    </div>
                 </div>
             </div>
 
