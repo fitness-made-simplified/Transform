@@ -9,40 +9,40 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; border-left: 4px solid rgba(255,255,255,0.05); }
+        
+        .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); }
         .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
-        .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; pointer-events: none; overflow: hidden; }
-        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 24px; pointer-events: auto; }
+        
+        .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; overflow: hidden; }
+        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 24px; }
+        
         .chevron { transition: transform 0.3s ease; }
         .phase-card.active .chevron { transform: rotate(180deg); }
-        .pulse-indicator { width: 8px; height: 8px; background: #e11d48; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #e11d48; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); } }
+
+        .pulse { width: 8px; height: 8px; background: #e11d48; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #e11d48; animation: pulse-anim 2s infinite; }
+        @keyframes pulse-anim { 0% { transform: scale(0.95); opacity: 1; } 70% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(0.95); opacity: 0; } }
     </style>
 </head>
 <body class="p-6 pb-32">
 
     <header class="mb-10">
-        <div class="flex justify-between items-start mb-6">
-            <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Exit
-            </a>
-        </div>
-        <h1 class="text-4xl font-black uppercase italic leading-none" id="clientName">FMS Portal</h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Verified Transformation Dashboard</p>
+        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-6 block">← Back to Home</a>
+        <h1 class="text-4xl font-black uppercase italic leading-tight" id="clientName">Loading...</h1>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-2">4-Week Transformation Phase</p>
     </header>
 
     <div id="pdfSection" class="hidden mb-8">
         <a id="pdfLink" href="#" target="_blank" class="glass p-5 flex items-center justify-between border-l-4 border-emerald-500 bg-emerald-500/5 active:scale-95 transition-transform">
             <div>
-                <p class="text-[8px] font-black uppercase text-emerald-500 mb-1 tracking-widest">Resource Vault</p>
+                <p class="text-[8px] font-black uppercase text-emerald-500 mb-1">Master File</p>
                 <h4 class="text-sm font-black uppercase italic">Download Program PDF</h4>
             </div>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         </a>
     </div>
 
     <div id="weeksContainer" class="space-y-4">
-        <div class="text-center py-20 opacity-50 text-xs font-bold uppercase tracking-widest">Connecting to SheetDB...</div>
+        <div class="text-center py-20 opacity-30 text-[10px] font-black uppercase tracking-widest">Syncing with SheetDB...</div>
     </div>
 
     <script>
@@ -50,10 +50,10 @@
 
         async function initPortal() {
             const params = new URLSearchParams(window.location.search);
-            const rawId = params.get('id');
+            const idFromUrl = params.get('id');
 
-            if (!rawId) {
-                document.getElementById('weeksContainer').innerHTML = "<div class='glass p-6 text-center'>Please login from the home page.</div>";
+            if (!idFromUrl) {
+                document.body.innerHTML = "<div class='p-10 text-center text-rose-500 font-black uppercase'>Access Denied</div>";
                 return;
             }
 
@@ -61,40 +61,41 @@
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // Find user (Case Insensitive search)
+                // Match ID (Case Insensitive)
                 const user = data.find(u => {
-                    const dbId = u.Client_ID || u['Client ID']; // Check both formats
-                    return dbId && dbId.toString().toLowerCase() === rawId.toLowerCase();
+                    const dbId = u.Client_ID || u['Client ID'];
+                    return dbId && dbId.toString().toLowerCase() === idFromUrl.toLowerCase();
                 });
 
                 if (user) {
                     document.getElementById('clientName').innerText = user.Name || "Client";
                     
-                    if(user.PDF_Link && user.PDF_Link !== "") {
+                    if(user.PDF_Link && user.PDF_Link.trim() !== "") {
                         document.getElementById('pdfSection').classList.remove('hidden');
                         document.getElementById('pdfLink').href = user.PDF_Link;
                     }
-                    renderWeeks(user);
+                    renderDashboard(user);
                 } else {
                     document.getElementById('weeksContainer').innerHTML = `
-                        <div class='glass p-8 text-center'>
-                            <p class='text-rose-500 font-black mb-2'>ID NOT FOUND</p>
-                            <p class='text-[10px] opacity-60 uppercase'>Check if "${rawId}" matches your Sheet.</p>
-                            <a href='index.html' class='inline-block mt-6 text-[10px] font-black uppercase border-b border-white'>Go Back</a>
+                        <div class='glass p-10 text-center border-rose-600/30'>
+                            <p class='text-rose-500 font-black uppercase text-xs'>ID Not Found</p>
+                            <p class='text-[10px] opacity-60 mt-2 uppercase'>Check your Client ID again.</p>
+                            <a href='index.html' class='inline-block mt-8 text-[10px] font-black uppercase border-b border-white'>Go Back</a>
                         </div>`;
                 }
             } catch (err) {
-                document.getElementById('weeksContainer').innerHTML = "<p class='text-center opacity-50 text-xs'>Error connecting to database.</p>";
+                document.getElementById('weeksContainer').innerHTML = "<p class='text-center opacity-50 text-xs'>Network Error</p>";
             }
         }
 
-        function renderWeeks(user) {
+        function renderDashboard(user) {
             const container = document.getElementById('weeksContainer');
+            
+            // Find the latest week that has data
             let latestWeek = 1;
-
-            // Find latest active week
             for(let i=4; i>=1; i--) {
-                if(user[`Week${i}_Diet`] || user[`Week${i}_Workout`]) {
+                if((user[`Week${i}_Diet`] && user[`Week${i}_Diet`].trim() !== "") || 
+                   (user[`Week${i}_Workout`] && user[`Week${i}_Workout`].trim() !== "")) {
                     latestWeek = i;
                     break;
                 }
@@ -105,35 +106,36 @@
                 const diet = user[`Week${i}_Diet`];
                 const workout = user[`Week${i}_Workout`];
 
-                if (diet || workout) {
+                // If week has data, build the card
+                if ((diet && diet.trim() !== "") || (workout && workout.trim() !== "")) {
                     const isLatest = (i === latestWeek);
                     html += `
                     <div class="phase-card glass p-6 ${isLatest ? 'active' : ''}" onclick="this.classList.toggle('active')">
                         <div class="flex justify-between items-center">
                             <div>
-                                <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest mb-1">
-                                    ${isLatest ? '<span class="pulse-indicator"></span>' : ''}Phase 0${i}
+                                <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest mb-1 flex items-center">
+                                    ${isLatest ? '<span class="pulse"></span>' : ''}Phase 0${i} ${isLatest ? '• Current' : ''}
                                 </p>
-                                <h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Plan</h3>
+                                <h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Protocol</h3>
                             </div>
                             <svg class="chevron text-rose-600" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
                         <div class="phase-content">
-                            <div class="space-y-6">
+                            <div class="space-y-8">
                                 <div>
-                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-2 tracking-widest border-b border-rose-600/10 pb-1">Nutrition</h4>
-                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${diet || '---'}</div>
+                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/10 pb-1">Nutrition</h4>
+                                    <div class="text-[13px] text-neutral-300 leading-relaxed whitespace-pre-wrap">${diet || '---'}</div>
                                 </div>
                                 <div>
-                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-2 tracking-widest border-b border-rose-600/10 pb-1">Training</h4>
-                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${workout || '---'}</div>
+                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/10 pb-1">Training</h4>
+                                    <div class="text-[13px] text-neutral-300 leading-relaxed whitespace-pre-wrap">${workout || '---'}</div>
                                 </div>
                             </div>
                         </div>
                     </div>`;
                 }
             }
-            container.innerHTML = html || "<p class='text-center opacity-50 py-10 text-xs'>No plans assigned yet.</p>";
+            container.innerHTML = html || "<p class='text-center py-20 opacity-40 text-xs uppercase'>Waiting for coach to upload plan...</p>";
         }
 
         initPortal();
