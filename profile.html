@@ -2,202 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FMS | Profile & Track</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Client Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; }
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .pb-glow { background: rgba(225, 29, 72, 0.1); border-left: 3px solid #e11d48 !important; }
-        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; width: 100%; }
-        .status-badge { padding: 2px 8px; border-radius: 6px; font-size: 9px; font-weight: 900; text-transform: uppercase; }
-        .paid { background: #10b981; color: white; }
-        .unpaid { background: #f59e0b; color: white; }
+        
+        /* Accordion Logic */
+        .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; }
+        .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
+        .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 24px; pointer-events: auto; }
+        .chevron { transition: transform 0.3s ease; }
+        .phase-card.active .chevron { transform: rotate(180deg); }
+
+        /* Current Week Indicator */
+        .pulse-indicator { width: 8px; height: 8px; background: #e11d48; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #e11d48; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); } }
     </style>
 </head>
-<body class="pb-32 p-6">
-    <div id="loader" class="text-center pt-20 font-black uppercase italic animate-pulse">Syncing Portal...</div>
+<body class="p-6 pb-32">
 
-    <div id="main-content" class="hidden max-w-xl mx-auto">
-        <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] z-50">
-            <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl border-white/10">
-                <button onclick="showTab('view-profile')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Dashboard</span></button>
-                <button onclick="showTab('view-track')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Track Lift</span></button>
-                <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase opacity-50">Logout</span></button>
+    <header class="mb-10">
+        <div class="flex justify-between items-start mb-6">
+            <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Exit
+            </a>
+            <div id="statusBadge" class="hidden glass px-3 py-1 rounded-full border-rose-600/30">
+                <p class="text-[8px] font-black uppercase text-rose-500 tracking-tighter">Active Protocol</p>
             </div>
-        </nav>
+        </div>
+        <h1 class="text-4xl font-black uppercase italic leading-none" id="clientName">FMS Portal</h1>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3" id="clientSub">Physio-Led Transformation Dashboard</p>
+    </header>
 
-        <section id="view-profile" class="tab-content active">
-            <div class="flex justify-between items-start mb-6">
-                <div>
-                    <h1 id="clientName" class="text-4xl font-black uppercase italic tracking-tighter">--</h1>
-                    <div id="payment-tag" class="mt-2"></div>
-                </div>
+    <div id="pdfSection" class="hidden mb-8">
+        <a id="pdfLink" href="#" target="_blank" class="glass p-5 flex items-center justify-between border-l-4 border-emerald-500 bg-emerald-500/5 active:scale-95 transition-transform">
+            <div>
+                <p class="text-[8px] font-black uppercase text-emerald-500 mb-1 tracking-widest">Resource Vault</p>
+                <h4 class="text-sm font-black uppercase italic">Download Full Program PDF</h4>
             </div>
+            <div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            </div>
+        </a>
+    </div>
 
-            <div id="session-box" class="glass p-5 mb-8 hidden">
-                <div class="flex justify-between items-end mb-2">
-                    <h3 class="text-[10px] font-black uppercase text-rose-500 tracking-widest italic">Session Tracker</h3>
-                    <p class="text-xs font-black italic"><span id="s-used">0</span> / <span id="s-total">0</span> <span class="text-neutral-500 text-[10px]">Used</span></p>
-                </div>
-                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
-                    <div id="s-bar" class="rose-gradient h-full transition-all duration-1000" style="width: 0%"></div>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="glass p-5 text-center"><p class="text-[9px] uppercase text-neutral-500 mb-1">Weight</p><p class="text-2xl font-black italic"><span id="p-weight">--</span>kg</p></div>
-                <div class="glass p-5 text-center border-b-2 border-rose-500"><p class="text-[9px] uppercase text-rose-500 mb-1">BMI Score</p><p id="p-bmi" class="text-2xl font-black italic text-rose-500">--</p></div>
-            </div>
-
-            <div id="workout-box" class="mb-8 hidden">
-                <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Workout Plan</h3>
-                <div class="glass p-6 border-l-2 border-rose-600">
-                    <p id="p-schedule" class="text-sm font-bold italic text-neutral-200 leading-relaxed"></p>
-                </div>
-            </div>
-
-            <div id="diet-box" class="mb-8 hidden">
-                <h3 class="text-[10px] font-black uppercase text-emerald-500 mb-3 tracking-widest italic">Kitchen & Nutrition</h3>
-                <div class="glass p-6 border-l-2 border-emerald-500">
-                    <p id="p-diet" class="text-sm font-bold italic text-neutral-200 leading-relaxed"></p>
-                </div>
-            </div>
-
-            <h3 class="text-[10px] font-black uppercase text-rose-500 mb-3 tracking-widest italic">Activity History</h3>
-            <div class="glass overflow-hidden max-h-[400px] overflow-y-auto">
-                <table class="w-full text-left text-sm"><tbody id="p-journal" class="font-bold italic text-neutral-300"></tbody></table>
-            </div>
-        </section>
-
-        <section id="view-track" class="tab-content">
-            <h2 class="text-3xl font-black italic uppercase mb-8">Activity <span class="text-rose-600">Track</span></h2>
-            <div class="glass p-6">
-                <div class="flex flex-col gap-3">
-                    <input type="text" id="ex-name" placeholder="Exercise Name">
-                    <div class="grid grid-cols-3 gap-3">
-                        <input type="number" id="ex-sets" placeholder="Sets">
-                        <input type="number" id="ex-reps" placeholder="Reps">
-                        <input type="text" id="ex-weight" placeholder="Kg">
-                    </div>
-                    <button onclick="logWorkout()" id="addBtn" class="rose-gradient py-4 rounded-xl font-black uppercase text-xs text-white">Save Entry</button>
-                </div>
-                <div id="share-section" class="hidden mt-6 border-t border-white/10 pt-6">
-                    <button id="whatsappBtn" class="w-full bg-[#25D366] py-4 rounded-xl font-black uppercase text-xs text-white">Share with Coach</button>
-                </div>
-            </div>
-        </section>
+    <div id="weeksContainer" class="space-y-4">
+        <div class="text-center py-20 opacity-50 text-xs font-bold uppercase tracking-widest">Synchronizing Data...</div>
     </div>
 
     <script>
-        const SHEETDB_URL = "https://sheetdb.io/api/v1/q4n4z3yr8dbyt";
-        const urlParams = new URLSearchParams(window.location.search);
-        const clientId = urlParams.get('id');
-        let currentName = "";
+        const API_URL = 'https://sheetdb.io/api/v1/q4n4z3yr8dbyt';
 
-        function showTab(id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
+        async function initPortal() {
+            const params = new URLSearchParams(window.location.search);
+            const clientId = params.get('id');
 
-        async function loadData() {
-            if(!clientId) { window.location.href='index.html'; return; }
+            if (!clientId) {
+                document.body.innerHTML = "<div class='p-10 text-center text-rose-500 font-black'>NO CLIENT ID PROVIDED</div>";
+                return;
+            }
+
             try {
-                const res = await fetch(`${SHEETDB_URL}/search?id=${clientId}`);
-                const data = await res.json();
-                if(data.length > 0) {
-                    const client = data[0];
-                    currentName = client.name;
-                    document.getElementById('clientName').innerText = currentName;
-                    document.getElementById('p-weight').innerText = client.weight;
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Find the specific client in the SheetDB array
+                const user = data.find(u => u.Client_ID === clientId);
+
+                if (user) {
+                    document.getElementById('clientName').innerText = user.Name;
+                    document.getElementById('statusBadge').classList.remove('hidden');
                     
-                    // Session Progress
-                    if(client.total_sessions) {
-                        document.getElementById('session-box').classList.remove('hidden');
-                        const used = parseInt(client.used_sessions) || 0;
-                        const total = parseInt(client.total_sessions);
-                        document.getElementById('s-used').innerText = used;
-                        document.getElementById('s-total').innerText = total;
-                        document.getElementById('s-bar').style.width = ((used/total)*100) + "%";
+                    // Show PDF link if it exists
+                    if(user.PDF_Link && user.PDF_Link !== "") {
+                        document.getElementById('pdfSection').classList.remove('hidden');
+                        document.getElementById('pdfLink').href = user.PDF_Link;
                     }
 
-                    // Payment Tag
-                    if(client.payment_status) {
-                        const s = client.payment_status.toUpperCase();
-                        document.getElementById('payment-tag').innerHTML = `<span class="status-badge ${s==='PAID'?'paid':'unpaid'}">${s}</span>`;
-                    }
-
-                    // Workout Schedule
-                    if(client.schedule) {
-                        document.getElementById('workout-box').classList.remove('hidden');
-                        document.getElementById('p-schedule').innerHTML = client.schedule.replace(/\n/g, '<br>');
-                    }
-
-                    // Diet Plan (NEW)
-                    if(client.diet_plan) {
-                        document.getElementById('diet-box').classList.remove('hidden');
-                        document.getElementById('p-diet').innerHTML = client.diet_plan.replace(/\n/g, '<br>');
-                    }
-
-                    const h = parseFloat(client.height), w = parseFloat(client.weight);
-                    if(h>0) document.getElementById('p-bmi').innerText = (w/((h/100)**2)).toFixed(1);
-                    
-                    fetchHistory();
-                    document.getElementById('loader').classList.add('hidden');
-                    document.getElementById('main-content').classList.remove('hidden');
+                    renderWeeks(user);
+                } else {
+                    document.getElementById('weeksContainer').innerHTML = `
+                        <div class='glass p-10 text-center border-rose-600'>
+                            <p class='text-rose-500 font-black uppercase text-xs mb-2'>Access Denied</p>
+                            <p class='text-xs opacity-60'>Client ID <b>${clientId}</b> not found in our database.</p>
+                            <a href='index.html' class='inline-block mt-6 text-[10px] font-black uppercase border-b border-white'>Return Home</a>
+                        </div>`;
                 }
-            } catch(e) { console.error(e); }
-        }
-
-        async function fetchHistory() {
-            const res = await fetch(`${SHEETDB_URL}/search?id=${clientId}&sheet=Workouts`);
-            const historyData = await res.json();
-            const journal = document.getElementById('p-journal');
-            journal.innerHTML = "";
-            if (Array.isArray(historyData)) {
-                const pbs = {};
-                [...historyData].forEach(log => {
-                    const w = parseFloat(log.weight) || 0;
-                    if(!pbs[log.exercise] || w > pbs[log.exercise]) pbs[log.exercise] = w;
-                });
-                historyData.reverse().slice(0, 25).forEach(log => {
-                    const curW = parseFloat(log.weight) || 0;
-                    const isPB = (curW > 0 && curW === pbs[log.exercise]);
-                    journal.innerHTML += `<tr class="border-t border-white/5 ${isPB?'pb-glow':''}">
-                        <td class="p-4 uppercase text-[10px]">${log.exercise}${isPB?' <span class="text-rose-500">PB 🔥</span>':''}<br><span class="opacity-40 text-[8px]">${log.date}</span></td>
-                        <td class="p-4 text-right text-xs text-rose-500">${log.sets}x${log.reps}<br><span class="text-white opacity-60">${log.weight}kg</span></td></tr>`;
-                });
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                document.getElementById('weeksContainer').innerHTML = "<p class='text-center opacity-50'>Connection Error. Please check your internet.</p>";
             }
         }
 
-        async function logWorkout() {
-            const name = document.getElementById('ex-name').value;
-            const sets = document.getElementById('ex-sets').value;
-            const reps = document.getElementById('ex-reps').value;
-            const weight = document.getElementById('ex-weight').value;
-            const btn = document.getElementById('addBtn');
-            if(!name || !sets || !reps) return;
-            btn.innerText = "SAVING...";
+        function renderWeeks(user) {
+            const container = document.getElementById('weeksContainer');
+            
+            // Determine which is the latest week with data to auto-open it
+            let latestWeek = 1;
+            for(let i=4; i>=1; i--) {
+                if(user[`Week${i}_Diet`] || user[`Week${i}_Workout`]) {
+                    latestWeek = i;
+                    break;
+                }
+            }
 
-            await fetch(`${SHEETDB_URL}?sheet=Workouts`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ data: [{ id: clientId, date: new Date().toLocaleDateString('en-GB'), exercise: name, sets, reps, weight }] })
-            });
+            let html = '';
+            for (let i = 1; i <= 4; i++) {
+                const diet = user[`Week${i}_Diet`];
+                const workout = user[`Week${i}_Workout`];
 
-            btn.innerText = "SAVED!";
-            document.getElementById('share-section').classList.remove('hidden');
-            document.getElementById('whatsappBtn').onclick = () => {
-                const msg = `💪 *Workout Update: ${currentName}*\n\n✅ *Exercise:* ${name}\n🔢 *Volume:* ${sets} sets x ${reps} reps\n⚖️ *Weight:* ${weight}kg\n\n_FMS Simplified Portal_`;
-                window.open(`https://wa.me/919899550279?text=${encodeURIComponent(msg)}`);
-            };
-            fetchHistory();
+                // Only show cards for weeks that have content
+                if ((diet && diet !== "") || (workout && workout !== "")) {
+                    const isLatest = (i === latestWeek);
+                    html += `
+                    <div class="phase-card glass p-6 ${isLatest ? 'active' : ''}" onclick="this.classList.toggle('active')">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest mb-1 flex items-center">
+                                    ${isLatest ? '<span class="pulse-indicator"></span>' : ''}
+                                    Phase 0${i} ${isLatest ? '- Current' : ''}
+                                </p>
+                                <h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Protocol</h3>
+                            </div>
+                            <svg class="chevron text-rose-600" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        
+                        <div class="phase-content">
+                            <div class="grid grid-cols-1 gap-8">
+                                <div>
+                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/20 pb-2">Nutrition Plan</h4>
+                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${diet || 'Standard nutrition protocol applies.'}</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/20 pb-2">Training Logic</h4>
+                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${workout || 'Standard training protocol applies.'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+            }
+            container.innerHTML = html;
         }
-        window.onload = loadData;
+
+        // Initialize the fetch process
+        initPortal();
     </script>
 </body>
 </html>
