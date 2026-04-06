@@ -9,17 +9,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
-        
-        /* Accordion Logic */
-        .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; }
+        .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; overflow: hidden; border-left: 4px solid rgba(255,255,255,0.05); }
         .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
-        .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+        .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; pointer-events: none; overflow: hidden; }
         .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 24px; pointer-events: auto; }
         .chevron { transition: transform 0.3s ease; }
         .phase-card.active .chevron { transform: rotate(180deg); }
-
-        /* Current Week Indicator */
         .pulse-indicator { width: 8px; height: 8px; background: #e11d48; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #e11d48; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); } }
     </style>
@@ -31,28 +26,23 @@
             <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Exit
             </a>
-            <div id="statusBadge" class="hidden glass px-3 py-1 rounded-full border-rose-600/30">
-                <p class="text-[8px] font-black uppercase text-rose-500 tracking-tighter">Active Protocol</p>
-            </div>
         </div>
         <h1 class="text-4xl font-black uppercase italic leading-none" id="clientName">FMS Portal</h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3" id="clientSub">Physio-Led Transformation Dashboard</p>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Verified Transformation Dashboard</p>
     </header>
 
     <div id="pdfSection" class="hidden mb-8">
         <a id="pdfLink" href="#" target="_blank" class="glass p-5 flex items-center justify-between border-l-4 border-emerald-500 bg-emerald-500/5 active:scale-95 transition-transform">
             <div>
                 <p class="text-[8px] font-black uppercase text-emerald-500 mb-1 tracking-widest">Resource Vault</p>
-                <h4 class="text-sm font-black uppercase italic">Download Full Program PDF</h4>
+                <h4 class="text-sm font-black uppercase italic">Download Program PDF</h4>
             </div>
-            <div class="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         </a>
     </div>
 
     <div id="weeksContainer" class="space-y-4">
-        <div class="text-center py-20 opacity-50 text-xs font-bold uppercase tracking-widest">Synchronizing Data...</div>
+        <div class="text-center py-20 opacity-50 text-xs font-bold uppercase tracking-widest">Connecting to SheetDB...</div>
     </div>
 
     <script>
@@ -60,10 +50,10 @@
 
         async function initPortal() {
             const params = new URLSearchParams(window.location.search);
-            const clientId = params.get('id');
+            const rawId = params.get('id');
 
-            if (!clientId) {
-                document.body.innerHTML = "<div class='p-10 text-center text-rose-500 font-black'>NO CLIENT ID PROVIDED</div>";
+            if (!rawId) {
+                document.getElementById('weeksContainer').innerHTML = "<div class='glass p-6 text-center'>Please login from the home page.</div>";
                 return;
             }
 
@@ -71,39 +61,38 @@
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // Find the specific client in the SheetDB array
-                const user = data.find(u => u.Client_ID === clientId);
+                // Find user (Case Insensitive search)
+                const user = data.find(u => {
+                    const dbId = u.Client_ID || u['Client ID']; // Check both formats
+                    return dbId && dbId.toString().toLowerCase() === rawId.toLowerCase();
+                });
 
                 if (user) {
-                    document.getElementById('clientName').innerText = user.Name;
-                    document.getElementById('statusBadge').classList.remove('hidden');
+                    document.getElementById('clientName').innerText = user.Name || "Client";
                     
-                    // Show PDF link if it exists
                     if(user.PDF_Link && user.PDF_Link !== "") {
                         document.getElementById('pdfSection').classList.remove('hidden');
                         document.getElementById('pdfLink').href = user.PDF_Link;
                     }
-
                     renderWeeks(user);
                 } else {
                     document.getElementById('weeksContainer').innerHTML = `
-                        <div class='glass p-10 text-center border-rose-600'>
-                            <p class='text-rose-500 font-black uppercase text-xs mb-2'>Access Denied</p>
-                            <p class='text-xs opacity-60'>Client ID <b>${clientId}</b> not found in our database.</p>
-                            <a href='index.html' class='inline-block mt-6 text-[10px] font-black uppercase border-b border-white'>Return Home</a>
+                        <div class='glass p-8 text-center'>
+                            <p class='text-rose-500 font-black mb-2'>ID NOT FOUND</p>
+                            <p class='text-[10px] opacity-60 uppercase'>Check if "${rawId}" matches your Sheet.</p>
+                            <a href='index.html' class='inline-block mt-6 text-[10px] font-black uppercase border-b border-white'>Go Back</a>
                         </div>`;
                 }
             } catch (err) {
-                console.error("Fetch Error:", err);
-                document.getElementById('weeksContainer').innerHTML = "<p class='text-center opacity-50'>Connection Error. Please check your internet.</p>";
+                document.getElementById('weeksContainer').innerHTML = "<p class='text-center opacity-50 text-xs'>Error connecting to database.</p>";
             }
         }
 
         function renderWeeks(user) {
             const container = document.getElementById('weeksContainer');
-            
-            // Determine which is the latest week with data to auto-open it
             let latestWeek = 1;
+
+            // Find latest active week
             for(let i=4; i>=1; i--) {
                 if(user[`Week${i}_Diet`] || user[`Week${i}_Workout`]) {
                     latestWeek = i;
@@ -116,41 +105,37 @@
                 const diet = user[`Week${i}_Diet`];
                 const workout = user[`Week${i}_Workout`];
 
-                // Only show cards for weeks that have content
-                if ((diet && diet !== "") || (workout && workout !== "")) {
+                if (diet || workout) {
                     const isLatest = (i === latestWeek);
                     html += `
                     <div class="phase-card glass p-6 ${isLatest ? 'active' : ''}" onclick="this.classList.toggle('active')">
                         <div class="flex justify-between items-center">
                             <div>
-                                <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest mb-1 flex items-center">
-                                    ${isLatest ? '<span class="pulse-indicator"></span>' : ''}
-                                    Phase 0${i} ${isLatest ? '- Current' : ''}
+                                <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest mb-1">
+                                    ${isLatest ? '<span class="pulse-indicator"></span>' : ''}Phase 0${i}
                                 </p>
-                                <h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Protocol</h3>
+                                <h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Plan</h3>
                             </div>
                             <svg class="chevron text-rose-600" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
-                        
                         <div class="phase-content">
-                            <div class="grid grid-cols-1 gap-8">
+                            <div class="space-y-6">
                                 <div>
-                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/20 pb-2">Nutrition Plan</h4>
-                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${diet || 'Standard nutrition protocol applies.'}</div>
+                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-2 tracking-widest border-b border-rose-600/10 pb-1">Nutrition</h4>
+                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${diet || '---'}</div>
                                 </div>
                                 <div>
-                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/20 pb-2">Training Logic</h4>
-                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${workout || 'Standard training protocol applies.'}</div>
+                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-2 tracking-widest border-b border-rose-600/10 pb-1">Training</h4>
+                                    <div class="text-xs text-neutral-300 leading-relaxed whitespace-pre-wrap">${workout || '---'}</div>
                                 </div>
                             </div>
                         </div>
                     </div>`;
                 }
             }
-            container.innerHTML = html;
+            container.innerHTML = html || "<p class='text-center opacity-50 py-10 text-xs'>No plans assigned yet.</p>";
         }
 
-        // Initialize the fetch process
         initPortal();
     </script>
 </body>
