@@ -10,135 +10,121 @@
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
         
+        /* Tab Logic */
         .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); }
         .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
-        
         .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; overflow: hidden; }
-        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 24px; }
-        
+        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 20px; }
         .chevron { transition: transform 0.3s ease; }
         .phase-card.active .chevron { transform: rotate(180deg); }
 
-        .pulse { width: 8px; height: 8px; background: #e11d48; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #e11d48; animation: pulse-anim 2s infinite; }
-        @keyframes pulse-anim { 0% { transform: scale(0.95); opacity: 1; } 70% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(0.95); opacity: 0; } }
+        .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; }
+        .stat-value { font-size: 14px; font-weight: 900; font-style: italic; }
     </style>
 </head>
 <body class="p-6 pb-32">
 
-    <header class="mb-10">
-        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-6 block">← Back to Home</a>
-        <h1 class="text-4xl font-black uppercase italic leading-tight" id="clientName">Loading...</h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-2">4-Week Transformation Phase</p>
+    <header class="mb-8">
+        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-6 block">← Exit Portal</a>
+        <h1 class="text-4xl font-black uppercase italic leading-none" id="dispName">Loading...</h1>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Physio-Led Health Metrics</p>
     </header>
 
-    <div id="pdfSection" class="hidden mb-8">
-        <a id="pdfLink" href="#" target="_blank" class="glass p-5 flex items-center justify-between border-l-4 border-emerald-500 bg-emerald-500/5 active:scale-95 transition-transform">
-            <div>
-                <p class="text-[8px] font-black uppercase text-emerald-500 mb-1">Master File</p>
-                <h4 class="text-sm font-black uppercase italic">Download Program PDF</h4>
-            </div>
+    <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="glass p-4">
+            <p class="stat-label">Age / Height</p>
+            <p class="stat-value"><span id="dispAge">0</span> <span class="opacity-30">/</span> <span id="dispHeight">0</span><span class="text-[10px] ml-1">cm</span></p>
+        </div>
+        <div class="glass p-4">
+            <p class="stat-label">Weight / Fat %</p>
+            <p class="stat-value"><span id="dispWeight">0</span><span class="text-[10px]">kg</span> <span class="opacity-30">/</span> <span id="dispFat">0</span><span class="text-[10px]">%</span></p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-8">
+        <div class="glass p-4 border-b-2 border-rose-600">
+            <p class="stat-label">Sessions Track</p>
+            <p class="stat-value text-rose-500"><span id="dispUsed">0</span> <span class="text-white opacity-30 mx-1">/</span> <span id="dispTotal" class="text-white">0</span></p>
+        </div>
+        <div class="glass p-4 border-b-2 border-emerald-500">
+            <p class="stat-label">Status</p>
+            <p class="stat-value text-emerald-500 uppercase" id="dispStatus">---</p>
+        </div>
+    </div>
+
+    <div id="pdfBox" class="hidden mb-8">
+        <a id="pdfUrl" href="#" target="_blank" class="glass p-5 flex items-center justify-between border-l-4 border-emerald-500 bg-emerald-500/5 active:scale-95 transition-transform">
+            <div><p class="stat-label text-emerald-500">Resource Vault</p><h4 class="text-sm font-black uppercase italic">Download Protocol PDF</h4></div>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         </a>
     </div>
 
-    <div id="weeksContainer" class="space-y-4">
-        <div class="text-center py-20 opacity-30 text-[10px] font-black uppercase tracking-widest">Syncing with SheetDB...</div>
+    <div id="protocolContainer" class="space-y-4">
+        <div class="text-center py-10 opacity-30 text-[10px] font-black uppercase tracking-widest">Loading Member Data...</div>
     </div>
 
     <script>
         const API_URL = 'https://sheetdb.io/api/v1/q4n4z3yr8dbyt';
 
-        async function initPortal() {
-            const params = new URLSearchParams(window.location.search);
-            const idFromUrl = params.get('id');
-
-            if (!idFromUrl) {
-                document.body.innerHTML = "<div class='p-10 text-center text-rose-500 font-black uppercase'>Access Denied</div>";
-                return;
-            }
+        async function fetchUser() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            if (!id) return;
 
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                
-                // Match ID (Case Insensitive)
-                const user = data.find(u => {
-                    const dbId = u.Client_ID || u['Client ID'];
-                    return dbId && dbId.toString().toLowerCase() === idFromUrl.toLowerCase();
-                });
+                const u = data.find(user => user.Client_ID.toLowerCase() === id.toLowerCase());
 
-                if (user) {
-                    document.getElementById('clientName').innerText = user.Name || "Client";
-                    
-                    if(user.PDF_Link && user.PDF_Link.trim() !== "") {
-                        document.getElementById('pdfSection').classList.remove('hidden');
-                        document.getElementById('pdfLink').href = user.PDF_Link;
+                if (u) {
+                    // Update Vital Metrics
+                    document.getElementById('dispName').innerText = u.Name;
+                    document.getElementById('dispAge').innerText = u.Age || '0';
+                    document.getElementById('dispHeight').innerText = u.Height || '0';
+                    document.getElementById('dispWeight').innerText = u.Weight || '0';
+                    document.getElementById('dispFat').innerText = u.Fat_Percentage || '0';
+                    document.getElementById('dispUsed').innerText = u.Used_Sessions || '0';
+                    document.getElementById('dispTotal').innerText = u.Total_Sessions || '0';
+                    document.getElementById('dispStatus').innerText = u.Payment_Status || 'Pending';
+
+                    if(u.PDF_Link) {
+                        document.getElementById('pdfBox').classList.remove('hidden');
+                        document.getElementById('pdfUrl').href = u.PDF_Link;
                     }
-                    renderDashboard(user);
+
+                    renderTabs(u);
                 } else {
-                    document.getElementById('weeksContainer').innerHTML = `
-                        <div class='glass p-10 text-center border-rose-600/30'>
-                            <p class='text-rose-500 font-black uppercase text-xs'>ID Not Found</p>
-                            <p class='text-[10px] opacity-60 mt-2 uppercase'>Check your Client ID again.</p>
-                            <a href='index.html' class='inline-block mt-8 text-[10px] font-black uppercase border-b border-white'>Go Back</a>
-                        </div>`;
+                    document.getElementById('protocolContainer').innerHTML = "<div class='p-10 text-center font-black text-rose-500'>CLIENT NOT FOUND</div>";
                 }
-            } catch (err) {
-                document.getElementById('weeksContainer').innerHTML = "<p class='text-center opacity-50 text-xs'>Network Error</p>";
-            }
+            } catch (err) { console.error("API Error", err); }
         }
 
-        function renderDashboard(user) {
-            const container = document.getElementById('weeksContainer');
-            
-            // Find the latest week that has data
-            let latestWeek = 1;
-            for(let i=4; i>=1; i--) {
-                if((user[`Week${i}_Diet`] && user[`Week${i}_Diet`].trim() !== "") || 
-                   (user[`Week${i}_Workout`] && user[`Week${i}_Workout`].trim() !== "")) {
-                    latestWeek = i;
-                    break;
-                }
-            }
+        function renderTabs(u) {
+            const container = document.getElementById('protocolContainer');
+            let latest = 1;
+            for(let i=4; i>=1; i--) { if(u[`Week${i}_Diet`] || u[`Week${i}_Workout`]) { latest = i; break; } }
 
             let html = '';
-            for (let i = 1; i <= 4; i++) {
-                const diet = user[`Week${i}_Diet`];
-                const workout = user[`Week${i}_Workout`];
-
-                // If week has data, build the card
-                if ((diet && diet.trim() !== "") || (workout && workout.trim() !== "")) {
-                    const isLatest = (i === latestWeek);
+            for(let i=1; i<=4; i++) {
+                const diet = u[`Week${i}_Diet`];
+                const work = u[`Week${i}_Workout`];
+                
+                if((diet && diet.trim() !== "") || (work && work.trim() !== "")) {
                     html += `
-                    <div class="phase-card glass p-6 ${isLatest ? 'active' : ''}" onclick="this.classList.toggle('active')">
+                    <div class="phase-card glass p-6 ${i === latest ? 'active' : ''}" onclick="this.classList.toggle('active')">
                         <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest mb-1 flex items-center">
-                                    ${isLatest ? '<span class="pulse"></span>' : ''}Phase 0${i} ${isLatest ? '• Current' : ''}
-                                </p>
-                                <h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Protocol</h3>
-                            </div>
+                            <div><p class="stat-label text-rose-500">Protocol Phase 0${i}</p><h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Plan</h3></div>
                             <svg class="chevron text-rose-600" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
-                        <div class="phase-content">
-                            <div class="space-y-8">
-                                <div>
-                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/10 pb-1">Nutrition</h4>
-                                    <div class="text-[13px] text-neutral-300 leading-relaxed whitespace-pre-wrap">${diet || '---'}</div>
-                                </div>
-                                <div>
-                                    <h4 class="text-[9px] font-black uppercase text-rose-500 mb-3 tracking-widest border-b border-rose-600/10 pb-1">Training</h4>
-                                    <div class="text-[13px] text-neutral-300 leading-relaxed whitespace-pre-wrap">${workout || '---'}</div>
-                                </div>
-                            </div>
+                        <div class="phase-content space-y-6">
+                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Nutrition Strategy</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${diet || '---'}</div></div>
+                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Training Logic</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${work || '---'}</div></div>
                         </div>
                     </div>`;
                 }
             }
-            container.innerHTML = html || "<p class='text-center py-20 opacity-40 text-xs uppercase'>Waiting for coach to upload plan...</p>";
+            container.innerHTML = html || "<p class='text-center opacity-30 text-[10px] py-10 uppercase font-black'>No active protocols assigned</p>";
         }
-
-        initPortal();
+        fetchUser();
     </script>
 </body>
 </html>
