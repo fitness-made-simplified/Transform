@@ -13,215 +13,278 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-item.active { color: #e11d48; }
-        .nav-item.active svg { transform: translateY(-4px); color: #e11d48; transition: all 0.3s ease; }
-        .btn-press:active { transform: scale(0.95); transition: 0.1s; }
+        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; color: white; outline: none; width: 100%; }
+        .btn-press:active { transform: scale(0.96); }
+        .coach-overlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 100; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        #toolOverlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 110; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .question { display: none; }
+        .question.active { display: block; }
+        .result-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
-<body class="pb-24">
+<body class="pb-32">
 
-    <div id="coachOverlay" class="fixed inset-0 bg-black z-[100] translate-y-full transition-transform duration-500 overflow-y-auto">
-        <div class="p-8">
-            <button onclick="closeCoach()" class="mb-8 text-rose-500 font-black uppercase tracking-widest text-xs">← Close</button>
-            <div class="glass p-8 relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 w-40 h-40 rose-gradient rounded-full blur-3xl opacity-20"></div>
-                <h2 class="text-4xl font-black italic uppercase leading-none mb-4 text-rose-500">Coach<br>Sushant</h2>
-                <p class="text-sm opacity-70 leading-relaxed mb-6 font-medium">BPT • MPT (Sports) • CSCS<br>Clinical Physiotherapist & Performance Coach with 10+ years of experience in injury rehabilitation and elite athletic training.</p>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-rose-600"></div><p class="text-[10px] font-black uppercase tracking-widest">Posture Specialist</p></div>
-                    <div class="flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-rose-600"></div><p class="text-[10px] font-black uppercase tracking-widest">Strength & Conditioning</p></div>
+    <div id="coachProfile" class="coach-overlay">
+        <button onclick="closeCoach()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
+        </button>
+        <h2 class="text-4xl font-black italic uppercase tracking-tighter mb-2">Sushant <span class="text-rose-600">FMS</span></h2>
+        <p class="text-neutral-400 italic text-sm mb-8 text-justify leading-relaxed">Expert Physiotherapist and Master Coach dedicated to science-backed fitness transformations. Combining clinical knowledge with elite strength training to bridge the gap between rehab and performance.</p>
+
+        <div class="space-y-6">
+            <div class="glass p-6">
+                <h3 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4">Academics & Certs</h3>
+                <ul class="text-sm font-bold italic space-y-2 opacity-90 text-neutral-200">
+                    <li>• Bachelors in Physiotherapy (BPT)</li>
+                    <li>• Diploma in Naturopathy & Yoga (NDDY)</li>
+                    <li>• MBA in Hospital Administration</li>
+                    <li>• ACE Certified Personal Trainer (CPT)</li>
+                    <li>• ACE Nutrition Specialist (NC)</li>
+                </ul>
+            </div>
+            <div class="glass p-6 border-l-2 border-rose-600">
+                <h3 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4">Professional Timeline</h3>
+                <div class="space-y-4 text-xs">
+                    <div><p class="text-white font-black italic">2020 - Present</p><p class="text-neutral-400">Freelance Online & Offline Elite Coach</p></div>
+                    <div><p class="text-white font-black italic">2019 - 2020</p><p class="text-neutral-400">Fitness Manager | Crossabs Gyms, Panipat</p></div>
+                    <div><p class="text-white font-black italic">2009 - 2018</p><p class="text-neutral-400">Platinum Trainer & Diet Counsellor | Fitness First Saket</p></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="toolOverlay" class="coach-overlay">
+        <button onclick="closeTool()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
+        </button>
+        <h2 class="text-3xl font-black italic uppercase tracking-tighter mb-2 text-center">Transformation<br>Readiness <span class="text-rose-600">Scorecard</span></h2>
+        <div id="quizContainer" class="glass p-6 max-w-xl mx-auto"></div>
+        <div id="resultScreen" class="hidden glass p-6 max-w-xl mx-auto result-card">
+            <div class="text-center mb-6">
+                <div id="scoreCircle" class="mx-auto w-32 h-32 rounded-full border-8 border-rose-600 flex items-center justify-center text-5xl font-black">0</div>
+                <p id="readinessLevel" class="text-xl font-black mt-4"></p>
+            </div>
+            <div id="actionPlan" class="text-sm space-y-3"></div>
+            <button onclick="bookSessionFromTool()" class="w-full mt-8 py-4 rose-gradient rounded-2xl font-black uppercase text-sm tracking-widest">Book Personalized 1:1 Session</button>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
+        <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
+            <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Coach</span></button>
+            <button onclick="showTab('plans')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase text-rose-500">Pro Plans</span></button>
+            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Portal</span></button>
+        </div>
+    </nav>
+
     <main class="p-6 pt-12">
         <section id="home" class="tab-content active max-w-xl mx-auto">
             <div class="mb-10 flex items-center gap-3">
-                <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic shadow-lg shadow-rose-900/20">FS</div>
+                <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic">FS</div>
                 <h1 class="text-2xl font-black italic uppercase tracking-tighter">Simplified</h1>
             </div>
-
-            <div class="relative rounded-[2.5rem] overflow-hidden h-[400px] mb-8 shadow-2xl">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80 scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+            
+            <div class="relative rounded-[2.5rem] overflow-hidden h-[400px] mb-8">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNoyff9-BHFiEp1CHfRicOK8IG6guQaTYXR10D-dvAaMB3Nkdp4YqJ2YjNaf3dJOxysSg1Pkse-qj2DzRmqfKtev5O7empJPe64qJ50I_ljE63IJGDMNE8bTQFeRAjg1RP1GihU3QpU_8NlgbCAnwqaug7FrNjg6N11__eehlUXpbKCyxWmLNrJkStI1Q/s1536/1000386771.png" class="w-full h-full object-cover grayscale opacity-80">
                 <div class="absolute bottom-8 left-8">
-                    <p class="text-rose-500 font-black uppercase text-[10px] tracking-[0.3em] mb-2">Physio-Led Excellence</p>
-                    <h3 class="text-5xl font-black uppercase italic leading-none tracking-tighter">Sushant</h3>
-                    <button onclick="openCoach()" class="mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-white/20 transition-all">
+                    <h3 class="text-5xl font-black uppercase italic leading-none">Sushant</h3>
+                    <button onclick="openCoach()" class="mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
                         Know Your Coach <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
                 </div>
             </div>
 
             <div class="mb-8">
-                <a href="library.html" class="glass p-5 flex items-center justify-between border-l-4 border-rose-600 bg-rose-600/[0.03] btn-press relative overflow-hidden block">
-                    <div class="absolute -right-4 -top-2 opacity-10">
-                        <svg width="80" height="80" fill="currentColor" viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-10 8h-2V9h2v2zm0 4h-2v-2h2v2zm4-4h-2V9h2v2zm0 4h-2v-2h2v2zM7 9h2v2H7V9zm0 4h2v-2H7v2z"/></svg>
+                <div class="flex justify-between items-end mb-4 px-1">
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest">Wall of Fame</p>
+                        <h3 class="text-xl font-black uppercase italic">User <span class="text-rose-600">Results</span></h3>
                     </div>
-                    <div class="relative z-10">
-                        <p class="text-[9px] font-black uppercase text-rose-500 mb-1 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse"></span> 1,200+ Physio-Cued Movements
-                        </p>
-                        <h4 class="text-2xl font-black uppercase italic tracking-tighter">Master <span class="text-rose-600">Library</span></h4>
-                        <p class="text-[10px] text-neutral-400 mt-1 italic">Eliminate Pain • Perfect Your Form • Zero Injuries</p>
+                    <a href="reviews.html" class="text-[9px] font-black uppercase border-b border-rose-600 pb-1">View All</a>
+                </div>
+                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                    <div class="glass p-5 min-w-[280px] border-t-2 border-rose-600">
+                        <div class="flex gap-1 mb-2"><span class="text-rose-500 text-xs">★★★★★</span></div>
+                        <p class="text-[11px] italic text-neutral-300 mb-4">"Best physio-led training. My chronic back pain is gone and I've lost 6kg in 2 months. Sushant knows his science!"</p>
+                        <p class="text-[9px] font-black uppercase text-white">— Rahul Sharma</p>
                     </div>
-                    <div class="bg-rose-600/20 p-2 rounded-full">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600"><path d="m9 18 6-6-6-6"/></svg>
+                    <div class="glass p-5 min-w-[280px] border-t-2 border-emerald-500">
+                        <div class="flex gap-1 mb-2"><span class="text-emerald-500 text-xs">★★★★★</span></div>
+                        <p class="text-[11px] italic text-neutral-300 mb-4">"The Shred protocol is intense but safe. Finally found a trainer who understands anatomy and performance."</p>
+                        <p class="text-[9px] font-black uppercase text-white">— Priya K.</p>
                     </div>
-                </a>
+                    <div class="glass p-5 min-w-[280px] border-t-2 border-amber-500">
+                        <div class="flex gap-1 mb-2"><span class="text-amber-500 text-xs">★★★★★</span></div>
+                        <p class="text-[11px] italic text-neutral-300 mb-4">"Highly recommended for anyone looking for serious transformations. The diet charts are very sustainable."</p>
+                        <p class="text-[9px] font-black uppercase text-white">— Amit Verma</p>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 gap-4 mb-8">
+                
+                <a href="library.html" class="glass p-4 flex items-center justify-between border-l-4 border-rose-600 bg-rose-600/[0.05] btn-press relative overflow-hidden">
+                    <div class="absolute -right-4 -top-2 opacity-10 text-rose-600">
+                        <svg width="60" height="60" fill="currentColor" viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-10 8h-2V9h2v2zm0 4h-2v-2h2v2zm4-4h-2V9h2v2zm0 4h-2v-2h2v2zM7 9h2v2H7V9zm0 4h2v-2H7v2z"/></svg>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-[8px] font-black uppercase text-rose-500 mb-1 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse"></span> 1,200+ Physio-Cued Movements
+                        </p>
+                        <h4 class="text-xl font-black uppercase italic tracking-tighter">Master <span class="text-rose-600">Library</span></h4>
+                        <p class="text-[10px] text-neutral-400 mt-1 italic">Eliminate Pain • Perfect Your Form</p>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600 mr-2"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+
                 <a href="recipes.html" class="glass p-4 flex items-center justify-between border-l-4 border-emerald-500 btn-press bg-emerald-500/[0.05] relative overflow-hidden">
                     <div class="absolute -right-6 -top-1 bg-emerald-600 text-white text-[7px] font-black uppercase tracking-widest py-2 px-8 rotate-45 shadow-lg">New</div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl">🥗</div>
-                        <div>
-                            <p class="text-[8px] font-black uppercase text-emerald-500 tracking-widest">Nutrition</p>
-                            <h4 class="text-xl font-black uppercase italic tracking-tighter">Fit Fuel Recipes</h4>
-                        </div>
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-emerald-500 mb-1">Physio-Approved Nutrition</p>
+                        <h4 class="text-xl font-black uppercase italic">Fit <span class="text-emerald-500">Fuel</span> Recipes</h4>
+                        <p class="text-[10px] text-neutral-400 mt-1 italic">Fat Loss • Detox • Muscle Building</p>
                     </div>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500 mr-2"><path d="m9 18 6-6-6-6"/></svg>
                 </a>
 
-                <a href="classes.html" class="glass p-4 flex items-center justify-between border-l-4 border-amber-500 btn-press bg-amber-500/[0.05]">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-2xl">🔥</div>
-                        <div>
-                            <p class="text-[8px] font-black uppercase text-amber-500 tracking-widest">Community</p>
-                            <h4 class="text-xl font-black uppercase italic tracking-tighter">GX Classes</h4>
-                        </div>
+                <a href="studio.html" class="glass p-4 flex items-center justify-between border-l-4 border-rose-600 btn-press bg-rose-600/[0.05] relative overflow-hidden">
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-rose-500 mb-1 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-rose-600 rounded-full animate-ping"></span> Live Global Studio
+                        </p>
+                        <h4 class="text-xl font-black uppercase italic">FMS <span class="text-rose-600">GX</span> Studio</h4>
+                        <p class="text-[10px] text-neutral-400 mt-1 italic">3 Free Trials • HIIT & Strength</p>
                     </div>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-amber-500"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600 mr-2"><path d="m9 18 6-6-6-6"/></svg>
                 </a>
-            </div>
-        </section>
 
-        <section id="portal" class="tab-content max-w-xl mx-auto">
-            <header class="mb-8 mt-4">
-                <p class="text-rose-500 font-black uppercase text-[10px] tracking-[0.2em] mb-1 text-center">Secure Access</p>
-                <h2 class="text-4xl font-black uppercase italic leading-none text-center tracking-tighter">Client <span class="text-rose-600">Portal</span></h2>
-            </header>
-            <div class="glass p-8 text-center border-t-2 border-rose-600 shadow-2xl">
-                <div class="w-16 h-16 rose-gradient rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
-                    <svg width="32" height="32" fill="white" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                </div>
-                <h3 class="text-xl font-black uppercase italic mb-2 tracking-tighter">Member Identity</h3>
-                <p class="text-[10px] text-neutral-500 uppercase tracking-widest mb-8 leading-relaxed font-bold">Enter your unique 4-digit FMS code to access your clinical protocols.</p>
-                <div class="space-y-4">
-                    <input type="text" id="clientId" placeholder="0000" class="w-full bg-white/5 border-2 border-white/10 rounded-2xl p-5 text-center text-2xl font-black tracking-[0.5em] outline-none focus:border-rose-600 transition-all uppercase placeholder:text-neutral-800">
-                    <button onclick="accessPortal()" class="w-full rose-gradient text-white font-black uppercase py-5 rounded-2xl tracking-[0.2em] shadow-xl shadow-rose-900/40 btn-press">Verify Identity</button>
-                    <p id="error" class="text-rose-500 text-[10px] font-black uppercase tracking-widest hidden mt-4 animate-bounce">Access Denied: Invalid Code</p>
+                <a href="shred.html" class="glass p-4 flex items-center justify-between border-l-4 border-rose-600 btn-press">
+                    <div><p class="text-[8px] font-black uppercase text-rose-500 mb-1">30 Day Protocol</p><h4 class="text-xl font-black uppercase italic">The Shred</h4></div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+                <a href="bulk.html" class="glass p-4 flex items-center justify-between border-l-4 border-amber-500 btn-press">
+                    <div><p class="text-[8px] font-black uppercase text-amber-500 mb-1">4 Week Program</p><h4 class="text-xl font-black uppercase italic">Muscle Pack</h4></div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-amber-500"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+                <div onclick="openTool()" class="glass p-4 flex items-center justify-between border-l-4 border-emerald-500 btn-press cursor-pointer">
+                    <div><p class="text-[8px] font-black uppercase text-emerald-400 mb-1">Free Physio Tool</p><h4 class="text-xl font-black uppercase italic">Transformation Readiness</h4></div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
             </div>
         </section>
 
-        <section id="tool" class="tab-content max-w-xl mx-auto">
-            <header class="mb-8 mt-4">
-                <p class="text-rose-500 font-black uppercase text-[10px] tracking-[0.2em] mb-1 text-center">Biomechanical Check</p>
-                <h2 class="text-4xl font-black uppercase italic leading-none text-center tracking-tighter">Ready <span class="text-rose-600">Scan</span></h2>
-            </header>
-            <div id="quizContainer" class="glass p-8 border-t-2 border-rose-600">
-                <div id="questionArea"></div>
-            </div>
-            <div id="resultScreen" class="hidden text-center glass p-8 border-t-2 border-emerald-500">
-                <div class="w-24 h-24 rounded-full border-4 border-emerald-500 flex items-center justify-center mx-auto mb-6">
-                    <span id="scoreCircle" class="text-3xl font-black italic"></span>
+        <section id="plans" class="tab-content max-w-xl mx-auto">
+            <h2 class="text-3xl font-black italic uppercase mb-8">Pro <span class="text-rose-600">Plans</span></h2>
+            <div class="space-y-6">
+                <div class="glass p-6 border-l-4 border-rose-600">
+                    <div class="flex justify-between items-start mb-4">
+                        <div><h4 class="text-lg font-black uppercase italic">Elite Transformation</h4><p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">60 One-on-One Sessions</p></div>
+                        <div class="text-right"><p class="text-2xl font-black italic text-rose-500">₹28,150</p></div>
+                    </div>
+                    <button onclick="window.open('https://wa.me/919899550279?text=I want to book the 60 Session Elite Transformation Package')" class="w-full py-3 bg-white text-black rounded-xl font-black uppercase text-[10px] tracking-widest">Book Package</button>
                 </div>
-                <h3 id="readinessLevel" class="text-2xl font-black uppercase italic mb-4 tracking-tighter"></h3>
-                <div id="actionPlan" class="text-[11px] uppercase tracking-widest leading-loose mb-8 font-bold opacity-60"></div>
-                <button onclick="bookSessionFromTool()" class="w-full bg-emerald-600 text-white font-black uppercase py-5 rounded-2xl tracking-widest btn-press shadow-lg shadow-emerald-900/40">Request Plan</button>
+                <div class="glass p-6 border-l-4 border-rose-600">
+                    <div class="flex justify-between items-start mb-4">
+                        <div><h4 class="text-lg font-black uppercase italic">Kickstarter Pack</h4><p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">25 One-on-One Sessions</p></div>
+                        <div class="text-right"><p class="text-2xl font-black italic text-rose-500">₹13,300</p></div>
+                    </div>
+                    <button onclick="window.open('https://wa.me/919899550279?text=I want to book the 25 Session Kickstarter Pack')" class="w-full py-3 bg-white text-black rounded-xl font-black uppercase text-[10px] tracking-widest">Book Package</button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass p-5 text-center border-t-2 border-rose-600">
+                        <h4 class="text-[10px] font-black uppercase text-neutral-400 mb-2">Custom Diet Chart</h4>
+                        <p class="text-lg font-black italic mb-1">₹2,000</p>
+                        <p class="text-[8px] uppercase opacity-50 mb-4">(1 Month Plan)</p>
+                        <button onclick="window.open('https://wa.me/919899550279?text=I want to buy the Custom Diet Chart')" class="w-full py-2 bg-rose-600/20 rounded-lg text-[9px] font-bold uppercase italic">Enroll</button>
+                    </div>
+                    <div class="glass p-5 text-center border-t-2 border-rose-600">
+                        <h4 class="text-[10px] font-black uppercase text-neutral-400 mb-2">Custom Workout</h4>
+                        <p class="text-lg font-black italic mb-1">₹2,000</p>
+                        <p class="text-[8px] uppercase opacity-50 mb-4">(1 Month Plan)</p>
+                        <button onclick="window.open('https://wa.me/919899550279?text=I want to buy the Custom Workout Chart')" class="w-full py-2 bg-rose-600/20 rounded-lg text-[9px] font-bold uppercase italic">Enroll</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portal" class="tab-content max-w-xl mx-auto pt-10">
+            <h2 class="text-3xl font-black italic uppercase mb-8 text-center">Client <span class="text-rose-600">Portal</span></h2>
+            <div class="flex gap-2 mb-12">
+                <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. Fms1325)">
+                <button onclick="login()" class="rose-gradient px-8 rounded-xl font-black uppercase text-xs text-white">GO</button>
+            </div>
+            <div class="pt-8 border-t border-white/10 text-center">
+                <p class="text-[10px] text-neutral-500 uppercase font-black mb-4 tracking-widest">New to the Challenge?</p>
+                <button onclick="createGuestProfile()" class="w-full glass py-4 text-[10px] font-black uppercase tracking-widest text-rose-500 border-rose-500/20 active:scale-95 transition-transform">
+                    Create Free Tracker Profile
+                </button>
             </div>
         </section>
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 z-50">
-        <div class="glass px-8 py-4 flex justify-around items-center border border-white/10 shadow-2xl backdrop-blur-3xl">
-            <button onclick="switchTab('home')" class="nav-item active flex flex-col items-center gap-1 transition-all duration-300">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-tighter">Base</span>
-            </button>
-            <button onclick="switchTab('portal')" class="nav-item flex flex-col items-center gap-1 transition-all duration-300 text-neutral-600">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-tighter">Portal</span>
-            </button>
-            <button onclick="switchTab('tool')" class="nav-item flex flex-col items-center gap-1 transition-all duration-300 text-neutral-600">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                <span class="text-[8px] font-black uppercase tracking-tighter">Scan</span>
-            </button>
-        </div>
-    </nav>
-
     <script>
-        function openCoach() { document.getElementById('coachOverlay').style.transform = 'translateY(0)'; }
-        function closeCoach() { document.getElementById('coachOverlay').style.transform = 'translateY(100%)'; }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => {
-                n.classList.remove('active');
-                n.classList.add('text-neutral-600');
-            });
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-            event.currentTarget.classList.remove('text-neutral-600');
-            if(tabId === 'tool') renderQuestion();
+        function showTab(t){
+            document.querySelectorAll('.tab-content').forEach(s=>s.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        function openCoach() { document.getElementById('coachProfile').style.display = 'block'; }
+        function closeCoach() { document.getElementById('coachProfile').style.display = 'none'; }
+        function login(){
+            const id = document.getElementById('clientIdInput').value.trim();
+            if(id) window.location.href = `profile.html?id=${id}`;
+        }
+        function createGuestProfile() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            const guestId = 'FMS-FREE-' + randomNum;
+            window.location.href = `setup-guest.html?id=${guestId}`;
         }
 
-        async function accessPortal() {
-            const id = document.getElementById('clientId').value.toLowerCase();
-            const btn = event.target;
-            btn.innerText = 'AUTHENTICATING...';
-            try {
-                const res = await fetch('https://sheetdb.io/api/v1/q4n4z3yr8dbyt');
-                const data = await res.json();
-                const user = data.find(u => u.Client_ID.toLowerCase() === id);
-                if(user) window.location.href = `profile.html?id=${id}`;
-                else {
-                    document.getElementById('error').classList.remove('hidden');
-                    btn.innerText = 'VERIFY IDENTITY';
-                }
-            } catch(e) { 
-                console.error(e);
-                btn.innerText = 'VERIFY IDENTITY';
-            }
-        }
-
+        let currentQuestion = 0; let score = 0;
         const questions = [
-            { q: \"Current Activity Level?\", options: [\"Sedentary\", \"Active 1-2 days\", \"Active 3-5 days\", \"Elite Level\"], points: [10, 20, 30, 40] },
-            { q: \"Any chronic joint pain?\", options: [\"Yes, Severe\", \"Yes, Minor\", \"Occasional\", \"None\"], points: [0, 10, 20, 30] },
-            { q: \"Main Goal?\", options: [\"Pain Rehab\", \"Fat Loss\", \"Posture Correction\", \"Muscle Growth\"], points: [30, 20, 30, 20] }
+            { q: "How many days per week do you train?", options: ["0-1 day", "2 days", "3-4 days", "5+ days"], points: [0, 20, 40, 60] },
+            { q: "Do you have recurring joint pain?", options: ["Yes, frequently", "Occasionally", "Rarely", "Never"], points: [0, 20, 40, 60] },
+            { q: "Rate your daily mobility awareness:", options: ["Poor", "Average", "Good", "Excellent"], points: [0, 20, 40, 60] },
+            { q: "Consistent protein/fiber intake?", options: ["Inconsistent", "Moderate", "Good", "Very consistent"], points: [0, 20, 40, 60] },
+            { q: "Average sleep per night?", options: ["<6 hours", "6-7 hours", "7-8 hours", "8+ hours"], points: [0, 20, 40, 60] }
         ];
-        let currentQuestion = 0, score = 0;
 
+        function openTool() {
+            document.getElementById('toolOverlay').style.display = 'block';
+            currentQuestion = 0; score = 0;
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            renderQuestion();
+        }
+        function closeTool() { document.getElementById('toolOverlay').style.display = 'none'; }
         function renderQuestion() {
-            document.getElementById('questionArea').innerHTML = `
-                <div class='mb-8'>
-                    <p class='text-rose-500 font-black text-[10px] uppercase tracking-widest mb-1'>Phase ${currentQuestion + 1}</p>
-                    <p class=\"text-lg font-bold mt-2\">${questions[currentQuestion].q}</p>
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = `
+                <div class="mb-6">
+                    <div class="h-1 bg-neutral-700 rounded-full mb-4"><div class="h-1 bg-rose-600 rounded-full" style="width: ${(currentQuestion / questions.length) * 100}%"></div></div>
+                    <p class="text-xs uppercase tracking-widest text-neutral-400">Question ${currentQuestion + 1} of ${questions.length}</p>
+                    <p class="text-lg font-bold mt-2">${questions[currentQuestion].q}</p>
                 </div>
-                <div class=\"space-y-3\">
-                    ${questions[currentQuestion].options.map((opt, i) => `<button onclick=\"selectAnswer(${i})\" class=\"w-full text-left p-4 glass hover:bg-white/10 rounded-2xl font-bold uppercase text-[11px] tracking-widest\">${opt}</button>`).join('')}
+                <div class="space-y-3">
+                    ${questions[currentQuestion].options.map((opt, i) => `<button onclick="selectAnswer(${i})" class="w-full text-left p-4 glass hover:bg-white/10 rounded-2xl">${opt}</button>`).join('')}
                 </div>`;
         }
-
         function selectAnswer(i) {
             score += questions[currentQuestion].points[i];
             currentQuestion++;
             if (currentQuestion < questions.length) renderQuestion(); else showResult();
         }
-
         function showResult() {
             document.getElementById('quizContainer').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
-            const pct = Math.min(Math.round(score / 1), 100);
-            document.getElementById('scoreCircle').textContent = pct + '%';
-            document.getElementById('readinessLevel').textContent = pct >= 80 ? \"Advanced Readiness\" : (pct >= 50 ? \"Intermediate Readiness\" : \"Beginner Readiness\");
-            document.getElementById('actionPlan').innerHTML = `<p class='italic opacity-70 italic'>Physio Review: You are currently at a ${pct}% performance capacity. We recommend a clinical protocol for optimal alignment.</p>`;
+            const pct = Math.min(Math.round(score / 3), 100);
+            document.getElementById('scoreCircle').textContent = pct;
+            document.getElementById('readinessLevel').textContent = pct >= 80 ? "Advanced Readiness" : (pct >= 50 ? "Intermediate Readiness" : "Beginner Readiness");
+            document.getElementById('actionPlan').innerHTML = `<p class='italic opacity-70'>Based on your score of ${pct}, we recommend a customized approach. Connect for a clinical consultation.</p>`;
         }
-
         function bookSessionFromTool() {
             window.open('https://wa.me/919899550279?text=I finished the assessment and want to discuss my readiness score', '_blank');
         }
