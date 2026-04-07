@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Master Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Video Modal Styles */
+        #videoModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        #videoModal.open { display: flex; }
+        .modal-content { width: 100%; max-width: 400px; aspect-ratio: 9/16; background: #000; border-radius: 24px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        .loading-shimmer { background: linear-gradient(90deg, #111 25%, #222 50%, #111 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+</head>
+<body class="p-6 pb-20">
+
+    <header class="mb-8 mt-4">
+        <div class="flex justify-between items-center mb-6">
+            <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest">← Back to Home</a>
+            <div class="text-[10px] font-black uppercase tracking-widest px-3 py-1 glass border-rose-600/30 text-rose-500">
+                <span id="count">0</span> Exercises Loaded
+            </div>
+        </div>
+        <p class="text-rose-500 font-black uppercase text-[10px] tracking-[0.2em] mb-1">Expert Form Guides</p>
+        <h1 class="text-4xl font-black uppercase italic leading-none">Master <span class="text-rose-600">Library</span></h1>
+        <p class="text-[11px] text-neutral-500 mt-2 italic">Physio-cued movements for injury-free performance.</p>
+    </header>
+
+    <div class="sticky top-4 z-50 mb-8">
+        <div class="glass flex items-center px-4 py-3 border-rose-600/20 shadow-2xl">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3" class="mr-3 opacity-70"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="searchInput" onkeyup="filterLibrary()" placeholder="Search (e.g. Squat, Chest, Men)" class="bg-transparent w-full text-sm outline-none font-bold uppercase placeholder:text-neutral-600">
+        </div>
+    </div>
+
+    <div id="exerciseContainer" class="grid grid-cols-2 gap-3">
+        <div class="glass p-4 h-32 loading-shimmer rounded-3xl opacity-20"></div>
+        <div class="glass p-4 h-32 loading-shimmer rounded-3xl opacity-20"></div>
+        <div class="glass p-4 h-32 loading-shimmer rounded-3xl opacity-20"></div>
+        <div class="glass p-4 h-32 loading-shimmer rounded-3xl opacity-20"></div>
+    </div>
+
+    <div id="videoModal" onclick="closeVideo()">
+        <div class="absolute top-6 right-6 text-white text-3xl font-light">&times;</div>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <iframe id="videoPlayer" src="" allow="autoplay"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://sheetdb.io/api/v1/q4n4z3yr8dbyt?sheet=Library';
+        let allExercises = [];
+
+        async function fetchLibrary() {
+            try {
+                const response = await fetch(API_URL);
+                allExercises = await response.json();
+                document.getElementById('count').innerText = allExercises.length;
+                renderExercises(allExercises);
+            } catch (error) {
+                console.error('Error fetching library:', error);
+                document.getElementById('exerciseContainer').innerHTML = "<p class='col-span-2 text-center text-xs opacity-50 uppercase'>Check internet connection...</p>";
+            }
+        }
+
+        function renderExercises(items) {
+            const container = document.getElementById('exerciseContainer');
+            if (items.length === 0) {
+                container.innerHTML = "<p class='col-span-2 text-center text-xs opacity-50 uppercase py-10'>No movements found</p>";
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="glass p-4 flex flex-col justify-between border-b-2 border-transparent active:border-rose-600 active:bg-rose-600/10 transition-all duration-200 h-36" 
+                     onclick="playVideo('${item.Video_Link}')">
+                    <p class="text-[8px] font-black text-rose-500 uppercase tracking-widest truncate">${item.Category || 'Movement'}</p>
+                    <h4 class="text-[12px] font-black uppercase italic leading-tight mt-1 line-clamp-3">${item.Exercise_Name}</h4>
+                    <div class="mt-auto flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-rose-600 flex items-center justify-center">
+                            <svg width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                        <span class="text-[8px] font-black uppercase tracking-tighter opacity-40 italic">Watch Form</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterLibrary() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allExercises.filter(ex => 
+                ex.Exercise_Name.toLowerCase().includes(query) || 
+                ex.Category.toLowerCase().includes(query)
+            );
+            renderExercises(filtered);
+        }
+
+        function playVideo(url) {
+            // Converts link to preview if not already done
+            const previewUrl = url.replace('/view', '/preview').replace('?usp=sharing', '');
+            document.getElementById('videoPlayer').src = previewUrl;
+            document.getElementById('videoModal').classList.add('open');
+        }
+
+        function closeVideo() {
+            document.getElementById('videoModal').classList.remove('open');
+            document.getElementById('videoPlayer').src = "";
+        }
+
+        // Initialize
+        fetchLibrary();
+    </script>
+
+</body>
+</html>
