@@ -13,8 +13,11 @@
         /* Tab Logic */
         .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); }
         .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
-        .phase-content { max-height: 0; opacity: 0; transition: all 0.4s ease; overflow: hidden; }
-        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 20px; }
+        
+        /* FIX: Changed max-height logic to allow full 7-day text without truncation */
+        .phase-content { max-height: 0; opacity: 0; transition: all 0.5s ease; overflow: hidden; }
+        .phase-card.active .phase-content { max-height: fit-content; opacity: 1; padding-top: 20px; padding-bottom: 10px; }
+        
         .chevron { transition: transform 0.3s ease; }
         .phase-card.active .chevron { transform: rotate(180deg); }
 
@@ -76,7 +79,6 @@
                 const u = data.find(user => user.Client_ID.toLowerCase() === id.toLowerCase());
 
                 if (u) {
-                    // Update Vital Metrics
                     document.getElementById('dispName').innerText = u.Name;
                     document.getElementById('dispAge').innerText = u.Age || '0';
                     document.getElementById('dispHeight').innerText = u.Height || '0';
@@ -101,12 +103,10 @@
         function renderTabs(u) {
             const container = document.getElementById('protocolContainer');
             let latest = 1;
-            // Increased check from 4 to 6
-            for(let i=6; i>=1; i--) { if(u[`Week${i}_Diet`] || u[`Week${i}_Workout`]) { latest = i; break; } }
+            for(let i=4; i>=1; i--) { if(u[`Week${i}_Diet`] || u[`Week${i}_Workout`]) { latest = i; break; } }
 
             let html = '';
-            // Increased loop limit from 4 to 6
-            for(let i=1; i<=6; i++) {
+            for(let i=1; i<=4; i++) {
                 const diet = u[`Week${i}_Diet`];
                 const work = u[`Week${i}_Workout`];
                 
