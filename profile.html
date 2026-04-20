@@ -22,12 +22,12 @@
         .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; }
         .stat-value { font-size: 14px; font-weight: 900; font-style: italic; }
         
-        /* Table Styling */
         .history-table { width: 100%; font-size: 11px; border-collapse: separate; border-spacing: 0 8px; }
         .history-table th { text-align: left; color: #737373; text-transform: uppercase; font-size: 8px; padding: 0 8px; }
         .history-table td { padding: 12px 8px; background: rgba(255,255,255,0.02); }
         .history-table tr td:first-child { border-radius: 12px 0 0 12px; }
         .history-table tr td:last-child { border-radius: 0 12px 12px 0; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="p-6 pb-32">
@@ -38,34 +38,44 @@
         <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Physio-Led Health Metrics</p>
     </header>
 
-    <div class="grid grid-cols-2 gap-3 mb-8">
+    <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="glass p-4">
+            <p class="stat-label">Age / Height</p>
+            <p class="stat-value"><span id="dispAge">0</span> <span class="opacity-30">/</span> <span id="dispHeight">0</span><span class="text-[10px] ml-1">cm</span></p>
+        </div>
         <div class="glass p-4">
             <p class="stat-label">Weight / Fat %</p>
             <p class="stat-value"><span id="dispWeight">0</span><span class="text-[10px]">kg</span> <span class="opacity-30">/</span> <span id="dispFat">0</span><span class="text-[10px]">%</span></p>
         </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-8">
         <div class="glass p-4 border-b-2 border-rose-600">
             <p class="stat-label">Sessions Used</p>
             <p class="stat-value text-rose-500"><span id="dispUsed">0</span> <span class="text-white opacity-30 mx-1">/</span> <span id="dispTotal" class="text-white">0</span></p>
+        </div>
+        <div class="glass p-4 border-b-2 border-emerald-500">
+            <p class="stat-label">Status</p>
+            <p class="stat-value text-emerald-500 uppercase" id="dispStatus">---</p>
         </div>
     </div>
 
     <div class="glass p-6 mb-8 border-t-2 border-amber-500">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xs font-black uppercase tracking-widest text-amber-500 italic">Performance History</h3>
-            <span class="text-[8px] bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded-full font-bold uppercase">Lifting Logs</span>
+            <span class="text-[8px] bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded-full font-bold">LIFTING LOGS</span>
         </div>
-        
-        <div class="max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
+        <div class="max-h-[250px] overflow-y-auto no-scrollbar pr-1">
             <table class="history-table">
                 <thead>
                     <tr>
                         <th>Date</th>
                         <th>Exercise</th>
-                        <th>PB Weight</th>
+                        <th>Weight</th>
                     </tr>
                 </thead>
                 <tbody id="historyBody">
-                    <tr><td colspan="3" class="text-center opacity-30 italic py-4">Fetching records...</td></tr>
+                    <tr><td colspan="3" class="text-center opacity-30 italic py-4">Checking logs...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -91,64 +101,68 @@
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // 1. Find the User Data (for profile info)
-                const u = data.find(user => user.Client_ID.toLowerCase() === id.toLowerCase());
+                // Filter all entries for this ID
+                const allEntries = data.filter(user => user.Client_ID && user.Client_ID.toLowerCase() === id.toLowerCase());
 
-                // 2. Filter ALL records for this Client ID (for lifting history)
-                const history = data.filter(entry => entry.Client_ID.toLowerCase() === id.toLowerCase());
+                // The "Master Row" is the one that has the "Name" filled in
+                const u = allEntries.find(entry => entry.Name && entry.Name.trim() !== "");
 
                 if (u) {
                     document.getElementById('dispName').innerText = u.Name;
+                    document.getElementById('dispAge').innerText = u.Age || '0';
+                    document.getElementById('dispHeight').innerText = u.Height || '0';
                     document.getElementById('dispWeight').innerText = u.Weight || '0';
                     document.getElementById('dispFat').innerText = u.Fat_Percentage || '0';
                     document.getElementById('dispUsed').innerText = u.Used_Sessions || '0';
                     document.getElementById('dispTotal').innerText = u.Total_Sessions || '0';
+                    document.getElementById('dispStatus').innerText = u.Payment_Status || '---';
 
                     if(u.PDF_Link) {
                         document.getElementById('pdfBox').classList.remove('hidden');
                         document.getElementById('pdfUrl').href = u.PDF_Link;
                     }
 
-                    renderHistory(history);
+                    // Render lifting history from all rows that have an Exercise
+                    const liftingLogs = allEntries.filter(entry => entry.Exercise && entry.Weight);
+                    renderHistory(liftingLogs);
+                    
                     renderTabs(u);
                 } else {
                     document.getElementById('protocolContainer').innerHTML = "<div class='p-10 text-center font-black text-rose-500'>CLIENT NOT FOUND</div>";
                 }
-            } catch (err) { console.error("API Error", err); }
+            } catch (err) { 
+                console.error("API Error", err); 
+                document.getElementById('dispName').innerText = "Error Loading Data";
+            }
         }
 
         function renderHistory(logs) {
             const body = document.getElementById('historyBody');
-            let rows = '';
-            
-            // Sort by date (latest first) if date exists
-            const sortedLogs = logs.filter(l => l.Exercise && l.Weight).reverse();
-
-            if(sortedLogs.length === 0) {
-                body.innerHTML = '<tr><td colspan="3" class="text-center opacity-30 py-4">No lifting records found</td></tr>';
+            if(logs.length === 0) {
+                body.innerHTML = '<tr><td colspan="3" class="text-center opacity-30 py-4">No records found</td></tr>';
                 return;
             }
-
-            sortedLogs.forEach(log => {
-                rows += `
+            // Reverse to show newest at top
+            body.innerHTML = logs.reverse().map(log => `
                 <tr>
-                    <td class="font-bold text-neutral-400">${log.Date || '---'}</td>
+                    <td class="font-bold text-neutral-500">${log.Date || '---'}</td>
                     <td class="font-black italic uppercase">${log.Exercise}</td>
                     <td class="text-amber-500 font-black">${log.Weight}kg</td>
-                </tr>`;
-            });
-            body.innerHTML = rows;
+                </tr>
+            `).join('');
         }
 
         function renderTabs(u) {
             const container = document.getElementById('protocolContainer');
             let latest = 1;
-            for(let i=4; i>=1; i--) { if(u[`Week${i}_Diet`] || u[`Week${i}_Workout`]) { latest = i; break; } }
+            // Support up to 6 weeks as requested previously
+            for(let i=6; i>=1; i--) { if(u[`Week${i}_Diet`] || u[`Week${i}_Workout`]) { latest = i; break; } }
 
             let html = '';
-            for(let i=1; i<=4; i++) {
+            for(let i=1; i<=6; i++) {
                 const diet = u[`Week${i}_Diet`];
                 const work = u[`Week${i}_Workout`];
+                
                 if((diet && diet.trim() !== "") || (work && work.trim() !== "")) {
                     html += `
                     <div class="phase-card glass p-6 ${i === latest ? 'active' : ''}" onclick="this.classList.toggle('active')">
@@ -163,7 +177,7 @@
                     </div>`;
                 }
             }
-            container.innerHTML = html;
+            container.innerHTML = html || "<p class='text-center opacity-30 text-[10px] py-10 uppercase font-black'>No active protocols assigned</p>";
         }
         fetchUser();
     </script>
