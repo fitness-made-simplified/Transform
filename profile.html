@@ -9,10 +9,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        .phase-card { transition: all 0.4s ease; cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); }
+        .phase-card { transition: all 0.4s ease; cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); margin-bottom: 12px; }
         .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
         .phase-content { max-height: 0; opacity: 0; transition: all 0.5s ease; overflow: hidden; }
-        .phase-card.active .phase-content { max-height: fit-content; opacity: 1; padding-top: 20px; }
+        .phase-card.active .phase-content { max-height: fit-content; opacity: 1; padding-top: 20px; padding-bottom: 10px; }
         .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; }
         .stat-value { font-size: 14px; font-weight: 900; font-style: italic; }
         .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; color: white; font-size: 12px; width: 100%; outline: none; }
@@ -25,22 +25,43 @@
 
     <header class="mb-8">
         <h1 class="text-4xl font-black uppercase italic leading-none" id="dispName">Loading...</h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Physio-Led Performance</p>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Physio-Led Health Metrics</p>
     </header>
+
+    <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="glass p-4">
+            <p class="stat-label">Age / Height</p>
+            <p class="stat-value"><span id="dispAge">0</span> <span class="opacity-30">/</span> <span id="dispHeight">0</span>cm</p>
+        </div>
+        <div class="glass p-4">
+            <p class="stat-label">Weight / Fat %</p>
+            <p class="stat-value"><span id="dispWeight">0</span>kg <span class="opacity-30">/</span> <span id="dispFat">0</span>%</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-8">
+        <div class="glass p-4 border-b-2 border-rose-600">
+            <p class="stat-label">Sessions</p>
+            <p class="stat-value text-rose-500"><span id="dispUsed">0</span> <span class="text-white opacity-30 mx-1">/</span> <span id="dispTotal" class="text-white">0</span></p>
+        </div>
+        <div class="glass p-4 border-b-2 border-emerald-500">
+            <p class="stat-label">Status</p>
+            <p class="stat-value text-emerald-500 uppercase" id="dispStatus">---</p>
+        </div>
+    </div>
 
     <div class="glass p-6 mb-8 border-t-2 border-amber-500">
         <h3 class="text-xs font-black uppercase tracking-widest text-amber-500 italic mb-4">Performance Log</h3>
         
         <div id="logForm" class="space-y-3 mb-6 p-4 bg-white/5 rounded-2xl">
-            <p class="text-[9px] font-black uppercase opacity-50 mb-2">Record New Personal Best</p>
             <div class="grid grid-cols-2 gap-2">
-                <input type="text" id="newEx" placeholder="Exercise (e.g. Squat)" class="input-field">
+                <input type="text" id="newEx" placeholder="Exercise" class="input-field">
                 <input type="number" id="newWeight" placeholder="Weight (kg)" class="input-field">
             </div>
-            <button onclick="saveNewLift()" id="saveBtn" class="w-full bg-amber-500 text-black font-black py-3 rounded-xl text-xs uppercase italic">Update Personal Best</button>
+            <button onclick="saveNewLift()" id="saveBtn" class="w-full bg-amber-500 text-black font-black py-3 rounded-xl text-[10px] uppercase italic">Update Personal Best</button>
         </div>
 
-        <div class="max-h-[200px] overflow-y-auto no-scrollbar">
+        <div class="max-h-[180px] overflow-y-auto no-scrollbar">
             <table class="history-table">
                 <tbody id="historyBody">
                     <tr><td class="text-center opacity-30 italic">No logs found.</td></tr>
@@ -53,7 +74,6 @@
 
     <script>
         const API_URL = 'https://sheetdb.io/api/v1/q4n4z3yr8dbyt';
-        let currentUser = null;
 
         async function fetchUser() {
             const id = new URLSearchParams(window.location.search).get('id');
@@ -62,13 +82,27 @@
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                const allEntries = data.filter(u => u.Client_ID && u.Client_ID.toLowerCase() === id.toLowerCase());
-                currentUser = allEntries.find(u => u.Name && u.Name.trim() !== "");
+                
+                // Get all rows for this client
+                const allRows = data.filter(r => r.Client_ID && r.Client_ID.toLowerCase() === id.toLowerCase());
+                
+                // Master row has the Name and Week1 data
+                const master = allRows.find(r => r.Name && r.Name.trim() !== "");
 
-                if (currentUser) {
-                    document.getElementById('dispName').innerText = currentUser.Name;
-                    renderHistory(allEntries.filter(e => e.Exercise && e.Weight));
-                    renderTabs(currentUser);
+                if (master) {
+                    document.getElementById('dispName').innerText = master.Name;
+                    document.getElementById('dispAge').innerText = master.Age || '0';
+                    document.getElementById('dispHeight').innerText = master.Height || '0';
+                    document.getElementById('dispWeight').innerText = master.Weight || '0';
+                    document.getElementById('dispFat').innerText = master.Fat_Percentage || '0';
+                    document.getElementById('dispUsed').innerText = master.Used_Sessions || '0';
+                    document.getElementById('dispTotal').innerText = master.Total_Sessions || '0';
+                    document.getElementById('dispStatus').innerText = master.Payment_Status || '---';
+
+                    // History comes from rows that have Exercise & Weight
+                    const logs = allRows.filter(r => r.Exercise && r.Weight);
+                    renderHistory(logs);
+                    renderTabs(master);
                 }
             } catch (err) { console.error(err); }
         }
@@ -77,19 +111,11 @@
             const id = new URLSearchParams(window.location.search).get('id');
             const ex = document.getElementById('newEx').value;
             const wt = document.getElementById('newWeight').value;
-            const btn = document.getElementById('saveBtn');
+            if (!ex || !wt) return alert("Fill exercise and weight");
 
-            if (!ex || !wt) return alert("Fill all fields");
+            document.getElementById('saveBtn').innerText = "Syncing...";
 
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-
-            const newRow = {
-                "Client_ID": id,
-                "Date": new Date().toLocaleDateString('en-GB'),
-                "Exercise": ex,
-                "Weight": wt
-            };
+            const newRow = { "Client_ID": id, "Date": new Date().toLocaleDateString('en-GB'), "Exercise": ex, "Weight": wt };
 
             try {
                 const res = await fetch(API_URL, {
@@ -97,10 +123,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ data: [newRow] })
                 });
-                if (res.ok) {
-                    alert("Lift Logged Successfully!");
-                    location.reload(); 
-                }
+                if (res.ok) { location.reload(); }
             } catch (err) { alert("Error saving"); }
         }
 
@@ -109,7 +132,7 @@
             if(logs.length > 0) {
                 body.innerHTML = logs.reverse().map(log => `
                     <tr>
-                        <td class="font-bold text-neutral-500">${log.Date || '---'}</td>
+                        <td class="font-bold text-neutral-600">${log.Date || '---'}</td>
                         <td class="font-black italic uppercase">${log.Exercise}</td>
                         <td class="text-amber-500 font-black">${log.Weight}kg</td>
                     </tr>
@@ -123,16 +146,16 @@
             for(let i=1; i<=6; i++) {
                 const diet = u[`Week${i}_Diet`];
                 const work = u[`Week${i}_Workout`];
-                if(diet || work) {
+                if((diet && diet.trim() !== "") || (work && work.trim() !== "")) {
                     html += `
                     <div class="phase-card glass p-6" onclick="this.classList.toggle('active')">
                         <div class="flex justify-between items-center">
-                            <div><p class="stat-label text-rose-500">Phase 0${i}</p><h3 class="text-xl font-black uppercase italic leading-none">Week ${i}</h3></div>
-                            <span class="text-neutral-600">↓</span>
+                            <div><p class="stat-label text-rose-500">Protocol Phase 0${i}</p><h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Plan</h3></div>
+                            <span class="text-rose-500">↓</span>
                         </div>
-                        <div class="phase-content space-y-4">
-                            <p class="text-xs text-neutral-300 whitespace-pre-wrap">${diet || '---'}</p>
-                            <p class="text-xs text-neutral-500 border-t border-white/5 pt-2">${work || ''}</p>
+                        <div class="phase-content space-y-6">
+                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Nutrition Strategy</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${diet || '---'}</div></div>
+                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Training Logic</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${work || '---'}</div></div>
                         </div>
                     </div>`;
                 }
