@@ -14,8 +14,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .typing { display: flex; gap: 4px; padding: 10px; }
         .dot { width: 4px; height: 4px; background: #e11d48; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
@@ -26,15 +24,15 @@
             <a href="index.html" class="p-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg></a>
             <div>
                 <h1 class="text-sm font-black italic uppercase tracking-tighter">Sushant <span class="text-rose-600">AI</span></h1>
-                <p class="text-[8px] font-bold text-neutral-500 uppercase tracking-widest">Physio-Led Intelligence</p>
+                <p class="text-[8px] font-bold text-neutral-500 uppercase tracking-widest">Physio Intelligence v2.5</p>
             </div>
         </div>
-        <div id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]"></div>
+        <div id="status-light" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]"></div>
     </header>
 
     <div id="chat" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
         <div class="flex justify-start">
-            <div class="chat-bubble ai-msg">Namaste! Main Sushant ka AI Assistant hoon. Training, recovery ya nutrition se related kuch bhi puchiye. 💪</div>
+            <div class="chat-bubble ai-msg">Namaste! Main aapka FMS Assistant hoon. Training, rehab ya nutrition se juda koi bhi sawal puchiye. 💪</div>
         </div>
     </div>
 
@@ -42,7 +40,7 @@
 
     <footer class="p-4 bg-[#050505] border-t border-[#111]">
         <form id="form" class="flex gap-2">
-            <input type="text" id="input" autocomplete="off" placeholder="Message Coach..." class="flex-1 bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white focus:border-rose-600 outline-none">
+            <input type="text" id="input" autocomplete="off" placeholder="Ask Coach..." class="flex-1 bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white focus:border-rose-600 outline-none">
             <button type="submit" class="rose-gradient w-12 h-12 rounded-xl flex items-center justify-center active:scale-90 transition-transform">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
@@ -54,41 +52,41 @@
         const form = document.getElementById('form');
         const input = document.getElementById('input');
         const typing = document.getElementById('typing-indicator');
-        const apiKey = ""; // Runtime provides this
+        const apiKey = ""; // Do not fill this manually, environment handles it
 
-        async function callGemini(userQuery) {
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        async function callGemini(prompt) {
+            // Updated Endpoint & Model
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
             const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
+                contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { 
-                    parts: [{ text: "You are Coach Sushant's AI Assistant for FMS (Fitness Made Simplified). You are a Physiotherapist and Elite Strength Coach. Keep answers concise, science-based, and friendly. Use a mix of Hindi and English (Hinglish). If asked about booking, refer to Pro Plans on the home page." }] 
-                }
+                    parts: [{ text: "You are Coach Sushant's AI (FMS). You are a Physiotherapist and Elite Strength Coach. Mix Hindi and English. Keep responses scientific yet simple." }] 
+                },
+                tools: [{ google_search: {} }] // Adding Google Search for better accuracy
             };
 
-            let lastError = null;
             for (let i = 0; i < 5; i++) {
                 try {
-                    const response = await fetch(endpoint, {
+                    const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error?.message || 'Network error');
+                    
+                    if (response.status === 401 || response.status === 403) {
+                        throw new Error("Key Issue. Refresh and try.");
                     }
-
+                    
+                    if (!response.ok) throw new Error("Connection unstable.");
+                    
                     const data = await response.json();
                     return data.candidates?.[0]?.content?.parts?.[0]?.text;
                 } catch (err) {
-                    lastError = err;
-                    const delay = Math.pow(2, i) * 1000;
-                    await new Promise(r => setTimeout(r, delay));
+                    if (i === 4) throw err;
+                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
                 }
             }
-            throw lastError;
         }
 
         function addMsg(role, text) {
@@ -96,7 +94,7 @@
             div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
             div.innerHTML = `<div class="chat-bubble ${role === 'user' ? 'user-msg' : 'ai-msg'}">${text}</div>`;
             chat.appendChild(div);
-            chat.scrollTop = chat.scrollHeight;
+            chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
         }
 
         form.onsubmit = async (e) => {
@@ -114,8 +112,8 @@
                 addMsg('ai', response);
             } catch (err) {
                 typing.classList.add('hidden');
-                addMsg('ai', `System update ho raha hai (Error: ${err.message}). Please thodi der baad try karein ya WhatsApp par connect karein.`);
-                console.error("Gemini Error:", err);
+                addMsg('ai', "Net slow hone ki wajah se reply nahi mil pa raha. Ek baar page refresh karein.");
+                console.error(err);
             }
         };
     </script>
