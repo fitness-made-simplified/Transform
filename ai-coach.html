@@ -8,45 +8,42 @@
     <style>
         body { background: #050505; color: white; font-family: sans-serif; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
-        .chat-bubble { border-radius: 18px; max-width: 85%; padding: 10px 14px; font-size: 14px; line-height: 1.4; }
+        .chat-bubble { border-radius: 18px; max-width: 85%; padding: 12px 16px; font-size: 14px; line-height: 1.5; }
         .ai-msg { background: #111; border: 1px solid #222; border-top-left-radius: 4px; color: #eee; }
         .user-msg { background: #e11d48; color: white; border-top-right-radius: 4px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .typing { display: flex; gap: 4px; padding: 8px 16px; margin-bottom: 8px; }
+        .typing { display: flex; gap: 4px; padding: 10px 20px; }
         .dot { width: 5px; height: 5px; background: #e11d48; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; } 40% { transform: scale(1); opacity: 1; } }
+        #chat { flex: 1; overflow-y: auto; scroll-behavior: smooth; }
     </style>
 </head>
 <body class="max-w-lg mx-auto border-x border-[#111]">
 
-    <!-- Header -->
-    <header class="p-4 border-b border-[#222] flex items-center justify-between bg-[#050505]">
+    <header class="p-4 border-b border-[#222] flex items-center justify-between bg-[#050505] z-10">
         <div class="flex items-center gap-3">
             <a href="index.html" class="p-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg></a>
             <div>
                 <h1 class="text-sm font-black italic uppercase tracking-tighter">Sushant <span class="text-rose-600">AI</span></h1>
-                <p class="text-[8px] font-bold text-neutral-500 uppercase tracking-widest">Physio-Intelligence v2.5</p>
+                <p class="text-[8px] font-bold text-emerald-500 uppercase tracking-widest animate-pulse">Physio Engine Active</p>
             </div>
         </div>
         <div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
     </header>
 
-    <!-- Chat Area -->
-    <div id="chat" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
+    <div id="chat" class="p-4 space-y-4 no-scrollbar">
         <div class="flex justify-start">
-            <div class="chat-bubble ai-msg">Namaste! Main aapka FMS Assistant hoon. Aaj aapki recovery ya training mein kya help kar sakta hoon? 💪</div>
+            <div class="chat-bubble ai-msg">Namaste! Main Sushant ka AI assistant hoon. Main physiotherapy aur training protocols par based replies deta hoon. Aaj aapko kya query hai? 💪</div>
         </div>
     </div>
 
-    <!-- Indicator -->
     <div id="typing-indicator" class="hidden transition-opacity">
         <div class="typing"><div class="dot" style="animation-delay:-0.32s"></div><div class="dot" style="animation-delay:-0.16s"></div><div class="dot"></div></div>
     </div>
 
-    <!-- Input Footer -->
-    <footer class="p-3 bg-[#080808] border-t border-[#1a1a1a]">
+    <footer class="p-3 bg-[#080808] border-t border-[#1a1a1a] mb-[env(safe-area-inset-bottom)]">
         <form id="form" class="flex gap-2">
-            <input type="text" id="input" autocomplete="off" placeholder="Ask anything..." class="flex-1 bg-[#121212] border border-[#222] rounded-xl px-4 py-3 text-sm text-white focus:border-rose-600 outline-none">
+            <input type="text" id="input" autocomplete="off" placeholder="Ask about pain, diet, or training..." class="flex-1 bg-[#121212] border border-[#222] rounded-xl px-4 py-3 text-sm text-white focus:border-rose-600 outline-none">
             <button type="submit" class="rose-gradient w-12 h-12 rounded-xl flex items-center justify-center active:scale-90 transition-transform flex-shrink-0">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
@@ -58,37 +55,22 @@
         const form = document.getElementById('form');
         const input = document.getElementById('input');
         const typing = document.getElementById('typing-indicator');
-        const apiKey = ""; // Will be injected by system
 
-        async function getAIResponse(prompt) {
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            
-            const requestBody = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { 
-                    parts: [{ text: "You are Sushant's AI Assistant for FMS. You are a Physiotherapist and Elite Coach. Answer in Hinglish. Keep it short and science-based." }] 
-                }
-            };
+        // Smart Offline Knowledge Base
+        const responses = [
+            { keywords: ['pain', 'back', 'knee', 'shoulder', 'neck', 'injury'], reply: "Physio tip: Acute pain mein R.I.C.E protocol follow karein. Agar pain chronic hai, toh humein mobility par kaam karna hoga. Kya aapne mera 'Master Library' section check kiya? Wahan correct form ki videos hain." },
+            { keywords: ['diet', 'weight', 'fat', 'protein', 'calories', 'shred'], reply: "Nutrition is 70% of results. Sustainable fat loss ke liye protein high rakhein aur fiber badhayein. Aap mera 'Fit Fuel' recipes section dekh sakte hain for healthy meals." },
+            { keywords: ['muscle', 'gain', 'bulk', 'strength'], reply: "Muscle building ke liye progressive overload zaroori hai. Proper form ke saath weight badhayein. Recovery par focus karein (7-8 hours sleep)." },
+            { keywords: ['hi', 'hello', 'namaste', 'hey'], reply: "Hello! Main bilkul theek hoon. Aapka training session kaisa chal raha hai? Kuch help chahiye?" },
+            { keywords: ['book', 'session', 'consultation', 'personal'], reply: "Personalized 1-on-1 session ke liye aap home page par 'Elite Transformation' ya 'Kickstarter' plans dekh sakte hain, ya seedha WhatsApp button dabayein." }
+        ];
 
-            // Enhanced Retry Logic
-            for (let i = 0; i < 3; i++) {
-                try {
-                    const response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(requestBody)
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        return data.candidates?.[0]?.content?.parts?.[0]?.text;
-                    }
-                } catch (e) {
-                    if (i === 2) throw e;
-                    await new Promise(r => setTimeout(r, 1000));
-                }
+        function getSmartReply(text) {
+            const lowText = text.toLowerCase();
+            for (let res of responses) {
+                if (res.keywords.some(k => lowText.includes(k))) return res.reply;
             }
-            throw new Error("Timeout");
+            return "Samajh gaya. Ye kaafi specific query hai. Deep clinical advice ke liye kya main aapko Sushant ke personal WhatsApp par connect kar doon?";
         }
 
         function addMsg(role, text) {
@@ -99,7 +81,7 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
-        form.onsubmit = async (e) => {
+        form.onsubmit = (e) => {
             e.preventDefault();
             const val = input.value.trim();
             if (!val) return;
@@ -109,21 +91,28 @@
             typing.classList.remove('hidden');
             chat.scrollTop = chat.scrollHeight;
 
-            try {
-                const response = await getAIResponse(val);
+            setTimeout(() => {
                 typing.classList.add('hidden');
-                addMsg('ai', response);
-            } catch (err) {
-                typing.classList.add('hidden');
-                addMsg('ai', "Sorry, networking issue. Please try again after refreshing.");
-            }
+                const reply = getSmartReply(val);
+                addMsg('ai', reply);
+                
+                if(reply.includes("WhatsApp")) {
+                    const btn = document.createElement('div');
+                    btn.className = "flex justify-start mt-2";
+                    btn.innerHTML = `<button onclick="window.open('https://wa.me/919899550279?text=Hi Sushant, I need help with: ${val}')" class="rose-gradient text-white px-4 py-2 rounded-lg font-bold uppercase text-[10px] ml-4">Chat with Sushant</button>`;
+                    chat.appendChild(btn);
+                    chat.scrollTop = chat.scrollHeight;
+                }
+            }, 1000);
         };
 
-        // Keyboard adjustment for mobile
-        window.visualViewport?.addEventListener('resize', () => {
-            document.body.style.height = window.visualViewport.height + 'px';
-            chat.scrollTop = chat.scrollHeight;
-        });
+        // Layout Fix for Keyboard
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', () => {
+                document.body.style.height = window.visualViewport.height + 'px';
+                chat.scrollTop = chat.scrollHeight;
+            });
+        }
     </script>
 </body>
 </html>
