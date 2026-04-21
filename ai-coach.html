@@ -8,7 +8,7 @@
     <style>
         body { background: #050505; color: white; font-family: sans-serif; overflow: hidden; }
         .rose-gradient { background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); }
-        .chat-bubble { border-radius: 18px; max-width: 85%; padding: 12px 16px; font-size: 14px; line-height: 1.5; }
+        .chat-bubble { border-radius: 18px; max-width: 85%; padding: 12px 16px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
         .ai-msg { background: #111; border: 1px solid #222; border-top-left-radius: 4px; }
         .user-msg { background: #e11d48; color: white; border-top-right-radius: 4px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -26,15 +26,15 @@
             <a href="index.html" class="p-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg></a>
             <div>
                 <h1 class="text-sm font-black italic uppercase tracking-tighter">Sushant <span class="text-rose-600">AI</span></h1>
-                <p id="quota" class="text-[8px] font-bold text-neutral-500 uppercase tracking-widest">Free Plan Active</p>
+                <p class="text-[8px] font-bold text-neutral-500 uppercase tracking-widest">Physio-Led Intelligence</p>
             </div>
         </div>
-        <div id="status" class="bg-rose-600/10 text-rose-500 border border-rose-600/20 px-2 py-0.5 rounded text-[8px] font-black uppercase">Online</div>
+        <div id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]"></div>
     </header>
 
     <div id="chat" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
         <div class="flex justify-start">
-            <div class="chat-bubble ai-msg">Namaste! Main aapka FMS Virtual Coach hoon. Aaj workout ya diet mein kya help chahiye? 💪</div>
+            <div class="chat-bubble ai-msg">Namaste! Main Sushant ka AI Assistant hoon. Training, recovery ya nutrition se related kuch bhi puchiye. 💪</div>
         </div>
     </div>
 
@@ -42,8 +42,8 @@
 
     <footer class="p-4 bg-[#050505] border-t border-[#111]">
         <form id="form" class="flex gap-2">
-            <input type="text" id="input" autocomplete="off" placeholder="Ask anything about fitness..." class="flex-1 bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white focus:border-rose-600 outline-none">
-            <button class="rose-gradient w-12 h-12 rounded-xl flex items-center justify-center active:scale-90 transition-transform">
+            <input type="text" id="input" autocomplete="off" placeholder="Message Coach..." class="flex-1 bg-[#111] border border-[#222] rounded-xl px-4 py-3 text-sm text-white focus:border-rose-600 outline-none">
+            <button type="submit" class="rose-gradient w-12 h-12 rounded-xl flex items-center justify-center active:scale-90 transition-transform">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
         </form>
@@ -54,31 +54,41 @@
         const form = document.getElementById('form');
         const input = document.getElementById('input');
         const typing = document.getElementById('typing-indicator');
-        const apiKey = ""; // API Key will be injected at runtime
+        const apiKey = ""; // Runtime provides this
 
-        async function callGemini(prompt, retries = 5) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        async function callGemini(userQuery) {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
-            for (let i = 0; i < retries; i++) {
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { 
+                    parts: [{ text: "You are Coach Sushant's AI Assistant for FMS (Fitness Made Simplified). You are a Physiotherapist and Elite Strength Coach. Keep answers concise, science-based, and friendly. Use a mix of Hindi and English (Hinglish). If asked about booking, refer to Pro Plans on the home page." }] 
+                }
+            };
+
+            let lastError = null;
+            for (let i = 0; i < 5; i++) {
                 try {
-                    const response = await fetch(url, {
+                    const response = await fetch(endpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: prompt }] }],
-                            systemInstruction: { parts: [{ text: "You are the FMS Coach (Sushant). You are a professional Physiotherapist and Elite Fitness Coach. Your advice must be science-backed, physio-led, and motivating. Use Hindi-English (Hinglish) mix as preferred by Indian users." }] }
-                        })
+                        body: JSON.stringify(payload)
                     });
-                    
-                    if (!response.ok) throw new Error('API Error');
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error?.message || 'Network error');
+                    }
+
                     const data = await response.json();
                     return data.candidates?.[0]?.content?.parts?.[0]?.text;
                 } catch (err) {
-                    if (i === retries - 1) throw err;
+                    lastError = err;
                     const delay = Math.pow(2, i) * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
+                    await new Promise(r => setTimeout(r, delay));
                 }
             }
+            throw lastError;
         }
 
         function addMsg(role, text) {
@@ -91,20 +101,21 @@
 
         form.onsubmit = async (e) => {
             e.preventDefault();
-            const val = input.value.trim();
-            if (!val) return;
+            const msg = input.value.trim();
+            if (!msg) return;
 
-            addMsg('user', val);
+            addMsg('user', msg);
             input.value = '';
             typing.classList.remove('hidden');
 
             try {
-                const aiResponse = await callGemini(val);
+                const response = await callGemini(msg);
                 typing.classList.add('hidden');
-                addMsg('ai', aiResponse);
+                addMsg('ai', response);
             } catch (err) {
                 typing.classList.add('hidden');
-                addMsg('ai', "Maafi chahta hoon, connection thoda slow hai. Please ek baar phir se try karein.");
+                addMsg('ai', `System update ho raha hai (Error: ${err.message}). Please thodi der baad try karein ya WhatsApp par connect karein.`);
+                console.error("Gemini Error:", err);
             }
         };
     </script>
