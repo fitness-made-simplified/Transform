@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Performance Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 14px; color: white; width: 100%; outline: none; transition: border 0.3s; }
+        .input-field:focus { border-color: #f59e0b; }
+        .history-table { width: 100%; font-size: 12px; border-collapse: separate; border-spacing: 0 8px; }
+        .history-table td { padding: 14px 10px; background: rgba(255,255,255,0.02); }
+        .history-table tr td:first-child { border-radius: 12px 0 0 12px; }
+        .history-table tr td:last-child { border-radius: 0 12px 12px 0; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="p-6 pb-20">
+
+    <header class="mb-8">
+        <a id="backBtn" href="#" class="text-amber-500 font-black uppercase text-[10px] tracking-widest mb-6 block">← Back to Profile</a>
+        <h1 class="text-4xl font-black uppercase italic leading-none">Lift <span class="text-amber-500">Tracker</span></h1>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Personal Best History</p>
+    </header>
+
+    <div class="glass p-6 mb-8 border-t-2 border-amber-500">
+        <div class="space-y-4">
+            <div>
+                <label class="text-[9px] font-black uppercase text-neutral-500 ml-2">Exercise Name</label>
+                <input type="text" id="newEx" placeholder="e.g. Barbell Squat" class="input-field mt-1">
+            </div>
+            <div>
+                <label class="text-[9px] font-black uppercase text-neutral-500 ml-2">Weight (KG)</label>
+                <input type="number" id="newWeight" placeholder="e.g. 100" class="input-field mt-1">
+            </div>
+            <button onclick="saveLift()" id="saveBtn" class="w-full bg-amber-500 text-black font-black py-4 rounded-2xl text-xs uppercase italic tracking-wider active:scale-95 transition-transform">Sync with Sheet</button>
+        </div>
+    </div>
+
+    <div class="glass p-6">
+        <h3 class="text-xs font-black uppercase tracking-widest text-neutral-400 mb-4">Logged Progress</h3>
+        <div class="max-h-[400px] overflow-y-auto no-scrollbar">
+            <table class="history-table">
+                <tbody id="historyBody">
+                    <tr><td class="text-center opacity-30 py-10 italic">Fetching log history...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://sheetdb.io/api/v1/q4n4z3yr8dbyt';
+        const clientId = new URLSearchParams(window.location.search).get('id');
+
+        // Set the back button link
+        if (clientId) {
+            document.getElementById('backBtn').href = `profile.html?id=${clientId}`;
+        }
+
+        async function fetchLogs() {
+            if (!clientId) return;
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Filtering rows that match Client_ID and have an Exercise entry
+                const logs = data.filter(r => {
+                    const idMatch = (r.Client_ID || r.client_id || "").toString().trim().toLowerCase() === clientId.toLowerCase();
+                    const hasLog = (r.Exercise || r.exercise);
+                    return idMatch && hasLog;
+                });
+
+                renderHistory(logs);
+            } catch (err) { console.error("Fetch Error:", err); }
+        }
+
+        async function saveLift() {
+            const ex = document.getElementById('newEx').value;
+            const wt = document.getElementById('newWeight').value;
+            const btn = document.getElementById('saveBtn');
+
+            if (!ex || !wt) return alert("Enter exercise and weight!");
+
+            btn.innerText = "Syncing...";
+            btn.disabled = true;
+
+            const newRow = {
+                "Client_ID": clientId,
+                "Date": new Date().toLocaleDateString('en-GB'),
+                "Exercise": ex,
+                "Weight": wt
+            };
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: [newRow] })
+                });
+                if (res.ok) {
+                    alert("Lift Logged Successfully!");
+                    location.reload();
+                }
+            } catch (err) { 
+                alert("Error connecting to sheet.");
+                btn.innerText = "Sync with Sheet";
+                btn.disabled = false;
+            }
+        }
+
+        function renderHistory(logs) {
+            const body = document.getElementById('historyBody');
+            if (logs.length > 0) {
+                body.innerHTML = logs.reverse().map(log => `
+                    <tr>
+                        <td class="font-bold text-neutral-500">${log.Date || log.date || '---'}</td>
+                        <td class="font-black italic uppercase">${log.Exercise || log.exercise}</td>
+                        <td class="text-amber-500 font-black text-right">${log.Weight || log.weight}kg</td>
+                    </tr>
+                `).join('');
+            } else {
+                body.innerHTML = '<tr><td class="text-center opacity-30 py-10">No records found for this ID.</td></tr>';
+            }
+        }
+
+        fetchLogs();
+    </script>
+</body>
+</html>
