@@ -11,7 +11,7 @@
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
         .input-field { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 14px; color: white; width: 100%; outline: none; }
         .pb-card { border-left: 4px solid #f59e0b; background: rgba(245, 158, 11, 0.05); margin-bottom: 12px; }
-        .dropdown-content { display: none; }
+        .dropdown-content { display: none; padding-top: 15px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
         .dropdown-active .dropdown-content { display: block; }
     </style>
 </head>
@@ -20,7 +20,7 @@
     <header class="mb-8 text-center">
         <a id="backBtn" href="#" class="text-amber-500 font-black uppercase text-[10px] tracking-widest mb-6 block">← Back to Profile</a>
         <h1 class="text-4xl font-black uppercase italic leading-tight">Member <span class="text-amber-500">Vault</span></h1>
-        <p id="idTag" class="text-[9px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-2">Syncing...</p>
+        <p id="idTag" class="text-[9px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-2">Connecting...</p>
     </header>
 
     <div class="glass p-6 mb-8 border-t-2 border-amber-500">
@@ -35,51 +35,54 @@
     <div class="space-y-4">
         <div class="flex justify-between items-center px-2">
             <h3 class="text-[10px] font-black uppercase text-neutral-500 tracking-widest">Personal Bests</h3>
-            <span id="syncIndicator" class="text-[8px] font-bold text-amber-500 animate-pulse">Syncing...</span>
+            <span id="syncIndicator" class="text-[8px] font-bold text-amber-500">SYNCING...</span>
         </div>
-        
-        <div id="pbContainer" class="space-y-3">
-            </div>
+        <div id="pbContainer" class="space-y-3"></div>
     </div>
 
     <script>
         const API_URL = 'https://sheetdb.io/api/v1/q4n4z3yr8dbyt';
-        const rawId = new URLSearchParams(window.location.search).get('id');
-        const cleanId = rawId ? rawId.trim().toLowerCase() : null;
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawId = urlParams.get('id');
 
-        document.getElementById('idTag').innerText = `ID: ${rawId || 'Missing'}`;
+        // Setup Header
+        document.getElementById('idTag').innerText = `MEMBER ID: ${rawId || 'NOT FOUND'}`;
         if (rawId) document.getElementById('backBtn').href = `profile.html?id=${rawId}`;
 
         async function fetchRecords() {
-            if (!cleanId) return;
+            if (!rawId) return;
+            const cleanTargetId = rawId.trim().toLowerCase();
+
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // SUPER FUZZY FILTER: Matches regardless of spaces or Case
-                const userLogs = data.filter(r => {
-                    const sheetId = (r.Client_ID || "").toString().trim().toLowerCase();
-                    return sheetId === cleanId && (r.Exercise || r.Weight);
-                });
+                // Helper to find data regardless of column spaces/capitalization
+                const getVal = (row, key) => {
+                    const actualKey = Object.keys(row).find(k => k.trim().toLowerCase() === key.toLowerCase());
+                    return actualKey ? row[actualKey] : null;
+                };
 
-                // Find Highest Weight per Exercise
                 const pbs = {};
-                userLogs.forEach(log => {
-                    const ex = log.Exercise.trim().toUpperCase();
-                    const wt = parseFloat(log.Weight || 0);
-                    const dt = log.Date || '---';
 
-                    if (!pbs[ex] || wt > pbs[ex].weight) {
-                        pbs[ex] = { weight: wt, date: dt };
+                data.forEach(row => {
+                    const rowId = (getVal(row, 'Client_ID') || "").toString().trim().toLowerCase();
+                    const exName = (getVal(row, 'Exercise') || "").toString().trim().toUpperCase();
+                    const weight = parseFloat(getVal(row, 'Weight') || 0);
+                    const date = getVal(row, 'Date') || '---';
+
+                    if (rowId === cleanTargetId && exName && weight > 0) {
+                        if (!pbs[exName] || weight > pbs[exName].weight) {
+                            pbs[exName] = { weight: weight, date: date };
+                        }
                     }
                 });
 
                 renderPBs(pbs);
-                document.getElementById('syncIndicator').innerText = "Live Synced";
-                document.getElementById('syncIndicator').classList.remove('animate-pulse');
+                document.getElementById('syncIndicator').innerText = "LIVE SYNCED";
             } catch (err) { 
                 console.error(err);
-                document.getElementById('syncIndicator').innerText = "Offline";
+                document.getElementById('syncIndicator').innerText = "SYNC ERROR";
             }
         }
 
@@ -88,13 +91,13 @@
             const keys = Object.keys(pbs);
             
             if (keys.length === 0) {
-                container.innerHTML = `<div class="glass p-10 text-center opacity-30 text-[10px] font-black uppercase italic leading-loose">No lifting data found in sheet<br>Log your first lift above!</div>`;
+                container.innerHTML = `<div class="glass p-10 text-center opacity-30 text-[10px] font-black uppercase italic">No records found. Log your first lift above!</div>`;
                 return;
             }
 
             container.innerHTML = keys.map(ex => `
-                <div class="glass p-5 pb-card">
-                    <div class="flex justify-between items-center" onclick="this.parentElement.classList.toggle('dropdown-active')">
+                <div class="glass p-5 pb-card" onclick="this.classList.toggle('dropdown-active')">
+                    <div class="flex justify-between items-center">
                         <div>
                             <p class="text-[7px] font-black text-amber-500/50 uppercase tracking-widest mb-1">RECORD PB</p>
                             <h4 class="text-sm font-black uppercase italic">${ex}</h4>
@@ -104,9 +107,9 @@
                             <span class="text-[9px] font-bold text-amber-500 ml-0.5">KG</span>
                         </div>
                     </div>
-                    <div class="dropdown-content pt-4 mt-4 border-t border-white/5">
+                    <div class="dropdown-content">
                         <div class="flex justify-between items-center">
-                            <span class="text-[9px] font-black text-neutral-500 uppercase">Last Updated</span>
+                            <span class="text-[8px] font-black text-neutral-500 uppercase">Achieved On</span>
                             <span class="text-[10px] font-bold text-neutral-300">${pbs[ex].date}</span>
                         </div>
                     </div>
@@ -115,34 +118,32 @@
         }
 
         async function saveLift() {
-            const ex = document.getElementById('newEx').value;
-            const wt = document.getElementById('newWeight').value;
+            const ex = document.getElementById('newEx').value.trim();
+            const wt = document.getElementById('newWeight').value.trim();
+            if (!ex || !wt) return alert("Please enter exercise and weight");
+
             const btn = document.getElementById('saveBtn');
-
-            if (!ex || !wt) return alert("Enter Exercise and Weight");
-
-            btn.innerText = "Syncing...";
+            btn.innerText = "UPDATING SHEET...";
             btn.disabled = true;
 
-            const newRow = {
-                "Client_ID": rawId,
-                "Date": new Date().toLocaleDateString('en-GB'),
-                "Exercise": ex,
-                "Weight": wt
-            };
-
             try {
-                const res = await fetch(API_URL, {
+                await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ data: [newRow] })
+                    body: JSON.stringify({
+                        data: [{
+                            "Client_ID": rawId,
+                            "Date": new Date().toLocaleDateString('en-GB'),
+                            "Exercise": ex,
+                            "Weight": wt
+                        }]
+                    })
                 });
-                if (res.ok) { location.reload(); }
-                else { throw new Error(); }
+                location.reload();
             } catch (err) { 
-                alert("Sheet Connection Error"); 
-                btn.innerText = "Sync to Sheet";
+                alert("Connection lost. Try again."); 
                 btn.disabled = false;
+                btn.innerText = "Sync to Sheet";
             }
         }
 
