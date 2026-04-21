@@ -308,8 +308,9 @@
 
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────────────────
-const GEMINI_API_KEY = 'AIzaSyCaWGVOqFk1GjZvnNjO6bGNDdlUcwPHyLs';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const OPENROUTER_KEY = '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';
+const GEMINI_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const MODEL = 'meta-llama/llama-3.3-70b-instruct:free';
 
 const FREE_LIMIT = 15;
 const STORAGE_KEY = 'fms_msg_count';
@@ -521,23 +522,34 @@ async function sendMessage() {
 
     try {
         const body = {
-            contents: conversationHistory,
-            generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 800,
-            }
+            model: MODEL,
+            messages: [
+                { role: 'user', content: buildPersona(currentLang) },
+                { role: 'assistant', content: 'Understood. I am ready to assist as the FMS Virtual Trainer.' },
+                ...conversationHistory.slice(2).map(m => ({
+                    role: m.role === 'model' ? 'assistant' : m.role,
+                    content: m.parts[0].text
+                }))
+            ],
+            max_tokens: 800,
+            temperature: 0.7
         };
 
         const res = await fetch(GEMINI_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENROUTER_KEY}`,
+                'HTTP-Referer': 'https://fitness-made-simplified.github.io',
+                'X-Title': 'FMS Virtual Trainer'
+            },
             body: JSON.stringify(body)
         });
 
         const data = await res.json();
 
-        if (data.candidates && data.candidates[0]) {
-            const reply = data.candidates[0].content.parts[0].text;
+        if (data.choices && data.choices[0]) {
+            const reply = data.choices[0].message.content;
             conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
             hideTyping();
             addMessage(reply, 'bot');
