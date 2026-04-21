@@ -19,39 +19,32 @@
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        #toolOverlay { display: none; position: fixed; inset: 0; background: #050505; z-index: 110; overflow-y: auto; padding: 24px; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .question { display: none; }
-        .question.active { display: block; }
-        .result-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-
-        /* Floating AI Bubble Style */
+        /* Floating AI Bubble */
         #ai-bubble {
             position: fixed;
-            bottom: 110px; /* Above the navigation bar */
+            bottom: 110px;
             right: 20px;
             z-index: 99;
-            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.3s ease;
         }
-        @keyframes bounceIn {
-            from { transform: scale(0) rotate(-45deg); opacity: 0; }
-            to { transform: scale(1) rotate(0); opacity: 1; }
-        }
+        #ai-bubble:active { transform: scale(0.9); }
     </style>
 </head>
 <body class="pb-32">
 
     <!-- FLOATING AI COACH ICON -->
     <div id="ai-bubble">
-        <a href="ai-coach.html" class="flex flex-col items-center gap-1 group no-underline">
-            <div class="rose-gradient w-14 h-14 rounded-2xl flex items-center justify-center shadow-[0_8px_25px_rgba(225,29,72,0.4)] border border-white/20 transition-transform active:scale-90 group-hover:scale-110">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <a href="ai-coach.html" class="flex flex-col items-center gap-1 no-underline">
+            <div class="rose-gradient w-14 h-14 rounded-2xl flex items-center justify-center shadow-[0_8px_25px_rgba(225,29,72,0.4)] border border-white/20">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>
                 </svg>
             </div>
-            <span class="bg-black/80 backdrop-blur-sm border border-white/10 px-2 py-0.5 rounded text-[8px] font-black uppercase text-rose-500 tracking-tighter">Coach AI</span>
+            <span class="bg-black/80 px-2 py-0.5 rounded text-[8px] font-black uppercase text-rose-500 tracking-tighter border border-white/10">Ask AI</span>
         </a>
     </div>
 
+    <!-- Coach Profile Overlay -->
     <div id="coachProfile" class="coach-overlay">
         <button onclick="closeCoach()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
@@ -68,48 +61,52 @@
                     <li>• MBA in Hospital Administration</li>
                     <li>• ACE Certified Personal Trainer (CPT)</li>
                     <li>• ACE Nutrition Specialist (NC)</li>
-                    <li>• TRX / Functional Movement / Bosu / Swiss Ball / Medicine Ball Certifications (Fitness First)</li>
-                    <li>• Anabolic Steroid & Performance Enhanced Drug Certifications (Isteroids)</li>
-                    <li>• Post and Prenatal Workshop Certification (Sitaram Bhartiya)</li>
+                    <li>• TRX / Functional Movement Certifications</li>
+                    <li>• Anabolic Steroid & PED Certifications</li>
+                    <li>• Post and Prenatal Workshop Certification</li>
                 </ul>
-            </div>
-            <div class="glass p-6 border-l-2 border-rose-600">
-                <h3 class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4">Professional Timeline</h3>
-                <div class="space-y-4 text-xs">
-                    <div><p class="text-white font-black italic">2020 - Present</p><p class="text-neutral-400">Freelance Online & Offline Elite Coach</p></div>
-                    <div><p class="text-white font-black italic">2019 - 2020</p><p class="text-neutral-400">Fitness Manager | Crossabs Gyms, Panipat</p></div>
-                    <div><p class="text-white font-black italic">2009 - 2018</p><p class="text-neutral-400">Platinum Trainer & Diet Counsellor | Fitness First Saket</p></div>
-                    <div><p class="text-white font-black italic">2008 - 2009</p><p class="text-neutral-400">Mastercoach | Celebrity Fitness, Gurugram, India</p></div>
-                </div>
             </div>
         </div>
     </div>
 
+    <!-- Tool Overlay -->
     <div id="toolOverlay" class="coach-overlay">
         <button onclick="closeTool()" class="mb-8 text-rose-500 font-black uppercase text-xs tracking-widest flex items-center gap-2">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m15 18-6-6 6-6"/></svg> Back
         </button>
-        <h2 class="text-3xl font-black italic uppercase tracking-tighter mb-2 text-center">Transformation<br>Readiness <span class="text-rose-600">Scorecard</span></h2>
+        <h2 class="text-3xl font-black italic uppercase tracking-tighter mb-6 text-center">Transformation <span class="text-rose-600">Scorecard</span></h2>
         <div id="quizContainer" class="glass p-6 max-w-xl mx-auto"></div>
-        <div id="resultScreen" class="hidden glass p-6 max-w-xl mx-auto result-card">
+        <div id="resultScreen" class="hidden glass p-6 max-w-xl mx-auto">
             <div class="text-center mb-6">
                 <div id="scoreCircle" class="mx-auto w-32 h-32 rounded-full border-8 border-rose-600 flex items-center justify-center text-5xl font-black">0</div>
                 <p id="readinessLevel" class="text-xl font-black mt-4"></p>
             </div>
-            <div id="actionPlan" class="text-sm space-y-3"></div>
-            <button onclick="bookSessionFromTool()" class="w-full mt-8 py-4 rose-gradient rounded-2xl font-black uppercase text-sm tracking-widest">Book Personalized 1:1 Session</button>
+            <div id="actionPlan" class="text-sm space-y-3 mb-6"></div>
+            <button onclick="bookSessionFromTool()" class="w-full py-4 rose-gradient rounded-2xl font-black uppercase text-sm tracking-widest">Book 1:1 Session</button>
         </div>
     </div>
 
+    <!-- Navigation -->
     <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
         <div class="glass flex justify-around items-center py-4 px-2 shadow-2xl">
-            <button onclick="showTab('home')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Coach</span></button>
-            <button onclick="showTab('plans')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase text-rose-500">Pro Plans</span></button>
-            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1"><span class="text-[8px] font-black uppercase">Portal</span></button>
+            <button onclick="showTab('home')" class="flex flex-col items-center gap-1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span class="text-[8px] font-black uppercase">Coach</span>
+            </button>
+            <button onclick="showTab('plans')" class="flex flex-col items-center gap-1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                <span class="text-[8px] font-black uppercase text-rose-500">Pro Plans</span>
+            </button>
+            <button onclick="showTab('portal')" class="flex flex-col items-center gap-1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="text-[8px] font-black uppercase">Portal</span>
+            </button>
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="p-6 pt-12">
+        <!-- HOME TAB -->
         <section id="home" class="tab-content active max-w-xl mx-auto">
             <div class="mb-10 flex items-center gap-3">
                 <div class="rose-gradient w-10 h-10 rounded-xl flex items-center justify-center font-black italic text-xs">FS</div>
@@ -126,65 +123,73 @@
                 </div>
             </div>
 
-            <div class="mb-8">
-                <div class="flex justify-between items-end mb-4 px-1">
-                    <div>
-                        <p class="text-[8px] font-black uppercase text-rose-500 tracking-widest">Wall of Fame</p>
-                        <h3 class="text-xl font-black uppercase italic">User <span class="text-rose-600">Results</span></h3>
-                    </div>
-                    <a href="reviews.html" class="text-[9px] font-black uppercase border-b border-rose-600 pb-1">View All</a>
-                </div>
-                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                    <div class="glass p-5 min-w-[280px] border-t-2 border-rose-600">
-                        <div class="flex gap-1 mb-2"><span class="text-rose-500 text-xs">★★★★★</span></div>
-                        <p class="text-[11px] italic text-neutral-300 mb-4">"Best physio-led training. My chronic back pain is gone and I've lost 6kg in 2 months. Sushant knows his science!"</p>
-                        <p class="text-[9px] font-black uppercase text-white">— Rahul Sharma</p>
-                    </div>
-                    <div class="glass p-5 min-w-[280px] border-t-2 border-emerald-500">
-                        <div class="flex gap-1 mb-2"><span class="text-emerald-500 text-xs">★★★★★</span></div>
-                        <p class="text-[11px] italic text-neutral-300 mb-4">"The Shred protocol is intense but safe. Finally found a trainer who understands anatomy and performance."</p>
-                        <p class="text-[9px] font-black uppercase text-white">— Priya K.</p>
-                    </div>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 gap-4 mb-8">
-                <a href="library.html" class="glass p-4 flex items-center justify-between border-l-4 border-rose-600 bg-rose-600/[0.05] btn-press relative overflow-hidden">
-                    <div class="relative z-10">
-                        <p class="text-[8px] font-black uppercase text-rose-500 mb-1 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse"></span> 1,200+ Movements
-                        </p>
+                <a href="library.html" class="glass p-4 flex items-center justify-between border-l-4 border-rose-600 bg-rose-600/[0.05] btn-press">
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-rose-500 mb-1 tracking-widest">1,200+ Movements</p>
                         <h4 class="text-xl font-black uppercase italic tracking-tighter">Master <span class="text-rose-600">Library</span></h4>
-                        <p class="text-[10px] text-neutral-400 mt-1 italic">Eliminate Pain • Perfect Your Form</p>
                     </div>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600 mr-2"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-rose-600"><path d="m9 18 6-6-6-6"/></svg>
                 </a>
-                <!-- Existing Cards Continued... -->
+                
                 <div onclick="openTool()" class="glass p-4 flex items-center justify-between border-l-4 border-emerald-500 btn-press cursor-pointer">
-                    <div><p class="text-[8px] font-black uppercase text-emerald-400 mb-1">Free Physio Tool</p><h4 class="text-xl font-black uppercase italic">Transformation Readiness</h4></div>
+                    <div>
+                        <p class="text-[8px] font-black uppercase text-emerald-400 mb-1 tracking-widest">Free Physio Tool</p>
+                        <h4 class="text-xl font-black uppercase italic tracking-tighter">Transformation <span class="text-emerald-500">Readiness</span></h4>
+                    </div>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
             </div>
         </section>
 
+        <!-- PLANS TAB -->
         <section id="plans" class="tab-content max-w-xl mx-auto">
-            <h2 class="text-3xl font-black italic uppercase mb-8">Pro <span class="text-rose-600">Plans</span></h2>
+            <h2 class="text-3xl font-black italic uppercase mb-8">Elite <span class="text-rose-600">Transformations</span></h2>
             <div class="space-y-6">
-                <div class="glass p-6 border-l-4 border-rose-600">
+                <!-- Elite Plan -->
+                <div class="glass p-6 border-l-4 border-rose-600 bg-rose-600/5">
                     <div class="flex justify-between items-start mb-4">
-                        <div><h4 class="text-lg font-black uppercase italic">Elite Transformation</h4><p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">60 Sessions</p></div>
-                        <div class="text-right"><p class="text-2xl font-black italic text-rose-500">₹28,150</p></div>
+                        <div>
+                            <h4 class="text-lg font-black uppercase italic">The Elite Protocol</h4>
+                            <p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">60 Full Clinical Sessions</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-black italic text-rose-500">₹28,150</p>
+                        </div>
                     </div>
-                    <button onclick="window.open('https://wa.me/919899550279')" class="w-full py-3 bg-white text-black rounded-xl font-black uppercase text-[10px] tracking-widest">Book Package</button>
+                    <ul class="text-xs space-y-2 mb-6 text-neutral-300">
+                        <li>• Complete Bio-Mechanical Assessment</li>
+                        <li>• Specialized Physio-Led Workout Design</li>
+                        <li>• Advanced Nutrition & Supplementation Plan</li>
+                        <li>• 24/7 Direct Access via Private Portal</li>
+                    </ul>
+                    <button onclick="window.open('https://wa.me/919899550279?text=I want to join Elite Transformation')" class="w-full py-4 rose-gradient text-white rounded-2xl font-black uppercase text-xs tracking-widest btn-press">Claim Spot Now</button>
+                </div>
+                
+                <div class="glass p-6 border-l-4 border-neutral-600">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-lg font-black uppercase italic">Monthly Shred</h4>
+                            <p class="text-[10px] text-neutral-400 uppercase font-bold tracking-widest">12 Guided Sessions</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-black italic text-white">₹7,500</p>
+                        </div>
+                    </div>
+                    <button onclick="window.open('https://wa.me/919899550279?text=Interested in Monthly Shred')" class="w-full py-4 bg-white/10 text-white border border-white/10 rounded-2xl font-black uppercase text-xs tracking-widest btn-press">Inquire Details</button>
                 </div>
             </div>
         </section>
 
+        <!-- PORTAL TAB -->
         <section id="portal" class="tab-content max-w-xl mx-auto pt-10">
-            <h2 class="text-3xl font-black italic uppercase mb-8 text-center">Client <span class="text-rose-600">Portal</span></h2>
-            <div class="flex gap-2 mb-12">
-                <input type="text" id="clientIdInput" placeholder="Enter ID (e.g. Fms1325)">
-                <button onclick="login()" class="rose-gradient px-8 rounded-xl font-black uppercase text-xs text-white">GO</button>
+            <h2 class="text-3xl font-black italic uppercase mb-8 text-center tracking-tighter">Access <span class="text-rose-600">Portal</span></h2>
+            <div class="glass p-8">
+                <p class="text-center text-[10px] uppercase font-black tracking-[0.3em] text-neutral-500 mb-6">Clients Only Area</p>
+                <div class="space-y-4">
+                    <input type="text" id="clientIdInput" placeholder="Enter Member ID (e.g. FMS1325)">
+                    <button onclick="login()" class="w-full py-4 rose-gradient rounded-2xl font-black uppercase text-xs text-white tracking-widest btn-press">Open My Profile</button>
+                </div>
             </div>
         </section>
     </main>
@@ -197,27 +202,32 @@
         }
         function openCoach() { document.getElementById('coachProfile').style.display = 'block'; }
         function closeCoach() { document.getElementById('coachProfile').style.display = 'none'; }
-        function login(){
-            const id = document.getElementById('clientIdInput').value.trim();
-            if(id) window.location.href = `profile.html?id=${id}`;
-        }
-        
-        let currentQuestion = 0; let score = 0;
-        const questions = [
-            { q: "How many days per week do you train?", options: ["0-1 day", "2 days", "3-4 days", "5+ days"], points: [0, 20, 40, 60] },
-            { q: "Do you have recurring joint pain?", options: ["Yes", "Occasionally", "Rarely", "Never"], points: [0, 20, 40, 60] }
-        ];
-
-        function openTool() {
+        function openTool() { 
             document.getElementById('toolOverlay').style.display = 'block';
             currentQuestion = 0; score = 0;
             renderQuestion();
         }
-        function closeTool() { document.getElementById('toolOverlay').style.display = 'none'; }
+        function closeTool() { 
+            document.getElementById('toolOverlay').style.display = 'none';
+            document.getElementById('quizContainer').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+        }
+        function login(){
+            const id = document.getElementById('clientIdInput').value.trim();
+            if(id) window.location.href = `profile.html?id=${id}`;
+        }
+
+        let currentQuestion = 0; let score = 0;
+        const questions = [
+            { q: "How many days per week do you train?", options: ["0-1 day", "2 days", "3-4 days", "5+ days"], points: [10, 20, 40, 60] },
+            { q: "Do you have recurring joint pain?", options: ["Constant Pain", "Occasionally", "Rarely", "Perfect Mobility"], points: [10, 25, 45, 60] },
+            { q: "Your main goal is?", options: ["Weight Loss", "Muscle Gain", "Injury Rehab", "Athletic Power"], points: [30, 30, 60, 60] }
+        ];
+
         function renderQuestion() {
             const container = document.getElementById('quizContainer');
-            container.innerHTML = `<div class="mb-6"><p class="text-lg font-bold mt-2">${questions[currentQuestion].q}</p></div>
-                <div class="space-y-3">${questions[currentQuestion].options.map((opt, i) => `<button onclick="selectAnswer(${i})" class="w-full text-left p-4 glass hover:bg-white/10 rounded-2xl">${opt}</button>`).join('')}</div>`;
+            container.innerHTML = `<div class="mb-6"><p class="text-lg font-bold text-white tracking-tight">${questions[currentQuestion].q}</p></div>
+                <div class="space-y-3">${questions[currentQuestion].options.map((opt, i) => `<button onclick="selectAnswer(${i})" class="w-full text-left p-4 glass hover:bg-white/10 rounded-2xl text-sm font-bold italic transition-all">${opt}</button>`).join('')}</div>`;
         }
         function selectAnswer(i) {
             score += questions[currentQuestion].points[i];
@@ -227,13 +237,14 @@
         function showResult() {
             document.getElementById('quizContainer').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
-            document.getElementById('scoreCircle').textContent = Math.round(score/1.2);
+            const finalScore = Math.round((score / 180) * 100);
+            document.getElementById('scoreCircle').textContent = finalScore;
+            document.getElementById('readinessLevel').textContent = finalScore > 75 ? "Elite Readiness" : (finalScore > 40 ? "Foundation Level" : "Clinical Caution");
+            document.getElementById('actionPlan').innerHTML = `<p class='italic opacity-80'>Aapka readiness score ${finalScore}% hai. Aapke data ke hisaab se humein aapka workout load customize karna hoga.</p>`;
         }
         function bookSessionFromTool() {
-            window.open('https://wa.me/919899550279');
+            window.open('https://wa.me/919899550279?text=Assessment Finished. Readiness Score: ' + document.getElementById('scoreCircle').textContent);
         }
     </script>
 </body>
 </html>
-
-```
