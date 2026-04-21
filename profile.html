@@ -53,7 +53,7 @@
     <div class="glass p-6 mb-8 border-t-2 border-amber-500">
         <h3 class="text-xs font-black uppercase tracking-widest text-amber-500 italic mb-4">Performance Log</h3>
         
-        <div id="logForm" class="space-y-3 mb-6 p-4 bg-white/5 rounded-2xl">
+        <div class="space-y-3 mb-6 p-4 bg-white/5 rounded-2xl">
             <div class="grid grid-cols-2 gap-2">
                 <input type="text" id="newEx" placeholder="Exercise" class="input-field">
                 <input type="number" id="newWeight" placeholder="Weight (kg)" class="input-field">
@@ -64,7 +64,7 @@
         <div class="max-h-[180px] overflow-y-auto no-scrollbar">
             <table class="history-table">
                 <tbody id="historyBody">
-                    <tr><td class="text-center opacity-30 italic">No logs found.</td></tr>
+                    <tr><td class="text-center opacity-30 italic py-4">Checking sheet records...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -83,26 +83,31 @@
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // Get all rows for this client
-                const allRows = data.filter(r => r.Client_ID && r.Client_ID.toLowerCase() === id.toLowerCase());
+                // Flexible filter for Client_ID (removes spaces and ignores case)
+                const allRows = data.filter(r => {
+                    const cellId = r.Client_ID || r.client_id || r.CLIENT_ID || "";
+                    return cellId.toString().trim().toLowerCase() === id.trim().toLowerCase();
+                });
                 
-                // Master row has the Name and Week1 data
-                const master = allRows.find(r => r.Name && r.Name.trim() !== "");
+                // Find master row (row with the Name field)
+                const master = allRows.find(r => r.Name || r.name);
 
                 if (master) {
-                    document.getElementById('dispName').innerText = master.Name;
-                    document.getElementById('dispAge').innerText = master.Age || '0';
-                    document.getElementById('dispHeight').innerText = master.Height || '0';
-                    document.getElementById('dispWeight').innerText = master.Weight || '0';
-                    document.getElementById('dispFat').innerText = master.Fat_Percentage || '0';
-                    document.getElementById('dispUsed').innerText = master.Used_Sessions || '0';
-                    document.getElementById('dispTotal').innerText = master.Total_Sessions || '0';
-                    document.getElementById('dispStatus').innerText = master.Payment_Status || '---';
+                    document.getElementById('dispName').innerText = master.Name || master.name;
+                    document.getElementById('dispAge').innerText = master.Age || master.age || '0';
+                    document.getElementById('dispHeight').innerText = master.Height || master.height || '0';
+                    document.getElementById('dispWeight').innerText = master.Weight || master.weight || '0';
+                    document.getElementById('dispFat').innerText = master.Fat_Percentage || master.fat_percentage || '0';
+                    document.getElementById('dispUsed').innerText = master.Used_Sessions || master.used_sessions || '0';
+                    document.getElementById('dispTotal').innerText = master.Total_Sessions || master.total_sessions || '0';
+                    document.getElementById('dispStatus').innerText = master.Payment_Status || master.payment_status || '---';
 
-                    // History comes from rows that have Exercise & Weight
-                    const logs = allRows.filter(r => r.Exercise && r.Weight);
+                    // Find lifting logs (rows that have values in Exercise and Weight columns)
+                    const logs = allRows.filter(r => (r.Exercise || r.exercise) && (r.Weight || r.weight));
                     renderHistory(logs);
                     renderTabs(master);
+                } else {
+                    document.getElementById('historyBody').innerHTML = '<tr><td class="text-center text-rose-500 py-4">ID NOT FOUND IN SHEET</td></tr>';
                 }
             } catch (err) { console.error(err); }
         }
@@ -111,11 +116,18 @@
             const id = new URLSearchParams(window.location.search).get('id');
             const ex = document.getElementById('newEx').value;
             const wt = document.getElementById('newWeight').value;
-            if (!ex || !wt) return alert("Fill exercise and weight");
+            if (!ex || !wt) return alert("Please enter both exercise and weight");
 
-            document.getElementById('saveBtn').innerText = "Syncing...";
+            const btn = document.getElementById('saveBtn');
+            btn.innerText = "Syncing with Google Sheets...";
+            btn.disabled = true;
 
-            const newRow = { "Client_ID": id, "Date": new Date().toLocaleDateString('en-GB'), "Exercise": ex, "Weight": wt };
+            const newRow = { 
+                "Client_ID": id, 
+                "Date": new Date().toLocaleDateString('en-GB'), 
+                "Exercise": ex, 
+                "Weight": wt 
+            };
 
             try {
                 const res = await fetch(API_URL, {
@@ -123,20 +135,30 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ data: [newRow] })
                 });
-                if (res.ok) { location.reload(); }
-            } catch (err) { alert("Error saving"); }
+                if (res.ok) { 
+                    alert("Success! Entry added to your sheet.");
+                    location.reload(); 
+                }
+            } catch (err) { 
+                alert("Sync Error. Check your internet.");
+                btn.innerText = "Update Personal Best";
+                btn.disabled = false;
+            }
         }
 
         function renderHistory(logs) {
             const body = document.getElementById('historyBody');
             if(logs.length > 0) {
+                // Shows newest log at the top
                 body.innerHTML = logs.reverse().map(log => `
                     <tr>
-                        <td class="font-bold text-neutral-600">${log.Date || '---'}</td>
-                        <td class="font-black italic uppercase">${log.Exercise}</td>
-                        <td class="text-amber-500 font-black">${log.Weight}kg</td>
+                        <td class="font-bold text-neutral-600">${log.Date || log.date || '---'}</td>
+                        <td class="font-black italic uppercase">${log.Exercise || log.exercise}</td>
+                        <td class="text-amber-500 font-black">${log.Weight || log.weight}kg</td>
                     </tr>
                 `).join('');
+            } else {
+                body.innerHTML = '<tr><td class="text-center opacity-30 italic py-4">No lifting logs found for this ID.</td></tr>';
             }
         }
 
@@ -144,18 +166,18 @@
             const container = document.getElementById('protocolContainer');
             let html = '';
             for(let i=1; i<=6; i++) {
-                const diet = u[`Week${i}_Diet`];
-                const work = u[`Week${i}_Workout`];
-                if((diet && diet.trim() !== "") || (work && work.trim() !== "")) {
+                const diet = u[`Week${i}_Diet`] || u[`week${i}_diet`];
+                const work = u[`Week${i}_Workout`] || u[`week${i}_workout`];
+                if(diet || work) {
                     html += `
                     <div class="phase-card glass p-6" onclick="this.classList.toggle('active')">
                         <div class="flex justify-between items-center">
                             <div><p class="stat-label text-rose-500">Protocol Phase 0${i}</p><h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Plan</h3></div>
-                            <span class="text-rose-500">↓</span>
+                            <span class="text-rose-500 opacity-50">↓</span>
                         </div>
                         <div class="phase-content space-y-6">
-                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Nutrition Strategy</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${diet || '---'}</div></div>
-                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Training Logic</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${work || '---'}</div></div>
+                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Nutrition</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${diet || '---'}</div></div>
+                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Training</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${work || '---'}</div></div>
                         </div>
                     </div>`;
                 }
