@@ -59,14 +59,86 @@
 
         const WORKER_URL = "https://fms-gemini-proxy.gignlearn.workers.dev";
         const MAX_FREE = 15;
+        const UNLOCK_CODE = "fmsopen99";   // ← Change this later if you want
+
         let usedCount = localStorage.getItem('fms_global_or_v1') ? parseInt(localStorage.getItem('fms_global_or_v1')) : 0;
+        let isUnlocked = localStorage.getItem('fms_unlocked') === 'true';
         let chatHistory = [];
 
         function refreshUI() {
             const left = MAX_FREE - usedCount;
-            badge.textContent = `${left > 0 ? left : 0} FREE TIPS LEFT`;
-            if (usedCount >= MAX_FREE) {
-                footer.innerHTML = `<div class="paywall mx-2 mb-2"><h3 class="text-sm font-black uppercase text-rose-500 mb-2">Limit Reached</h3><p class="text-xs text-neutral-400 mb-6">Upgrade for ₹100 to keep the progress going.</p><div class="flex flex-col gap-3"><a href="upi://pay?pa=9899550279@ptsbi&pn=Sushant%20Sehgal&am=100&cu=INR" class="rose-gradient py-4 rounded-2xl text-[11px] font-black uppercase text-center">Unlock Access (₹100)</a><a href="https://wa.me/919899550279" class="bg-[#1a1a1a] border border-[#333] py-4 rounded-2xl text-[11px] font-black uppercase text-center">WhatsApp Coach</a></div></div>`;
+            badge.textContent = isUnlocked ? "UNLIMITED" : `${left > 0 ? left : 0} FREE TIPS LEFT`;
+
+            if (!isUnlocked && usedCount >= MAX_FREE) {
+                showPaywall();
+            }
+        }
+
+        function showPaywall() {
+            footer.innerHTML = `
+                <div class="paywall mx-2 mb-2">
+                    <h3 class="text-sm font-black uppercase text-rose-500 mb-2">FREE LIMIT REACHED</h3>
+                    <p class="text-xs text-neutral-400 mb-6">You've used your 15 free messages.<br>Continue your transformation journey below.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Starter Plan -->
+                        <div class="flex justify-between items-center bg-[#111] p-4 rounded-2xl">
+                            <div>
+                                <span class="text-xs uppercase text-neutral-400">STARTER</span>
+                                <div class="font-black text-lg">100 MESSAGES</div>
+                            </div>
+                            <a href="upi://pay?pa=9899550279@ptsbi&pn=Sushant%20Sehgal&am=99&cu=INR" 
+                               class="rose-gradient px-6 py-2 rounded-xl text-sm font-black">₹99 →</a>
+                        </div>
+
+                        <!-- Pro Plan -->
+                        <div class="flex justify-between items-center bg-[#111] p-4 rounded-2xl">
+                            <div>
+                                <span class="text-xs uppercase text-neutral-400">PRO</span>
+                                <div class="font-black text-lg">500 MESSAGES</div>
+                            </div>
+                            <a href="upi://pay?pa=9899550279@ptsbi&pn=Sushant%20Sehgal&am=399&cu=INR" 
+                               class="bg-neutral-800 px-6 py-2 rounded-xl text-sm font-black">₹399 →</a>
+                        </div>
+
+                        <!-- Unlock Code -->
+                        <div class="pt-4 border-t border-[#222]">
+                            <p class="text-xs text-neutral-400 mb-2">Already paid? Enter unlock code</p>
+                            <div class="flex gap-2">
+                                <input id="unlock-input" type="text" placeholder="Enter code (e.g. fmsopen99)" 
+                                       class="flex-1 bg-[#141414] border border-[#222] rounded-2xl px-5 py-3 text-sm">
+                                <button onclick="checkUnlockCode()" 
+                                        class="rose-gradient px-8 rounded-2xl font-black text-sm">UNLOCK</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 text-[10px] text-neutral-500">
+                        PAY VIA UPI: <span class="font-mono">9899550279@apl</span><br>
+                        Screenshot + WhatsApp to Coach Sushant
+                    </div>
+                </div>`;
+        }
+
+        function checkUnlockCode() {
+            const input = document.getElementById('unlock-input');
+            if (input && input.value.trim() === UNLOCK_CODE) {
+                isUnlocked = true;
+                localStorage.setItem('fms_unlocked', 'true');
+                alert("✅ Unlocked! You now have unlimited access. Enjoy your training 🔥");
+                footer.innerHTML = `
+                    <form id="chat-form" class="flex gap-3">
+                        <input type="text" id="user-input" autocomplete="off" placeholder="What are we working on?" 
+                               class="flex-1 bg-[#141414] border border-[#222] rounded-2xl px-5 py-4 text-sm text-white focus:border-rose-600 outline-none">
+                        <button type="submit" class="rose-gradient w-14 h-14 rounded-2xl flex items-center justify-center shrink-0">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </form>`;
+                // Re-attach event listeners
+                document.getElementById('chat-form').onsubmit = handleSubmit;
+                refreshUI();
+            } else {
+                alert("❌ Wrong code. Please check and try again.");
             }
         }
 
@@ -90,35 +162,37 @@
 
                 const data = await response.json();
 
-                if (!response.ok) {
-                    throw new Error(data.error || "Proxy error");
-                }
+                if (!response.ok) throw new Error("Proxy error");
 
                 statusLight.classList.replace('bg-yellow-500', 'bg-emerald-500');
-                return data.reply;
+                return data.reply || "Got it! How else can I help? 💪";
 
             } catch (e) {
-                console.error(e);
                 statusLight.classList.replace('bg-yellow-500', 'bg-rose-500');
-                return "My bad, brother! Connection issue with the coach. Try again or ping me on WhatsApp! ⚡";
+                return "Connection issue. Try again or WhatsApp Coach Sushant! ⚡";
             }
         }
 
-        chatForm.onsubmit = async (e) => {
+        async function handleSubmit(e) {
             e.preventDefault();
             const val = inputField.value.trim();
-            if (!val || usedCount >= MAX_FREE) return;
+            if (!val) return;
+
+            // Allow sending if unlocked or still has free messages
+            if (!isUnlocked && usedCount >= MAX_FREE) return;
 
             addMessage('user', val);
             inputField.value = '';
-            usedCount++;
-            localStorage.setItem('fms_global_or_v1', usedCount);
-            refreshUI();
+
+            if (!isUnlocked) {
+                usedCount++;
+                localStorage.setItem('fms_global_or_v1', usedCount);
+                refreshUI();
+            }
 
             typingArea.classList.remove('hidden');
             chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
 
-            // Add to history before sending
             chatHistory.push({ role: "user", parts: [{ text: val }] });
 
             const reply = await sendToWorker(val);
@@ -126,14 +200,18 @@
             typingArea.classList.add('hidden');
             addMessage('ai', reply);
 
-            // Add AI reply to history
             chatHistory.push({ role: "model", parts: [{ text: reply }] });
-
-            // Keep history reasonable
             if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
-        };
+        }
 
+        // Initial setup
+        chatForm.onsubmit = handleSubmit;
         refreshUI();
+
+        // Initial welcome
+        if (chatBox.children.length === 1) {  // only the default message
+            // already there in HTML
+        }
     </script>
 </body>
 </html>
