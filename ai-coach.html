@@ -57,10 +57,10 @@
         const footer = document.getElementById('footer-logic');
         const statusLight = document.getElementById('status-light');
 
-        // Paste your OpenRouter key here
-        const OPENROUTER_API_KEY = "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"; 
+        const WORKER_URL = "https://fms-gemini-proxy.gignlearn.workers.dev";
         const MAX_FREE = 15;
         let usedCount = localStorage.getItem('fms_global_or_v1') ? parseInt(localStorage.getItem('fms_global_or_v1')) : 0;
+        let chatHistory = [];
 
         function refreshUI() {
             const left = MAX_FREE - usedCount;
@@ -70,51 +70,38 @@
             }
         }
 
-        async function talkToOpenRouter(msg) {
-            statusLight.classList.replace('bg-emerald-500', 'bg-yellow-500');
-            
-            const systemPrompt = "You are Coach Sushant Sehgal (FMS). Tone: Informal 'Bro-Coach' in English for US/UK/Germany clients. Expert in Biomechanics, Hypertrophy, and Pain Rehab. Keep it punchy, use emojis, give tactical cues.";
-
-            try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                        "HTTP-Referer": window.location.href, // Required by OpenRouter
-                        "X-Title": "FMS AI Coach",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "model": "google/gemini-2.0-flash-001", // Using Gemini through OpenRouter
-                        "messages": [
-                            { "role": "system", "content": systemPrompt },
-                            { "role": "user", "content": msg }
-                        ]
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error("OpenRouter Error:", errorText);
-                    throw new Error("OR_FAIL");
-                }
-
-                const data = await response.json();
-                statusLight.classList.replace('bg-yellow-500', 'bg-emerald-500');
-                return data.choices[0].message.content;
-
-            } catch (e) {
-                statusLight.classList.replace('bg-yellow-500', 'bg-rose-500');
-                return "My bad, brother! The connection dropped. Double check your API balance or ping me on WhatsApp! ⚡";
-            }
-        }
-
         function addMessage(role, text) {
             const div = document.createElement('div');
             div.className = `chat-bubble ${role === 'user' ? 'user-msg' : 'ai-msg'}`;
-            div.textContent = text;
+            div.innerHTML = text.replace(/\n/g, '<br>');
             chatBox.appendChild(div);
             chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
+        }
+
+        async function sendToWorker(userMessage) {
+            statusLight.classList.replace('bg-emerald-500', 'bg-yellow-500');
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ messages: chatHistory })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Proxy error");
+                }
+
+                statusLight.classList.replace('bg-yellow-500', 'bg-emerald-500');
+                return data.reply;
+
+            } catch (e) {
+                console.error(e);
+                statusLight.classList.replace('bg-yellow-500', 'bg-rose-500');
+                return "My bad, brother! Connection issue with the coach. Try again or ping me on WhatsApp! ⚡";
+            }
         }
 
         chatForm.onsubmit = async (e) => {
@@ -131,9 +118,19 @@
             typingArea.classList.remove('hidden');
             chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
 
-            const reply = await talkToOpenRouter(val);
+            // Add to history before sending
+            chatHistory.push({ role: "user", parts: [{ text: val }] });
+
+            const reply = await sendToWorker(val);
+
             typingArea.classList.add('hidden');
             addMessage('ai', reply);
+
+            // Add AI reply to history
+            chatHistory.push({ role: "model", parts: [{ text: reply }] });
+
+            // Keep history reasonable
+            if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
         };
 
         refreshUI();
