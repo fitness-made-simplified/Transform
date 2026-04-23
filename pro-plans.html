@@ -8,79 +8,175 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; padding: 24px; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; }
         .pro-card { border-top: 4px solid #e11d48; transition: transform 0.2s; }
-        .pro-card:hover { transform: translateY(-5px); }
-        .btn-wa { background: #25D366; color: black; }
+        .pro-card:hover { transform: translateY(-4px); }
+        .btn-wa { background: #25D366; color: #000; font-weight: 900; }
+        .btn-wa:hover { background: #1ebe5d; }
+        .goal-chip {
+            display: inline-block;
+            font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;
+            padding: 4px 10px; border-radius: 99px;
+            background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.25);
+            color: #fb7185; margin: 3px 3px 3px 0;
+        }
+        .check { display: flex; align-items: flex-start; gap: 8px; font-size: 11px; color: #d4d4d4; font-weight: 500; margin-bottom: 8px; }
+        .check svg { flex-shrink: 0; margin-top: 1px; }
+        .popular-badge {
+            font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.12em;
+            background: #e11d48; color: #fff; padding: 3px 10px; border-radius: 99px;
+        }
     </style>
 </head>
-<body class="pb-20">
-    <header class="mb-10">
-        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← Back to Coach</a>
+<body class="pb-24">
+
+    <!-- Header -->
+    <header class="mb-8">
+        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-4 block">← Back to Portal</a>
         <h1 class="text-4xl font-black uppercase italic leading-none">Pro <span class="text-rose-600">Plans</span></h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Elite Physio-Led Programs</p>
+        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-2">1:1 Coaching by Coach Sushant · BPT · ACE Certified</p>
     </header>
 
-    <div class="space-y-6 max-w-lg mx-auto">
-        
+    <!-- Goal Tags -->
+    <div class="mb-8">
+        <p class="text-[9px] font-black uppercase tracking-widest text-neutral-500 mb-3">Programs designed for</p>
+        <div>
+            <span class="goal-chip">🔥 Fat Loss</span>
+            <span class="goal-chip">💪 Muscle Gain</span>
+            <span class="goal-chip">🏆 Body Transformation</span>
+            <span class="goal-chip">⚡ Fitness & Strength</span>
+            <span class="goal-chip">🧘 Weight Management</span>
+            <span class="goal-chip">🦴 Injury Rehab</span>
+        </div>
+    </div>
+
+    <div class="space-y-5 max-w-lg mx-auto">
+
+        <!-- ELITE PACKAGE -->
         <div class="glass p-6 pro-card">
-            <div class="flex justify-between items-start mb-4">
+            <div class="flex justify-between items-start mb-1">
                 <div>
-                    <h3 class="text-xl font-black uppercase italic">Elite Transformation</h3>
+                    <div class="flex items-center gap-2 mb-1">
+                        <h3 class="text-xl font-black uppercase italic">Elite Transformation</h3>
+                    </div>
                     <p class="text-xs text-neutral-400 italic">60 One-on-One Private Sessions</p>
                 </div>
-                <span class="text-rose-500 font-black text-2xl">₹30,150</span>
+                <div class="text-right">
+                    <div class="text-rose-500 font-black text-2xl">₹30,150</div>
+                    <div class="text-[9px] text-neutral-500 font-bold">~₹502/session</div>
+                </div>
             </div>
-            <ul class="text-[11px] space-y-2 mb-8 text-neutral-300 font-medium">
-                <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg> Complete Physio Assessment</li>
-                <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg> Custom Clinical Diet Chart</li>
-                <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg> Injury Prevention Protocol</li>
-            </ul>
-            <a href="https://wa.me/919899550279?text=I want to enroll in the 60 Session Elite Transformation Package (₹30,150)" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Enroll Now (WhatsApp)</a>
+
+            <div class="my-4 h-px bg-white/5"></div>
+
+            <p class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-3">What's included</p>
+            <div class="mb-5">
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Full body transformation plan (Fat Loss / Muscle / Toning)</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Custom workout program — updated every 4 weeks</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Personalised calorie & macro diet chart</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Physio assessment & injury-safe training</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Weekly progress tracking & form corrections</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Supplement guidance (evidence-based)</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Direct WhatsApp access to Coach Sushant</div>
+            </div>
+
+            <div class="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 mb-5 text-[10px] text-rose-300 font-semibold text-center">
+                🏆 Best for: Complete Fat Loss · Muscle Building · Body Transformation
+            </div>
+
+            <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20want%20to%20enroll%20in%20the%20*Elite%20Transformation%20Package*%20(60%20Sessions%20-%20%E2%82%B930%2C150).%20Please%20guide%20me%20on%20the%20next%20steps!%20%F0%9F%92%AA"
+               class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">
+                🟢 Enroll via WhatsApp
+            </a>
         </div>
 
-        <div class="glass p-6 pro-card border-rose-400">
-            <div class="flex justify-between items-start mb-4">
+        <!-- KICKSTARTER PACKAGE -->
+        <div class="glass p-6 pro-card">
+            <div class="flex justify-between items-start mb-1">
                 <div>
                     <h3 class="text-xl font-black uppercase italic">Kickstarter Pack</h3>
                     <p class="text-xs text-neutral-400 italic">25 One-on-One Private Sessions</p>
                 </div>
-                <span class="text-rose-500 font-black text-2xl">₹13,300</span>
+                <div class="text-right">
+                    <div class="text-rose-500 font-black text-2xl">₹13,800</div>
+                    <div class="text-[9px] text-neutral-500 font-bold">~₹552/session</div>
+                </div>
             </div>
-            <ul class="text-[11px] space-y-2 mb-8 text-neutral-300 font-medium">
-                <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg> Posture & Mobility Screen</li>
-                <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg> Standard Nutrition Plan</li>
-                <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg> High-Intensity Training</li>
-            </ul>
-            <a href="https://wa.me/919899550279?text=I want to enroll in the 25 Session Kickstarter Pack (₹13,300)" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Enroll Now (WhatsApp)</a>
+
+            <div class="my-4 h-px bg-white/5"></div>
+
+            <p class="text-[10px] font-black uppercase tracking-widest text-neutral-500 mb-3">What's included</p>
+            <div class="mb-5">
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Goal-based training plan (Weight Loss / Fitness / Strength)</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Structured workout program for your level</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Basic nutrition & meal timing guidance</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Posture & movement screening</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Progress check-ins & adjustments</div>
+                <div class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m20 6-11 11-5-5"/></svg>Direct WhatsApp access to Coach Sushant</div>
+            </div>
+
+            <div class="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 mb-5 text-[10px] text-rose-300 font-semibold text-center">
+                ⚡ Best for: Beginners · Getting Started · Weight Loss Kickstart
+            </div>
+
+            <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20want%20to%20enroll%20in%20the%20*Kickstarter%20Pack*%20(25%20Sessions%20-%20%E2%82%B913%2C800).%20Please%20guide%20me%20on%20next%20steps!%20%F0%9F%8F%8B%EF%B8%8F"
+               class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">
+                🟢 Enroll via WhatsApp
+            </a>
         </div>
 
-        <div class="glass p-6 pro-card border-rose-400">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h3 class="text-xl font-black uppercase italic">Custom Diet Chart</h3>
-                    <p class="text-xs text-neutral-400 italic">1 Month Personalized Nutrition</p>
+        <!-- STANDALONE PLANS -->
+        <p class="text-[9px] font-black uppercase tracking-widest text-neutral-500 pt-2">Standalone Plans</p>
+
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Diet Chart -->
+            <div class="glass p-4 pro-card flex flex-col">
+                <div class="text-2xl mb-2">🥗</div>
+                <h3 class="text-sm font-black uppercase italic mb-1">Custom Diet Chart</h3>
+                <p class="text-[10px] text-neutral-400 mb-1">1 Month · Personalised Nutrition</p>
+                <div class="text-[9px] text-neutral-500 mb-3 flex-1">
+                    Calorie targets · Macro split · Meal plan for your goal
                 </div>
-                <span class="text-rose-500 font-black text-lg">₹2,000</span>
+                <div class="text-rose-500 font-black text-xl mb-3">₹2,000</div>
+                <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20want%20a%20*Custom%20Diet%20Chart*%20for%201%20month%20(%E2%82%B92%2C000).%20My%20goal%20is%3A%20"
+                   class="block w-full text-center py-3 rounded-xl font-black uppercase text-[10px] btn-wa">
+                    Get Plan
+                </a>
             </div>
-            <a href="https://wa.me/919899550279?text=I want a Custom Diet Chart for 1 month" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Get Nutrition Plan</a>
+
+            <!-- Workout Chart -->
+            <div class="glass p-4 pro-card flex flex-col">
+                <div class="text-2xl mb-2">🏋️</div>
+                <h3 class="text-sm font-black uppercase italic mb-1">Custom Workout</h3>
+                <p class="text-[10px] text-neutral-400 mb-1">1 Month · Tailored Training</p>
+                <div class="text-[9px] text-neutral-500 mb-3 flex-1">
+                    Goal-specific · Equipment-based · Progressive plan
+                </div>
+                <div class="text-rose-500 font-black text-xl mb-3">₹2,000</div>
+                <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20want%20a%20*Custom%20Workout%20Chart*%20for%201%20month%20(%E2%82%B92%2C000).%20My%20goal%20is%3A%20"
+                   class="block w-full text-center py-3 rounded-xl font-black uppercase text-[10px] btn-wa">
+                    Get Plan
+                </a>
+            </div>
         </div>
 
-        <div class="glass p-6 pro-card border-rose-400">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h3 class="text-xl font-black uppercase italic">Custom Workout</h3>
-                    <p class="text-xs text-neutral-400 italic">1 Month Tailored Training Chart</p>
-                </div>
-                <span class="text-rose-500 font-black text-lg">₹2,000</span>
-            </div>
-            <a href="https://wa.me/919899550279?text=I want a Custom Workout Chart for 1 month" class="block w-full text-center py-4 rounded-xl font-black uppercase text-xs btn-wa">Get Workout Plan</a>
+        <!-- UPI Box -->
+        <div class="glass p-5 text-center" style="border:1px solid rgba(225,29,72,0.2)">
+            <p class="text-[9px] font-black uppercase tracking-widest text-rose-500 mb-2">Pay via UPI</p>
+            <p class="text-lg font-black tracking-wide">9899550279@apl</p>
+            <p class="text-[9px] text-neutral-500 font-bold mt-1">Pay → Screenshot → WhatsApp to Coach Sushant</p>
         </div>
+
     </div>
 
-    <footer class="mt-12 pt-8 border-t border-white/10 text-center">
-        <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Questions?</p>
-        <p class="text-xs mt-2 italic text-neutral-400">Directly Message the coach for customized hybrid plans.</p>
+    <!-- Footer -->
+    <footer class="mt-10 pt-6 border-t border-white/5 text-center">
+        <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Not sure which plan?</p>
+        <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20need%20help%20choosing%20the%20right%20plan%20for%20my%20goal."
+           class="inline-block mt-3 text-[10px] font-black uppercase tracking-widest text-rose-500">
+            💬 Ask Coach Sushant →
+        </a>
     </footer>
+
 </body>
 </html>
