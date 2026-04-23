@@ -286,10 +286,24 @@
             </div>
 
             <!-- UPI Box -->
-            <div style="background:rgba(225,29,72,0.06);border:1px solid rgba(225,29,72,0.2);border-radius:16px;padding:14px 16px;margin-bottom:16px;text-align:center">
+            <div style="background:rgba(225,29,72,0.06);border:1px solid rgba(225,29,72,0.2);border-radius:16px;padding:14px 16px;margin-bottom:14px;text-align:center">
                 <p class="stat-label" style="color:#e11d48;margin-bottom:6px">Pay via UPI</p>
                 <p style="font-size:16px;font-weight:900;letter-spacing:0.05em;color:#fff">9899550279@apl</p>
                 <p style="font-size:9px;color:#525252;font-weight:700;margin-top:4px">Pay → Screenshot → WhatsApp to Coach Sushant</p>
+            </div>
+
+            <!-- Unlock Code Box -->
+            <div style="margin-bottom:14px">
+                <p class="stat-label" style="margin-bottom:8px;text-align:center">Have an unlock code?</p>
+                <div style="display:flex;gap:8px">
+                    <input id="unlockInput" type="text" placeholder="Enter code..."
+                        style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:12px;color:#fff;font-family:Inter,sans-serif;font-size:13px;font-weight:700;padding:11px 14px;outline:none;letter-spacing:0.08em;text-transform:uppercase"/>
+                    <button onclick="applyUnlockCode()"
+                        style="background:#e11d48;color:#fff;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;padding:11px 16px;border-radius:12px;border:none;cursor:pointer;white-space:nowrap">
+                        Unlock →
+                    </button>
+                </div>
+                <p id="unlockMsg" style="font-size:10px;margin-top:7px;text-align:center;display:none"></p>
             </div>
 
             <a href="https://fitness-made-simplified.github.io/Transform/"
@@ -307,6 +321,62 @@ const WORKER_URL = 'https://fms-gemini-proxy.gignlearn.workers.dev';
 
 const FREE_LIMIT = 15;
 const STORAGE_KEY = 'fms_msg_count';
+
+// ── UNLOCK CODES ──────────────────────────────────────────────────────────────
+// Starter = 100 msgs, Pro = 500 msgs. Add/change codes here anytime.
+const UNLOCK_CODES = {
+    'FMS100': 100,    // Starter pack — 100 messages
+    'FMS500': 500,    // Pro pack — 500 messages
+    'FMSOPEN99': 500, // Legacy/admin code
+    'COACH100': 100,  // Coach gives to clients
+    'COACH500': 500,  // Coach gives to pro clients
+};
+const USED_CODES_KEY = 'fms_used_codes';
+
+function applyUnlockCode() {
+    const input = document.getElementById('unlockInput');
+    const msg = document.getElementById('unlockMsg');
+    const code = input.value.trim().toUpperCase();
+
+    if (!code) return;
+
+    // Check if code already used
+    const usedCodes = JSON.parse(localStorage.getItem(USED_CODES_KEY) || '[]');
+    if (usedCodes.includes(code)) {
+        msg.style.color = '#e11d48';
+        msg.textContent = 'This code has already been used.';
+        msg.style.display = 'block';
+        return;
+    }
+
+    // Check if valid
+    if (UNLOCK_CODES[code]) {
+        const bonus = UNLOCK_CODES[code];
+        // Reduce count so user gets 'bonus' more messages
+        msgCount = Math.max(0, msgCount - bonus);
+        localStorage.setItem(STORAGE_KEY, msgCount);
+
+        // Mark code as used
+        usedCodes.push(code);
+        localStorage.setItem(USED_CODES_KEY, JSON.stringify(usedCodes));
+
+        updateCounter();
+        msg.style.color = '#22c55e';
+        msg.textContent = `✓ Unlocked ${bonus} messages! Enjoy your session.`;
+        msg.style.display = 'block';
+
+        // Close paywall after 1.5s
+        setTimeout(() => {
+            document.getElementById('paywallOverlay').classList.remove('show');
+            input.value = '';
+            msg.style.display = 'none';
+        }, 1500);
+    } else {
+        msg.style.color = '#e11d48';
+        msg.textContent = 'Invalid code. Please check and try again.';
+        msg.style.display = 'block';
+    }
+}
 
 // ── SYSTEM PROMPT — Coach Sushant's persona ───────────────────────────────────
 const SYSTEM_PROMPT = `You are the FMS Virtual Trainer — an AI fitness assistant representing Coach Sushant of Fitness Made Simplified (FMS).
