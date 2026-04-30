@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FMS | Vaishno Devi Trek Prep — Mohit</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #181818;
+    --border: #2a2a2a;
+    --accent: #c9f31d;
+    --accent2: #f3a01d;
+    --accent3: #1dc9f3;
+    --red: #f3401d;
+    --text: #f0f0f0;
+    --muted: #888;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+  .nav-back {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #101a00 60%, #0a0a0a 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,243,29,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    background: rgba(201,243,29,0.1);
+    border: 1px solid rgba(201,243,29,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 8vw, 5.2rem);
+    line-height: 1;
+    letter-spacing: 3px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .stat-pill .val {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+  .stat-pill .lbl {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ── BRIEF ── */
+  .brief {
+    max-width: 720px;
+    margin: 32px auto;
+    padding: 0 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  .brief p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #ccc;
+  }
+  .brief p strong { color: var(--accent); }
+
+  /* ── FOCUS PILLARS ── */
+  .pillars {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 20px 0;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .pillar {
+    flex: 1;
+    min-width: 140px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    text-align: center;
+  }
+  .pillar .ico { font-size: 1.6rem; margin-bottom: 6px; }
+  .pillar .ptitle {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--accent);
+  }
+  .pillar .pdesc {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ── DAYS GRID ── */
+  .days-section {
+    max-width: 800px;
+    margin: 36px auto 0;
+    padding: 0 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    letter-spacing: 3px;
+    color: var(--text);
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+  .section-title span { color: var(--accent); }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+  }
+  .day-header:hover { background: #1e1e1e; }
+  .day-num {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    line-height: 1;
+    min-width: 52px;
+    text-align: center;
+  }
+  .day-meta { flex: 1; }
+  .day-label {
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .day-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .day-badge {
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .chevron {
+    font-size: 1rem;
+    color: var(--muted);
+    transition: transform 0.3s;
+    margin-left: 8px;
+  }
+  .day-card.open .chevron { transform: rotate(180deg); }
+  .day-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .day-card.open .day-body { display: block; }
+
+  .phase-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 12px 0 8px;
+  }
+
+  .ex-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+  .ex-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-table td {
+    padding: 8px 8px;
+    border-bottom: 1px solid #1e1e1e;
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .ex-table tr:last-child td { border-bottom: none; }
+  .ex-table td:first-child { color: var(--text); font-weight: 500; }
+  .ex-table td:not(:first-child) { color: var(--muted); }
+  .ex-table td strong { color: var(--accent); }
+
+  .tip-box {
+    background: rgba(201,243,29,0.05);
+    border: 1px solid rgba(201,243,29,0.15);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: #bbb;
+    line-height: 1.5;
+  }
+  .tip-box strong { color: var(--accent); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 1px; }
+
+  /* Color themes per day type */
+  .type-legs .day-num { color: var(--accent); }
+  .type-legs .day-badge { background: rgba(201,243,29,0.12); color: var(--accent); border: 1px solid rgba(201,243,29,0.25); }
+  .type-legs .day-label { color: var(--accent); }
+
+  .type-cardio .day-num { color: var(--accent3); }
+  .type-cardio .day-badge { background: rgba(29,201,243,0.12); color: var(--accent3); border: 1px solid rgba(29,201,243,0.25); }
+  .type-cardio .day-label { color: var(--accent3); }
+
+  .type-combo .day-num { color: var(--accent2); }
+  .type-combo .day-badge { background: rgba(243,160,29,0.12); color: var(--accent2); border: 1px solid rgba(243,160,29,0.25); }
+  .type-combo .day-label { color: var(--accent2); }
+
+  .type-rest .day-num { color: var(--muted); }
+  .type-rest .day-badge { background: rgba(136,136,136,0.12); color: var(--muted); border: 1px solid rgba(136,136,136,0.25); }
+  .type-rest .day-label { color: var(--muted); }
+
+  .type-sim .day-num { color: var(--red); }
+  .type-sim .day-badge { background: rgba(243,64,29,0.12); color: var(--red); border: 1px solid rgba(243,64,29,0.25); }
+  .type-sim .day-label { color: var(--red); }
+
+  /* ── COACH NOTE ── */
+  .coach-note {
+    max-width: 800px;
+    margin: 28px auto 60px;
+    padding: 0 16px;
+  }
+  .coach-card {
+    background: linear-gradient(135deg, #141414, #0e1a00);
+    border: 1px solid var(--accent);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .coach-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: #000;
+    flex-shrink: 0;
+  }
+  .coach-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .coach-card p {
+    font-size: 0.82rem;
+    color: #bbb;
+    line-height: 1.7;
+  }
+  .coach-card p strong { color: var(--text); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    letter-spacing: 1.5px;
+  }
+  footer span { color: var(--accent); }
+
+  @media (max-width: 500px) {
+    .hero h1 { font-size: 2.4rem; }
+    .coach-card { flex-direction: column; }
+    .day-num { font-size: 1.8rem; min-width: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">FMS</div>
+  <a href="https://fitness-made-simplified.github.io/Transform/" class="nav-back">← Back to Home</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Client Program · Exclusive</div>
+  <h1>VAISHNO DEVI<br><span>TREK PREP</span></h1>
+  <div class="hero-sub">9-Day Protocol · Mohit · Age 40</div>
+  <div class="hero-stats">
+    <div class="stat-pill"><span class="val">9</span><span class="lbl">Days</span></div>
+    <div class="stat-pill"><span class="val">~15</span><span class="lbl">Trek KMs</span></div>
+    <div class="stat-pill"><span class="val">5200</span><span class="lbl">Ft Altitude</span></div>
+    <div class="stat-pill"><span class="val">3</span><span class="lbl">Focus Pillars</span></div>
+  </div>
+</section>
+
+<!-- BRIEF -->
+<div style="max-width:720px;margin:28px auto 0;padding:0 16px;">
+  <div class="brief">
+    <p>Mohit, this 9-day program is precision-built around your <strong>Vaishno Devi Yatra</strong> — a 15 km steep incline trek with stairs at high altitude. The goal isn't aesthetics; it's <strong>functional readiness</strong>. Each day builds on the last across three pillars: knee resilience, leg muscular endurance, and cardio-pulmonary capacity. By Day 9, your body will be primed to handle the ascent comfortably and safely.</p>
+  </div>
+</div>
+
+<!-- FOCUS PILLARS -->
+<div class="pillars">
+  <div class="pillar">
+    <div class="ico">🦵</div>
+    <div class="ptitle">Leg Endurance</div>
+    <div class="pdesc">Quad, hamstring & calf stamina for long uphill walking</div>
+  </div>
+  <div class="pillar">
+    <div class="ico">🦴</div>
+    <div class="ptitle">Knee Strength</div>
+    <div class="pdesc">VMO activation, patellar tracking & joint stability</div>
+  </div>
+  <div class="pillar">
+    <div class="ico">🫀</div>
+    <div class="ptitle">Cardio Capacity</div>
+    <div class="pdesc">Zone 2 & zone 3 conditioning for high-altitude oxygen efficiency</div>
+  </div>
+</div>
+
+<!-- DAYS -->
+<div class="days-section">
+  <div class="section-title">THE <span>9-DAY</span> PROTOCOL</div>
+
+  <!-- DAY 1 -->
+  <div class="day-card type-legs" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">01</div>
+      <div class="day-meta">
+        <div class="day-label">🦵 Leg Strength Foundation</div>
+        <div class="day-title">Lower Body Activation + Knee Priming</div>
+      </div>
+      <div class="day-badge">45 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Warm-Up — 8 min</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Sets × Reps/Time</th><th>Note</th></tr>
+        <tr><td>March in place</td><td>2 min</td><td>High knees, moderate pace</td></tr>
+        <tr><td>Hip circles (each side)</td><td>10 each way</td><td>Loosen hip joint</td></tr>
+        <tr><td>Ankle rotations</td><td>10 each side</td><td>Injury prevention</td></tr>
+        <tr><td>Glute bridges</td><td>1×15</td><td>Activation warm-up</td></tr>
+      </table>
+      <div class="phase-tag">Main Work — 30 min</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Note</th></tr>
+        <tr><td>Bodyweight Squats</td><td><strong>3×20</strong></td><td>Full depth, controlled descent 3 sec</td></tr>
+        <tr><td>Reverse Lunges</td><td><strong>3×12 each</strong></td><td>Step back to protect knee tracking</td></tr>
+        <tr><td>Wall Sit</td><td><strong>3×40 sec</strong></td><td>Hold isometric — builds VMO endurance</td></tr>
+        <tr><td>Step-Ups (chair/bench)</td><td><strong>3×15 each</strong></td><td>Simulates stair climbing; lead with heel</td></tr>
+        <tr><td>Standing Calf Raises</td><td><strong>3×25</strong></td><td>Slow eccentric (3 sec down)</td></tr>
+        <tr><td>Terminal Knee Extension (TKE) with band</td><td><strong>3×15 each</strong></td><td>VMO & patellar stability — key for knees</td></tr>
+      </table>
+      <div class="phase-tag">Cool-Down — 7 min</div>
+      <table class="ex-table">
+        <tr><th>Stretch</th><th>Duration</th></tr>
+        <tr><td>Standing quad stretch</td><td>30 sec each</td></tr>
+        <tr><td>Seated hamstring stretch</td><td>45 sec each</td></tr>
+        <tr><td>Calf stretch on wall</td><td>30 sec each</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — Focus on knee tracking over the 2nd toe during all squats & lunges. Never let the knee cave inward. This primes patellar health for the trek stairs.</div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-card type-cardio" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">02</div>
+      <div class="day-meta">
+        <div class="day-label">🫀 Cardio Base</div>
+        <div class="day-title">Zone 2 Steady-State Cardio + Breathing Work</div>
+      </div>
+      <div class="day-badge">40 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Main Work</div>
+      <table class="ex-table">
+        <tr><th>Activity</th><th>Duration</th><th>Intensity</th></tr>
+        <tr><td>Brisk walk / treadmill incline (3–5°)</td><td><strong>30 min</strong></td><td>Zone 2 — can hold a conversation, slight breathlessness</td></tr>
+        <tr><td>Stair climbing (building stairs or step mill)</td><td><strong>5 min</strong></td><td>Steady, don't rush</td></tr>
+        <tr><td>Box breathing cool-down</td><td><strong>5 min</strong></td><td>Inhale 4, hold 4, exhale 4, hold 4</td></tr>
+      </table>
+      <div class="phase-tag">Altitude Breathing Drill — 5 min</div>
+      <table class="ex-table">
+        <tr><th>Drill</th><th>Reps/Time</th><th>Purpose</th></tr>
+        <tr><td>Pursed-lip breathing walk</td><td>2 min</td><td>Trains efficient O₂ uptake</td></tr>
+        <tr><td>Diaphragmatic breath (belly out)</td><td>10 deep breaths</td><td>Lung capacity at altitude</td></tr>
+        <tr><td>Breath hold walk (hold after exhale)</td><td>5×20 steps</td><td>CO₂ tolerance training</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — At Vaishno Devi (5,200 ft), O₂ is ~15% thinner. Training Zone 2 cardio now teaches your cardiovascular system to work efficiently with less oxygen — this is your biggest advantage on trek day.</div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-card type-legs" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">03</div>
+      <div class="day-meta">
+        <div class="day-label">🦵 Leg Endurance</div>
+        <div class="day-title">High-Rep Leg Endurance + Stair Simulation</div>
+      </div>
+      <div class="day-badge">50 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Warm-Up — 7 min</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Duration</th></tr>
+        <tr><td>Leg swings (front/back + lateral)</td><td>30 sec each direction each leg</td></tr>
+        <tr><td>Inchworm walkout</td><td>5 reps</td></tr>
+        <tr><td>Dynamic quad stretch walk</td><td>1 min</td></tr>
+      </table>
+      <div class="phase-tag">Main Circuit — 3 Rounds</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Reps</th><th>Rest</th></tr>
+        <tr><td>Sumo Squat</td><td><strong>20</strong></td><td>30 sec</td></tr>
+        <tr><td>Forward Lunges (alternating)</td><td><strong>20 total</strong></td><td>30 sec</td></tr>
+        <tr><td>Step-Up with Knee Drive</td><td><strong>15 each leg</strong></td><td>30 sec</td></tr>
+        <tr><td>Single-Leg Calf Raise</td><td><strong>15 each</strong></td><td>30 sec</td></tr>
+        <tr><td>Lateral Band Walk</td><td><strong>15 steps each</strong></td><td>45 sec</td></tr>
+        <tr><td>Squat Hold Pulse (bottom 1/4)</td><td><strong>20 pulses</strong></td><td>60 sec between rounds</td></tr>
+      </table>
+      <div class="phase-tag">Stair Finisher — 10 min</div>
+      <table class="ex-table">
+        <tr><th>Activity</th><th>Duration</th></tr>
+        <tr><td>Continuous stair up/down walk</td><td>10 min non-stop</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — The stair finisher is non-negotiable. It conditions the exact motor pattern and joint angle you'll use on the trek. If no stairs available, use a step and do continuous step-ups.</div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day-card type-rest" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">04</div>
+      <div class="day-meta">
+        <div class="day-label">💤 Active Recovery</div>
+        <div class="day-title">Mobility + Light Walk + Joint Care</div>
+      </div>
+      <div class="day-badge">30 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Active Recovery Protocol</div>
+      <table class="ex-table">
+        <tr><th>Activity</th><th>Duration</th><th>Note</th></tr>
+        <tr><td>Easy flat walk (no incline)</td><td>15 min</td><td>Very light — keep HR below 100</td></tr>
+        <tr><td>Pigeon pose (hip flexor)</td><td>60 sec each</td><td>Releases tight hips from Day 1–3</td></tr>
+        <tr><td>Seated IT band stretch</td><td>45 sec each</td><td>Prevents knee pain on long descents</td></tr>
+        <tr><td>Foam roll — quads, calves, hamstrings</td><td>2 min each group</td><td>If foam roller available</td></tr>
+        <tr><td>Cat-Cow spine mobilization</td><td>10 slow reps</td><td>Back decompression for pack load</td></tr>
+        <tr><td>Cold water soak (feet & ankles)</td><td>5 min</td><td>Reduces inflammation</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — Recovery is where adaptation happens. Skipping this day is a mistake. Eat a protein-rich meal today and sleep 7–8 hours. Muscles grow and tendons strengthen during rest, not training.</div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="day-card type-combo" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">05</div>
+      <div class="day-meta">
+        <div class="day-label">⚡ Strength + Cardio Combo</div>
+        <div class="day-title">Incline Cardio + Functional Leg Strength</div>
+      </div>
+      <div class="day-badge">55 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Incline Cardio Block — 20 min</div>
+      <table class="ex-table">
+        <tr><th>Activity</th><th>Duration</th><th>Notes</th></tr>
+        <tr><td>Treadmill walk — incline 6–8°</td><td>10 min</td><td>Moderate pace, breathe through nose</td></tr>
+        <tr><td>Treadmill walk — incline 10–12°</td><td>5 min</td><td>Simulate steep climb; lean forward slightly</td></tr>
+        <tr><td>Flat walk cool-down</td><td>5 min</td><td>HR recovery observation</td></tr>
+      </table>
+      <div class="phase-tag">Strength Block — 30 min</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Note</th></tr>
+        <tr><td>Romanian Deadlift (dumbbells or barbell)</td><td><strong>3×15</strong></td><td>Posterior chain — key for uphill push</td></tr>
+        <tr><td>Goblet Squat</td><td><strong>3×15</strong></td><td>Chest up, heels down</td></tr>
+        <tr><td>Single-Leg Press (machine)</td><td><strong>3×12 each</strong></td><td>Equal load both legs</td></tr>
+        <tr><td>Seated Leg Curl</td><td><strong>3×15</strong></td><td>Hamstring endurance for descent</td></tr>
+        <tr><td>Donkey Calf Raises</td><td><strong>3×20</strong></td><td>Full ROM, 2 sec hold at top</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — Hamstrings and posterior chain are your brakes on the descent. Weak hamstrings = shaky, painful knees coming down the mountain. The RDL and leg curl today are as important as the quad work.</div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day-card type-cardio" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">06</div>
+      <div class="day-meta">
+        <div class="day-label">🫀 Cardio Intensity</div>
+        <div class="day-title">Interval Stair + HIIT Cardio Block</div>
+      </div>
+      <div class="day-badge">45 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Warm-Up — 7 min</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Duration</th></tr>
+        <tr><td>Light jog or march</td><td>3 min</td></tr>
+        <tr><td>Jumping jacks</td><td>1 min</td></tr>
+        <tr><td>Arm circles + torso twist</td><td>1 min each</td></tr>
+      </table>
+      <div class="phase-tag">Stair Interval Training — 20 min</div>
+      <table class="ex-table">
+        <tr><th>Interval</th><th>Work</th><th>Rest</th><th>Rounds</th></tr>
+        <tr><td>Stair climb fast</td><td><strong>30 sec</strong></td><td>30 sec walk down</td><td>10 rounds</td></tr>
+        <tr><td>Double-step stair (every 2 steps)</td><td><strong>20 sec</strong></td><td>40 sec recovery</td><td>5 rounds</td></tr>
+      </table>
+      <div class="phase-tag">HIIT Finisher — 12 min</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Work</th><th>Rest</th><th>Rounds</th></tr>
+        <tr><td>Jump squats (or squat if low impact needed)</td><td>30 sec</td><td>15 sec</td><td>3</td></tr>
+        <tr><td>Mountain climbers</td><td>30 sec</td><td>15 sec</td><td>3</td></tr>
+        <tr><td>Step-up burpee (no jump)</td><td>30 sec</td><td>15 sec</td><td>3</td></tr>
+        <tr><td>High knees march</td><td>30 sec</td><td>15 sec</td><td>3</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — This is your hardest cardio day. Rate your breathlessness 1–10; aim for 7–8 during intervals. This is Zone 4 training — it pushes your VO₂ max ceiling up, giving you more "headroom" at altitude.</div>
+    </div>
+  </div>
+
+  <!-- DAY 7 -->
+  <div class="day-card type-legs" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">07</div>
+      <div class="day-meta">
+        <div class="day-label">🦵 Knee Strength Specialization</div>
+        <div class="day-title">VMO + Stability + Descent Load Training</div>
+      </div>
+      <div class="day-badge">50 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Knee Stability Focus Circuit — 3 Rounds</div>
+      <table class="ex-table">
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Purpose</th></tr>
+        <tr><td>Slow Eccentric Squats (5 sec down)</td><td><strong>3×10</strong></td><td>Tendon & VMO loading</td></tr>
+        <tr><td>Single-Leg Squat to Bench (Box Pistol)</td><td><strong>3×8 each</strong></td><td>Balance + unilateral knee control</td></tr>
+        <tr><td>Step-Down (step down slowly, 4 sec)</td><td><strong>3×12 each</strong></td><td>Trains descent — quads as brakes</td></tr>
+        <tr><td>Terminal Knee Extension with resistance band</td><td><strong>3×20 each</strong></td><td>VMO isolation — protects patella</td></tr>
+        <tr><td>Clamshell with band</td><td><strong>3×20 each</strong></td><td>Glute med — lateral knee stabilizer</td></tr>
+        <tr><td>Copenhagen Plank (adductor)</td><td><strong>3×20 sec each</strong></td><td>Inner thigh support for stairs</td></tr>
+      </table>
+      <div class="phase-tag">Load Simulation — 15 min</div>
+      <table class="ex-table">
+        <tr><th>Activity</th><th>Duration</th><th>Note</th></tr>
+        <tr><td>Incline walk with backpack (5–7 kg)</td><td>15 min</td><td>Simulates trekking load; use actual yatra bag</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — The step-down is the most important exercise in this block. Descending stairs is 3× harder on the knee joint than ascending. If your quads can't control the descent slowly, the knee takes the impact. Practice this daily.</div>
+    </div>
+  </div>
+
+  <!-- DAY 8 -->
+  <div class="day-card type-sim" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">08</div>
+      <div class="day-meta">
+        <div class="day-label">🏔️ Trek Simulation</div>
+        <div class="day-title">Full Yatra Dress Rehearsal — 60 Min Trek Sim</div>
+      </div>
+      <div class="day-badge">60 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Full Simulation Protocol</div>
+      <table class="ex-table">
+        <tr><th>Block</th><th>Duration</th><th>Activity</th><th>Load</th></tr>
+        <tr><td>Phase 1 — Ascent Sim</td><td><strong>25 min</strong></td><td>Incline treadmill (max incline) OR stair climb non-stop</td><td>Backpack 5–8 kg</td></tr>
+        <tr><td>Phase 2 — Flat Trek</td><td><strong>10 min</strong></td><td>Flat brisk walk — active recovery</td><td>Same pack</td></tr>
+        <tr><td>Phase 3 — Descent Sim</td><td><strong>15 min</strong></td><td>Controlled stair descent OR decline treadmill walk</td><td>Same pack</td></tr>
+        <tr><td>Phase 4 — Cool-Down</td><td><strong>10 min</strong></td><td>Slow flat walk + deep breathing</td><td>No pack</td></tr>
+      </table>
+      <div class="phase-tag">Gear Check During Session</div>
+      <table class="ex-table">
+        <tr><th>Item</th><th>Purpose</th></tr>
+        <tr><td>Actual trekking shoes</td><td>Break them in — prevent blisters on yatra</td></tr>
+        <tr><td>Trekking pole (if using)</td><td>Practice arm-leg coordination</td></tr>
+        <tr><td>Hydration — 500 ml water</td><td>Practice sip-while-walking routine</td></tr>
+        <tr><td>Knee sleeve (if using)</td><td>Test comfort and fit under exertion</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — Wear exactly what you'll wear on yatra day. Note any hotspots, tightness or discomfort — fix it now, not on the mountain. Rate your energy level out of 10 post-session. Aim for 7+. If below 5, eat more carbs today and tomorrow.</div>
+    </div>
+  </div>
+
+  <!-- DAY 9 -->
+  <div class="day-card type-rest" onclick="toggle(this)">
+    <div class="day-header">
+      <div class="day-num">09</div>
+      <div class="day-meta">
+        <div class="day-label">✅ Final Prep</div>
+        <div class="day-title">Neural Prime + Light Activation + Rest Protocol</div>
+      </div>
+      <div class="day-badge">25 MIN</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="day-body">
+      <div class="phase-tag">Light Neural Prime — NOT a workout day</div>
+      <table class="ex-table">
+        <tr><th>Activity</th><th>Reps/Duration</th><th>Note</th></tr>
+        <tr><td>Easy flat walk</td><td>10 min</td><td>Just to move — no exertion</td></tr>
+        <tr><td>Bodyweight squats</td><td>2×10 (easy)</td><td>Neural activation, not fatigue</td></tr>
+        <tr><td>Calf raises</td><td>2×10 (easy)</td><td>Same purpose</td></tr>
+        <tr><td>Hip flexor stretch</td><td>60 sec each</td><td>Keep hips open</td></tr>
+        <tr><td>Full body static stretching</td><td>10 min total</td><td>Head-to-toe mobility</td></tr>
+      </table>
+      <div class="phase-tag">Day Before Yatra — Nutrition Protocol</div>
+      <table class="ex-table">
+        <tr><th>Timing</th><th>What to Eat</th><th>Why</th></tr>
+        <tr><td>Morning</td><td>Complex carbs — oats, poha, paratha</td><td>Glycogen loading begins</td></tr>
+        <tr><td>Afternoon</td><td>Rice + dal + vegetables</td><td>Sustained slow-release energy</td></tr>
+        <tr><td>Evening</td><td>Light protein — paneer / dal / egg</td><td>Muscle repair overnight</td></tr>
+        <tr><td>Before sleep</td><td>Banana + warm milk</td><td>Potassium + tryptophan for rest</td></tr>
+        <tr><td>Hydration</td><td>3–4 litres water throughout day</td><td>Pre-load for altitude dehydration</td></tr>
+      </table>
+      <div class="tip-box"><strong>COACH TIP</strong> — Jai Mata Di, Mohit! 🙏 Do NOT train hard today — trust the 8 days of work you've done. Your body needs 24 hours to consolidate the adaptations. Sleep 7–8 hours, hydrate aggressively, eat your carbs. You're ready.</div>
+    </div>
+  </div>
+
+</div><!-- /days-section -->
+
+<!-- COACH NOTE -->
+<div class="coach-note">
+  <div class="coach-card">
+    <div class="coach-avatar">S</div>
+    <div>
+      <h3>COACH SUSHANT — FMS</h3>
+      <p>Mohit, at 40 with moderate training history, your body is fully capable of handling this yatra — but preparation is everything. This 9-day block addresses the three things that make or break trekkers at altitude: <strong>knee control on descent, leg muscular endurance over distance, and cardio efficiency with reduced O₂</strong>. Follow each day in sequence. Don't skip Day 4 recovery or Day 9 rest. The mountain will test your lungs and legs equally — now they're ready for it. <strong>Train smart. Trek strong. Jai Mata Di. 🏔️</strong></p>
+    </div>
+  </div>
+</div>
+
+<footer>FITNESS MADE SIMPLIFIED &nbsp;|&nbsp; <span>BPT · ACE · 17+ YRS</span> &nbsp;|&nbsp; PHYSIO-LED COACHING</footer>
+
+<script>
+  function toggle(card) {
+    const wasOpen = card.classList.contains('open');
+    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) card.classList.add('open');
+  }
+</script>
+</body>
+</html>
