@@ -9,8 +9,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
         
         :root {
-            --primary: #1e3a8a;     /* Deep Navy Blue - Main brand color */
-            --accent: #f97316;      /* Bright Orange - Highlight */
+            --primary: #1e3a8a;
+            --accent: #f97316;
             --dark: #0f172a;
             --light: #f8fafc;
             --gray: #64748b;
@@ -155,10 +155,18 @@
             margin-top: 5rem;
         }
         
+        .coach-focus {
+            background: #f0f9ff;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--accent);
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+        
         @media (max-width: 768px) {
             h1 { font-size: 2.3rem; }
             h2 { font-size: 1.6rem; }
-            table { font-size: 0.95rem; }
             .day-card { padding: 1.5rem; }
         }
     </style>
@@ -188,7 +196,7 @@
         <section id="overview">
             <h2>Program Overview</h2>
             <p><strong>Coach:</strong> Sushant FMS | Physio-Led Fitness</p>
-            <p>This 9-day specialized program prepares you for the <strong>Vaishno Devi Yatra</strong> (\~12-13 km steep inclines + stairs, \~1700m elevation gain at moderate altitude).</p>
+            <p>This 9-day specialized program prepares you for the <strong>Vaishno Devi Yatra</strong> (\~12-13 km steep inclines + stairs, \~1700m elevation gain at moderate altitude). Primary focus of this protocol is practical trekking performance — not muscle gain or aesthetics.</p>
             
             <div class="highlight">
                 <strong>Primary Focus:</strong><br>
@@ -197,152 +205,163 @@
                 • Cardio-Lung Capacity for sustained high-altitude effort
             </div>
 
-            <p><strong>Equipment:</strong> Leg Extension • Leg Curl • Leg Press • Smith Machine • Dumbbells • Barbell</p>
+            <p><strong>Equipment:</strong> Leg Press • Smith Machine • Dumbbells • Bodyweight</p>
         </section>
 
         <section id="guidelines">
             <h2>General Guidelines (Follow Daily)</h2>
             <ul style="margin-left:1.8rem; line-height:2;">
                 <li><strong>Warm-up (8-10 mins):</strong> 5 mins light treadmill/bike + dynamic mobility (squats, leg swings, lunges)</li>
-                <li><strong>Form First:</strong> Full range, 3-sec controlled lowering on extensions & curls</li>
-                <li><strong>Progression:</strong> Last 2-3 reps challenging with perfect form</li>
-                <li><strong>Rest:</strong> 60-90 sec (shorter on endurance days)</li>
-                <li><strong>Cardio:</strong> Incline treadmill walk = best yatra simulation</li>
+                <li><strong>Form First:</strong> Full range, controlled tempo, knees tracking over toes</li>
+                <li><strong>Progression:</strong> Focus on quality movement and breathing</li>
+                <li><strong>Rest:</strong> 60-90 sec between sets (minimal on circuits)</li>
+                <li><strong>Cardio:</strong> Incline treadmill & stair climb = best yatra simulation</li>
                 <li><strong>Cool-down:</strong> 5 mins static stretches (quads, hams, calves, hip flexors)</li>
-                <li><strong>Recovery:</strong> 7-8 hrs sleep, protein + carbs post-workout, stay hydrated</li>
+                <li><strong>Recovery:</strong> 7-8 hrs sleep, protein + carbs post workout, stay hydrated</li>
             </ul>
         </section>
 
         <section id="schedule">
             <h2>9-Day Workout Schedule</h2>
 
+            <!-- Day 1 -->
             <div class="day-card">
-                <h2>Day 1: Lower Body Strength – Knee Stability</h2>
+                <h2>Day 1 — Lower Body Endurance Foundation</h2>
+                <p><strong>Main Work:</strong></p>
                 <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
+                    <thead><tr><th>Exercise</th><th>Sets × Reps</th></tr></thead>
                     <tbody>
-                        <tr><td>Smith Machine Squats</td><td>4</td><td>10-12</td><td>90s</td><td>Full depth, controlled</td></tr>
-                        <tr><td>Leg Press</td><td>4</td><td>12-15</td><td>75s</td><td>Feet shoulder-width</td></tr>
-                        <tr><td>Leg Extensions</td><td>3</td><td>12-15</td><td>60s</td><td>Slow 3-sec lower, squeeze top</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>3</td><td>12-15</td><td>60s</td><td>Controlled squeeze</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>3</td><td>15-20</td><td>45s</td><td>Full stretch</td></tr>
+                        <tr><td>Leg Press</td><td>4 × 15</td></tr>
+                        <tr><td>Smith Machine Squat</td><td>4 × 12</td></tr>
+                        <tr><td>Leg Extension</td><td>3 × 20</td></tr>
+                        <tr><td>Leg Curl</td><td>3 × 20</td></tr>
+                        <tr><td>Walking Lunges</td><td>3 × 14 each</td></tr>
+                        <tr><td>Standing Calf Raise</td><td>4 × 20</td></tr>
                     </tbody>
                 </table>
-                <p><strong>Cardio Finisher:</strong> 20 mins Incline Treadmill (5-8% incline)</p>
+                <p><strong>Incline Walk:</strong> 10 minutes</p>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Controlled tempo. Build quad endurance and knee support.
+                </div>
             </div>
 
+            <!-- Day 2 -->
             <div class="day-card">
-                <h2>Day 2: Leg Endurance + Cardio</h2>
-                <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td>Leg Press</td><td>4</td><td>15-20</td><td>60s</td><td>Steady tempo</td></tr>
-                        <tr><td>DB Forward Lunges</td><td>3</td><td>12/leg</td><td>60s</td><td>Alternate legs</td></tr>
-                        <tr><td>Leg Extensions</td><td>3</td><td>15-18</td><td>45s</td><td>Hard quad squeeze</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>3</td><td>15-18</td><td>45s</td><td>Hamstring focus</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>3</td><td>20</td><td>45s</td><td>Pause at top</td></tr>
-                    </tbody>
-                </table>
-                <p><strong>Cardio Finisher:</strong> 25 mins Incline Treadmill (6-10%)</p>
-            </div>
-
-            <div class="day-card">
-                <h2>Day 3: Lower Body Strength – Power & Control</h2>
-                <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td>Smith Machine Squats</td><td>4</td><td>8-10</td><td>90s</td><td>Slightly heavier</td></tr>
-                        <tr><td>Leg Press</td><td>4</td><td>12-15</td><td>75s</td><td>Push through heels</td></tr>
-                        <tr><td>Leg Extensions</td><td>4</td><td>12-15</td><td>60s</td><td>Slow eccentric</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>4</td><td>12-15</td><td>60s</td><td>Full stretch</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>3</td><td>15-20</td><td>45s</td><td>Add weight</td></tr>
-                    </tbody>
-                </table>
-                <p><strong>Cardio Finisher:</strong> 25 mins Incline Treadmill (7-10%)</p>
-            </div>
-
-            <div class="day-card">
-                <h2>Day 4: Active Recovery + Light Cardio</h2>
-                <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td>Leg Press (light)</td><td>3</td><td>15</td><td>60s</td><td>Focus on pump</td></tr>
-                        <tr><td>DB Forward Lunges</td><td>3</td><td>10/leg</td><td>60s</td><td>Light or bodyweight</td></tr>
-                        <tr><td>Leg Extensions (light)</td><td>3</td><td>15</td><td>45s</td><td>Slow & controlled</td></tr>
-                    </tbody>
-                </table>
-                <p><strong>Cardio Finisher:</strong> 30 mins Incline Treadmill (5-8%, comfortable)</p>
-            </div>
-
-            <div class="day-card">
-                <h2>Day 5: High-Rep Leg Endurance</h2>
-                <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td>Leg Press</td><td>4</td><td>18-20</td><td>60s</td><td>Moderate weight</td></tr>
-                        <tr><td>Smith Machine Squats</td><td>4</td><td>15</td><td>60s</td><td>Controlled</td></tr>
-                        <tr><td>Leg Extensions</td><td>3</td><td>18-20</td><td>45s</td><td>Burn-out last set</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>3</td><td>18-20</td><td>45s</td><td>Burn-out last set</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>4</td><td>20-25</td><td>45s</td><td>High volume</td></tr>
-                    </tbody>
-                </table>
-                <p><strong>Cardio Finisher:</strong> 30 mins Incline Treadmill (8-12%)</p>
-            </div>
-
-            <div class="day-card">
-                <h2>Day 6: Strength + Stability</h2>
-                <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
-                    <tbody>
-                        <tr><td>Smith Machine Squats</td><td>4</td><td>10-12</td><td>90s</td><td>Focus on depth</td></tr>
-                        <tr><td>DB Forward Lunges</td><td>4</td><td>12/leg</td><td>75s</td><td>Knee control</td></tr>
-                        <tr><td>Leg Extensions</td><td>3</td><td>12-15</td><td>60s</td><td>Slow eccentric</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>3</td><td>12-15</td><td>60s</td><td>Squeeze at top</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>3</td><td>15-20</td><td>45s</td><td>Full range</td></tr>
-                    </tbody>
-                </table>
-                <p><strong>Cardio Finisher:</strong> 35 mins Incline Treadmill (8-12%)</p>
-            </div>
-
-            <div class="day-card">
-                <h2>Day 7: Active Recovery + Cardio</h2>
-                <p><strong>Light Mobility Circuit – 2 rounds</strong></p>
-                <ul style="margin:1rem 2rem;">
-                    <li>Bodyweight Squats – 15</li>
-                    <li>Alternating Lunges – 10/leg</li>
-                    <li>Calf Raises – 20</li>
+                <h2>Day 2 — Cardio & Breathing Efficiency</h2>
+                <p><strong>Main Work:</strong></p>
+                <ul style="margin-left:1.5rem; line-height:2;">
+                    <li>Incline Treadmill Walk — 35 min continuous</li>
+                    <li>Stair Climb — 10 min steady pace</li>
+                    <li>Farmer Walk (DB) — 4 rounds</li>
+                    <li>Plank — 3 × 40 sec</li>
                 </ul>
-                <p><strong>Cardio Finisher:</strong> 35-40 mins Incline Treadmill (7-10%, steady)</p>
             </div>
 
+            <!-- Day 3 -->
             <div class="day-card">
-                <h2>Day 8: Peak Endurance Circuit</h2>
-                <p><strong>3-4 rounds with minimal rest</strong></p>
+                <h2>Day 3 — Hamstring & Glute Strength</h2>
+                <p><strong>Main Work:</strong></p>
                 <table>
-                    <thead><tr><th>Exercise</th><th>Reps</th><th>Notes</th></tr></thead>
+                    <thead><tr><th>Exercise</th><th>Sets × Reps</th></tr></thead>
                     <tbody>
-                        <tr><td>Leg Press</td><td>15-18</td><td>Moderate</td></tr>
-                        <tr><td>DB Forward Lunges</td><td>10/leg</td><td>Alternate</td></tr>
-                        <tr><td>Leg Extensions</td><td>15</td><td>Slow tempo</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>15</td><td>Controlled</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>20</td><td>Full stretch</td></tr>
+                        <tr><td>Romanian Deadlift</td><td>4 × 12</td></tr>
+                        <tr><td>Smith Machine Split Squat</td><td>3 × 12 each</td></tr>
+                        <tr><td>Step-Ups</td><td>3 × 15 each</td></tr>
+                        <tr><td>Leg Curl</td><td>4 × 15</td></tr>
+                        <tr><td>Calf Raise</td><td>5 × 20</td></tr>
                     </tbody>
                 </table>
-                <p><strong>Cardio Finisher:</strong> 40 mins Incline Treadmill (10-12%)</p>
             </div>
 
+            <!-- Day 4 -->
             <div class="day-card">
-                <h2>Day 9: Taper – Light + Final Cardio</h2>
+                <h2>Day 4 — Active Recovery</h2>
+                <p><strong>Recovery Work:</strong></p>
+                <ul style="margin-left:1.5rem; line-height:2;">
+                    <li>Easy Walk — 30 min</li>
+                </ul>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Reduce fatigue and improve recovery before higher workload days.
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="day-card">
+                <h2>Day 5 — Climbing Simulation Circuit</h2>
+                <p><strong>Circuit — 4 Rounds:</strong></p>
+                <ul style="margin-left:1.5rem; line-height:2;">
+                    <li>Bodyweight Squats — 20</li>
+                    <li>Walking Lunges — 15 each</li>
+                    <li>Incline Walk — 5 min</li>
+                    <li>Calf Raises — 25</li>
+                </ul>
+                <p><strong>Finisher:</strong> Incline Treadmill Walk — 20 min continuous</p>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Simulate continuous climbing fatigue similar to Vaishno Devi route.
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="day-card">
+                <h2>Day 6 — Heavy Lower Body Endurance</h2>
+                <p><strong>Main Work:</strong></p>
                 <table>
-                    <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Notes</th></tr></thead>
+                    <thead><tr><th>Exercise</th><th>Sets × Reps</th></tr></thead>
                     <tbody>
-                        <tr><td>Leg Press</td><td>3</td><td>12-15</td><td>60s</td><td>Light-moderate</td></tr>
-                        <tr><td>Leg Extensions</td><td>3</td><td>12-15</td><td>45s</td><td>Knee squeeze focus</td></tr>
-                        <tr><td>Lying Leg Curls</td><td>3</td><td>12-15</td><td>45s</td><td>Controlled</td></tr>
-                        <tr><td>Standing Calf Raises</td><td>3</td><td>15-20</td><td>45s</td><td>Light</td></tr>
+                        <tr><td>Leg Press</td><td>5 × 12</td></tr>
+                        <tr><td>Smith Machine Squat</td><td>4 × 10</td></tr>
+                        <tr><td>Bulgarian Split Squat</td><td>3 × 10 each</td></tr>
+                        <tr><td>Leg Extension</td><td>3 × 20</td></tr>
+                        <tr><td>Leg Curl</td><td>3 × 20</td></tr>
+                        <tr><td>Standing Calf Raise</td><td>5 × 20</td></tr>
                     </tbody>
                 </table>
-                <p><strong>Cardio Finisher:</strong> 30 mins Incline Treadmill (8-10%, easy pace)</p>
+                <p><strong>Incline Walk:</strong> 15 minutes</p>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Heavy lower body endurance and stability work.
+                </div>
+            </div>
+
+            <!-- Day 7 -->
+            <div class="day-card">
+                <h2>Day 7 — Peak Endurance Session</h2>
+                <p><strong>Main Work:</strong></p>
+                <ul style="margin-left:1.5rem; line-height:2;">
+                    <li>Continuous Incline Walk — 60–75 min</li>
+                </ul>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Longest endurance session. Prepare mentally and physically for yatra pacing.
+                </div>
+            </div>
+
+            <!-- Day 8 -->
+            <div class="day-card">
+                <h2>Day 8 — Light Activation</h2>
+                <p><strong>Light Activation — Repeat for 3 rounds:</strong></p>
+                <ul style="margin-left:1.5rem; line-height:2;">
+                    <li>Bodyweight Squats — 15 reps</li>
+                    <li>Step-Ups — 15 each</li>
+                    <li>Calf Raises — 20 reps</li>
+                    <li>Plank — 30 sec</li>
+                    <li>Incline Walk — 5 min</li>
+                </ul>
+                <p><strong>Stretching:</strong> Full lower body mobility — 15 min</p>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Stay active without creating fatigue.
+                </div>
+            </div>
+
+            <!-- Day 9 -->
+            <div class="day-card">
+                <h2>Day 9 — Taper & Recovery</h2>
+                <p><strong>Recovery Day:</strong></p>
+                <ul style="margin-left:1.5rem; line-height:2;">
+                    <li>Easy Walk — 20 min</li>
+                    <li>Full Body Stretching — 15 min</li>
+                </ul>
+                <div class="coach-focus">
+                    <strong>Coach Focus:</strong> Fresh body for yatra day. No intense workout.
+                </div>
             </div>
         </section>
 
@@ -350,6 +369,7 @@
             <h2>Final Notes for Mohit</h2>
             <div class="highlight">
                 <p>You are now well-prepared to complete the Vaishno Devi Yatra comfortably. Strong knees, high leg endurance, and improved cardio will help you handle the steep climbs and stairs with ease.</p>
+                <p>Small steady steps. Controlled breathing. Consistent pace. That is the real secret of completing Vaishno Devi comfortably.</p>
                 <p><strong>Jai Mata Di!</strong> Walk at your own steady pace, take short breaks, and enjoy the divine journey.</p>
             </div>
             <p><strong>Any questions?</strong> Message Coach Sushant anytime.</p>
