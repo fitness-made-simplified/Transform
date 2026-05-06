@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FMS | Sunny's Workout Plan</title>
+<title>FMS | Sunny's Workout Plan (Week 4)</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -20,7 +21,6 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* BG grain */
   body::before {
     content: '';
     position: fixed;
@@ -44,7 +43,6 @@
 
   .wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
 
-  /* Header */
   .top-bar {
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px 0 10px;
@@ -54,16 +52,13 @@
   .top-bar a {
     color: var(--muted); text-decoration: none; font-size: 13px;
     font-family: 'Space Mono', monospace; letter-spacing: 0.04em;
-    transition: color 0.2s;
   }
-  .top-bar a:hover { color: var(--accent); }
   .top-logo {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 22px; letter-spacing: 0.15em;
     color: var(--accent); text-decoration: none;
   }
 
-  /* Hero */
   .hero { margin-bottom: 40px; }
   .hero-tag {
     display: inline-block;
@@ -90,7 +85,6 @@
     max-width: 520px;
   }
 
-  /* Warning chip */
   .alert-chip {
     display: inline-flex; align-items: center; gap: 8px;
     margin-top: 16px;
@@ -100,31 +94,19 @@
     font-size: 12.5px; color: #ff8a8a;
     font-family: 'Space Mono', monospace;
   }
-  .alert-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--danger); flex-shrink: 0; animation: pulse 1.8s infinite; }
+  .alert-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--danger); animation: pulse 1.8s infinite; }
   @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
 
-  /* Day Tabs */
-  .day-tabs {
-    display: flex; gap: 6px; flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
+  .day-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
   .day-tab {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: 'Space Mono', monospace;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); font-family: 'Space Mono', monospace;
     font-size: 12px; letter-spacing: 0.06em;
     padding: 8px 16px; border-radius: 6px;
-    cursor: pointer; transition: all 0.2s;
-    text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s; text-transform: uppercase;
   }
-  .day-tab:hover { border-color: var(--accent); color: var(--accent); }
-  .day-tab.active {
-    background: var(--accent); color: #0a0a0a;
-    border-color: var(--accent); font-weight: 700;
-  }
+  .day-tab.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); font-weight: 700; }
 
-  /* Day Panel */
   .day-panel { display: none; animation: fadeUp 0.35s ease; }
   .day-panel.active { display: block; }
   @keyframes fadeUp {
@@ -132,163 +114,90 @@
     to   { opacity:1; transform: translateY(0); }
   }
 
-  /* Day Header */
   .day-header {
     display: flex; align-items: flex-end; justify-content: space-between;
-    flex-wrap: wrap; gap: 12px;
-    margin-bottom: 22px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap; gap: 12px; margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--border);
   }
-  .day-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px; letter-spacing: 0.18em;
-    color: var(--muted); text-transform: uppercase;
-  }
-  .day-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(30px, 6vw, 44px);
-    letter-spacing: 0.06em; line-height: 1;
-    color: var(--text);
-  }
+  .day-number { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; }
+  .day-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 6vw, 44px); letter-spacing: 0.06em; line-height: 1; color: var(--text); }
   .day-title span { color: var(--accent2); }
   .day-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-  .badge {
-    font-family: 'Space Mono', monospace; font-size: 10.5px;
-    padding: 4px 10px; border-radius: 4px;
-    letter-spacing: 0.05em; text-transform: uppercase;
-  }
+  .badge { font-family: 'Space Mono', monospace; font-size: 10.5px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
   .badge-focus { background: rgba(66,245,200,0.1); color: var(--accent2); border: 1px solid rgba(66,245,200,0.2); }
   .badge-warn  { background: rgba(255,169,77,0.1); color: var(--warm); border: 1px solid rgba(255,169,77,0.2); }
 
-  /* Warmup bar */
   .warmup-bar {
-    background: rgba(255,169,77,0.07);
-    border: 1px solid rgba(255,169,77,0.18);
+    background: rgba(255,169,77,0.07); border: 1px solid rgba(255,169,77,0.18);
     border-radius: 10px; padding: 12px 16px;
     display: flex; align-items: center; gap: 10px;
-    margin-bottom: 16px; font-size: 13px;
-    color: var(--warm);
+    margin-bottom: 16px; font-size: 13px; color: var(--warm);
   }
-  .warmup-bar svg { flex-shrink: 0; }
 
-  /* Exercise list */
   .exercise-list { display: flex; flex-direction: column; gap: 10px; }
-
   .ex-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
     display: flex; align-items: center; gap: 16px;
-    transition: border-color 0.2s, transform 0.15s;
-    cursor: default;
+    transition: transform 0.15s;
   }
   .ex-card:hover { border-color: rgba(200,245,66,0.3); transform: translateX(4px); }
-
-  .ex-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px; color: var(--border);
-    min-width: 32px; text-align: center;
-    transition: color 0.2s;
-  }
+  .ex-num { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--border); min-width: 32px; text-align: center; }
   .ex-card:hover .ex-num { color: var(--accent); }
-
   .ex-info { flex: 1; }
-  .ex-name {
-    font-size: 15px; font-weight: 500; color: var(--text);
-    margin-bottom: 3px; letter-spacing: 0.01em;
-  }
+  .ex-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
   .ex-meta { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
-
-  .ex-sets {
-    display: flex; gap: 5px;
-  }
+  .ex-sets { display: flex; gap: 5px; }
   .set-pill {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--surface); border: 1px solid var(--border);
     border-radius: 5px; padding: 5px 10px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; color: var(--muted);
-    white-space: nowrap;
-    transition: all 0.2s;
+    font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
   }
   .ex-card:hover .set-pill { border-color: var(--accent); color: var(--accent); }
-
-  /* Core badge on special exercises */
+  
+  .ex-superset { border-left: 3px solid var(--accent2); background: rgba(66,245,200,0.03); }
   .ex-core { background: rgba(66,245,200,0.08); border-color: rgba(66,245,200,0.2); }
-  .ex-core .ex-name { color: var(--accent2); }
 
-  /* Stats bar */
   .stats-row {
     display: flex; gap: 12px; flex-wrap: wrap;
-    margin-top: 28px; padding-top: 20px;
-    border-top: 1px solid var(--border);
+    margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border);
   }
-  .stat-box {
-    flex: 1; min-width: 100px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px 16px;
-    text-align: center;
-  }
-  .stat-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px; color: var(--accent); letter-spacing: 0.04em;
-  }
-  .stat-lbl {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
-    margin-top: 2px;
-  }
+  .stat-box { flex: 1; min-width: 100px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-align: center; }
+  .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--accent); }
+  .stat-lbl { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 
-  /* Footer */
-  .footer {
-    margin-top: 60px; padding-top: 24px;
-    border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  }
-  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); letter-spacing: 0.15em; }
+  .footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); }
   .footer-note { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
 
-  /* Progress dots */
-  .progress-dots {
-    display: flex; gap: 6px; align-items: center;
-    margin-bottom: 24px;
-  }
-  .dot-step {
-    height: 3px; border-radius: 2px;
-    background: var(--border); transition: all 0.3s;
-    flex: 1; max-width: 60px;
-  }
+  .progress-dots { display: flex; gap: 6px; align-items: center; margin-bottom: 24px; }
+  .dot-step { height: 3px; border-radius: 2px; background: var(--border); transition: all 0.3s; flex: 1; max-width: 60px; }
   .dot-step.done { background: var(--accent); }
 
   @media (max-width: 540px) {
     .day-header { flex-direction: column; align-items: flex-start; }
     .ex-card { flex-wrap: wrap; }
-    .ex-sets { flex-wrap: wrap; }
     .stats-row { gap: 8px; }
   }
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <div class="top-bar">
-    <a href="https://fitness-made-simplified.github.io/Transform/" target="_blank">← FMS Home</a>
-    <a class="top-logo" href="https://fitness-made-simplified.github.io/Transform/" target="_blank">FMS</a>
+    <a href="#">← FMS Documents</a>
+    <a class="top-logo" href="#">FMS</a>
   </div>
 
   <div class="hero">
-    <div class="hero-tag">Custom Client Plan · Physio-Led</div>
+    <div class="hero-tag">Week 04 · Intensification Phase</div>
     <h1>SUNNY'S<br/><span>WORKOUT</span></h1>
-    <p class="hero-sub">Opposite-muscle-group split · 5-Day Protocol · Designed by Coach Sushant</p>
+    <p class="hero-sub">Opposite-muscle-group split · Modified for Lumbar Protection · Coach Sushant</p>
     <div class="alert-chip">
       <span class="dot"></span>
-      MODIFICATION ACTIVE — Weak Lower Back Protocol: No heavy spinal loading, supported core work only
+      MODIFICATION ACTIVE — Lower Back Protocol: Assisted & Supported variations only
     </div>
   </div>
 
-  <!-- Day Tabs -->
   <div class="day-tabs">
     <button class="day-tab active" onclick="showDay(0)">Day 1</button>
     <button class="day-tab" onclick="showDay(1)">Day 2</button>
@@ -297,228 +206,72 @@
     <button class="day-tab" onclick="showDay(4)">Day 5</button>
   </div>
 
-  <!-- Progress -->
   <div class="progress-dots" id="progress-dots"></div>
 
-  <!-- ─────────── DAY 1 ─────────── -->
+  <!-- DAY 1: BACK & BICEPS -->
   <div class="day-panel active" id="day-0">
     <div class="day-header">
       <div>
         <div class="day-number">Day 01 · Monday</div>
-        <div class="day-title">CHEST <span>&</span> BACK</div>
+        <div class="day-title">BACK <span>&</span> BICEPS</div>
       </div>
       <div class="day-badges">
-        <span class="badge badge-focus">Push + Pull</span>
-        <span class="badge badge-warn">⚠ Lower Back: No Deadlifts</span>
+        <span class="badge badge-focus">Pull Focus</span>
+        <span class="badge badge-warn">⚠ Back Supported Only</span>
       </div>
     </div>
-
+    <div class="warmup-bar">
+      <span><strong>Warm-up:</strong> 10 mins dynamic stretching + light rows</span>
+    </div>
     <div class="exercise-list">
-      <div class="ex-card">
-        <div class="ex-num">01</div>
-        <div class="ex-info">
-          <div class="ex-name">Chest Press Machine</div>
-          <div class="ex-meta">Muscle Activation · Light Weight · Full ROM</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">25 reps</div>
-          <div class="set-pill">× 2 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">02</div>
-        <div class="ex-info">
-          <div class="ex-name">Incline DB Chest Fly</div>
-          <div class="ex-meta">Incline 30–45° · Controlled eccentric</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">03</div>
-        <div class="ex-info">
-          <div class="ex-name">Bench Press</div>
-          <div class="ex-meta">Flat · Retract scapula · Feet flat on floor</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 4 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">04</div>
-        <div class="ex-info">
-          <div class="ex-name">Chest Fly Machine</div>
-          <div class="ex-meta">Peak contraction squeeze · Slow negative</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">05</div>
-        <div class="ex-info">
-          <div class="ex-name">Lat Pull Down — Wide Grip</div>
-          <div class="ex-meta">Pull to upper chest · Lean back slightly · No momentum</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">06</div>
-        <div class="ex-info">
-          <div class="ex-name">Seated Row</div>
-          <div class="ex-meta">Chest pad supported · Keep torso upright · Lower back safe</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">07</div>
-        <div class="ex-info">
-          <div class="ex-name">Lat Pull Down — Close Grip</div>
-          <div class="ex-meta">Neutral grip · Elbows drive down · Full stretch at top</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card ex-core">
-        <div class="ex-num">08</div>
-        <div class="ex-info">
-          <div class="ex-name">Crunches</div>
-          <div class="ex-meta">⚡ Core Finisher · Lower back pressed flat · No strain</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Lat Pull Down (Wide Grip)</div><div class="ex-meta">Vertical pull focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Seated Row</div><div class="ex-meta">Chest pad supported · Mid-back squeeze</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lat Pull Down (Close Grip)</div><div class="ex-meta">Neutral grip · Lower lat focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Single Arm Row</div><div class="ex-meta">Pulley or DB · Support other arm on bench</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">T-Bar Row / Assisted Pull Ups</div><div class="ex-meta">If T-bar, use chest-supported machine</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">DB Curl</div><div class="ex-meta">No swinging · Full supination</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Hammer Curl</div><div class="ex-meta">Neutral grip · Forearm/Bicep junction</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Preacher Curl Machine</div><div class="ex-meta">Strict isolation · Controlled eccentric</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
     </div>
-
     <div class="stats-row">
       <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Exercises</div></div>
-      <div class="stat-box"><div class="stat-val">26</div><div class="stat-lbl">Total Sets</div></div>
-      <div class="stat-box"><div class="stat-val">~340</div><div class="stat-lbl">Total Reps</div></div>
-      <div class="stat-box"><div class="stat-val">70<span style="font-size:18px">min</span></div><div class="stat-lbl">Est. Duration</div></div>
+      <div class="stat-box"><div class="stat-val">24</div><div class="stat-lbl">Sets</div></div>
+      <div class="stat-box"><div class="stat-val">~285</div><div class="stat-lbl">Total Reps</div></div>
     </div>
   </div>
 
-  <!-- ─────────── DAY 2 ─────────── -->
+  <!-- DAY 2: CHEST & TRICEPS -->
   <div class="day-panel" id="day-1">
     <div class="day-header">
       <div>
         <div class="day-number">Day 02 · Tuesday</div>
-        <div class="day-title">ARMS <span>Day</span></div>
+        <div class="day-title">CHEST <span>&</span> TRICEPS</div>
       </div>
       <div class="day-badges">
-        <span class="badge badge-focus">Biceps + Triceps</span>
-        <span class="badge badge-warn">⚡ Warm-up Required</span>
+        <span class="badge badge-focus">Push Focus</span>
+        <span class="badge badge-warn">⚡ Cardio Warmup</span>
       </div>
     </div>
-
     <div class="warmup-bar">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-      <span><strong>Warm-up:</strong> 10 min walk — steady pace, loosen joints, elevate heart rate</span>
+      <span><strong>Warm-up:</strong> 10 mins treadmill/bike + shoulder mobility</span>
     </div>
-
     <div class="exercise-list">
-      <div class="ex-card">
-        <div class="ex-num">01</div>
-        <div class="ex-info">
-          <div class="ex-name">DB Curl</div>
-          <div class="ex-meta">Supinate at top · No swinging · Stand or seated</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">02</div>
-        <div class="ex-info">
-          <div class="ex-name">Overhead Extension — DB</div>
-          <div class="ex-meta">Long head stretch · Keep elbows close · Seated for lumbar support</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">03</div>
-        <div class="ex-info">
-          <div class="ex-name">Hammer Curl</div>
-          <div class="ex-meta">Neutral grip · Brachialis focus · Alternating</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">04</div>
-        <div class="ex-info">
-          <div class="ex-name">Pulley Push Down</div>
-          <div class="ex-meta">Straight bar or rope · Lock elbows · Full extension</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">05</div>
-        <div class="ex-info">
-          <div class="ex-name">Pulley Curl</div>
-          <div class="ex-meta">Low cable · Peak squeeze · Elbows stay fixed</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">06</div>
-        <div class="ex-info">
-          <div class="ex-name">Tricep Dips on Bench</div>
-          <div class="ex-meta">Feet flat · Dip parallel · No deep shoulder stress</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card ex-core">
-        <div class="ex-num">07</div>
-        <div class="ex-info">
-          <div class="ex-name">Bicycle Crunches</div>
-          <div class="ex-meta">⚡ Core Finisher · Slow & controlled · No neck pull</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Push Ups</div><div class="ex-meta">Standard or knee if needed for form</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Chest Press Machine</div><div class="ex-meta">Safe heavy loading · Back flat on pad</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Chest Fly</div><div class="ex-meta">Machine or DB · Focus on stretch</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Cable Crossover</div><div class="ex-meta">Mid-cable height · Peak contraction</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Overhead Extension</div><div class="ex-meta">Seated for lower back stability</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Pulley Push Down</div><div class="ex-meta">Tricep isolation · Straight bar</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-core"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Crunches</div><div class="ex-meta">Slow tempo · Core focus</div></div><div class="ex-sets"><div class="set-pill">25 reps</div><div class="set-pill">× 3</div></div></div>
     </div>
-
     <div class="stats-row">
       <div class="stat-box"><div class="stat-val">7</div><div class="stat-lbl">Exercises</div></div>
-      <div class="stat-box"><div class="stat-val">21</div><div class="stat-lbl">Total Sets</div></div>
-      <div class="stat-box"><div class="stat-val">~270</div><div class="stat-lbl">Total Reps</div></div>
-      <div class="stat-box"><div class="stat-val">55<span style="font-size:18px">min</span></div><div class="stat-lbl">Est. Duration</div></div>
+      <div class="stat-box"><div class="stat-val">21</div><div class="stat-lbl">Sets</div></div>
+      <div class="stat-box"><div class="stat-val">~315</div><div class="stat-lbl">Total Reps</div></div>
     </div>
   </div>
 
-  <!-- ─────────── DAY 3 ─────────── -->
+  <!-- DAY 3: LEGS & SHOULDERS -->
   <div class="day-panel" id="day-2">
     <div class="day-header">
       <div>
@@ -526,331 +279,93 @@
         <div class="day-title">LEGS <span>&</span> SHOULDERS</div>
       </div>
       <div class="day-badges">
-        <span class="badge badge-focus">Lower + Upper</span>
-        <span class="badge badge-warn">⚠ Machine-Only Legs</span>
+        <span class="badge badge-focus">Lower Body + Delts</span>
+        <span class="badge badge-warn">⚠ No Heavy Squats</span>
       </div>
     </div>
-
     <div class="warmup-bar">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-      <span><strong>Warm-up:</strong> 10 min bike / cross-trainer — protect lower back, mobilise hips</span>
+      <span><strong>Warm-up:</strong> 10 mins bike (mobilize hips & knees)</span>
     </div>
-
     <div class="exercise-list">
-      <div class="ex-card">
-        <div class="ex-num">01</div>
-        <div class="ex-info">
-          <div class="ex-name">Leg Extension Machine</div>
-          <div class="ex-meta">Quad isolation · Seated · No spinal load — back-safe ✓</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">02</div>
-        <div class="ex-info">
-          <div class="ex-name">Leg Curl Machine</div>
-          <div class="ex-meta">Hamstring isolation · Prone or seated · Full ROM</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">03</div>
-        <div class="ex-info">
-          <div class="ex-name">Leg Press</div>
-          <div class="ex-meta">Feet shoulder-width · Moderate depth · Back flat on pad</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">04</div>
-        <div class="ex-info">
-          <div class="ex-name">DB Side Raises</div>
-          <div class="ex-meta">Medial delt · Slight forward lean · Control the negative</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">05</div>
-        <div class="ex-info">
-          <div class="ex-name">Shoulder Press Machine</div>
-          <div class="ex-meta">Seated · Back supported · Controlled press</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">06</div>
-        <div class="ex-info">
-          <div class="ex-name">Pulley Upright Row</div>
-          <div class="ex-meta">Cable · Wide grip · Elbows above wrists · Trap + delt</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">07</div>
-        <div class="ex-info">
-          <div class="ex-name">Calf Raises</div>
-          <div class="ex-meta">Standing or machine · Full stretch at bottom · Slow up</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">08</div>
-        <div class="ex-info">
-          <div class="ex-name">Shrugs</div>
-          <div class="ex-meta">DB or barbell · Vertical lift · No rolling</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Leg Extension</div><div class="ex-meta">Quad isolation · Hold at top</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Leg Curl</div><div class="ex-meta">Hamstring isolation · Prone/Seated</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Pulley Face Pull</div><div class="ex-meta">Rear delt focus · Pull to forehead</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Side Raises</div><div class="ex-meta">Medial delt · Dumbbells</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Leg Press</div><div class="ex-meta">Back flat against pad · Constant tension</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">DB Squats</div><div class="ex-meta">Goblet style · Heels down · Upright torso</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Shoulder Press Machine</div><div class="ex-meta">Seated · Full support</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Shrugs</div><div class="ex-meta">DB or Trap bar · Hold squeeze</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
     </div>
-
     <div class="stats-row">
       <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Exercises</div></div>
-      <div class="stat-box"><div class="stat-val">24</div><div class="stat-lbl">Total Sets</div></div>
-      <div class="stat-box"><div class="stat-val">~330</div><div class="stat-lbl">Total Reps</div></div>
-      <div class="stat-box"><div class="stat-val">65<span style="font-size:18px">min</span></div><div class="stat-lbl">Est. Duration</div></div>
+      <div class="stat-box"><div class="stat-val">24</div><div class="stat-lbl">Sets</div></div>
+      <div class="stat-box"><div class="stat-val">345</div><div class="stat-lbl">Total Reps</div></div>
     </div>
   </div>
 
-  <!-- ─────────── DAY 4 ─────────── -->
+  <!-- DAY 4: ARMS SUPERSETS -->
   <div class="day-panel" id="day-3">
     <div class="day-header">
       <div>
         <div class="day-number">Day 04 · Thursday</div>
-        <div class="day-title">ARMS <span>Vol. 2</span></div>
+        <div class="day-title">ARM <span>VOLUME</span></div>
       </div>
       <div class="day-badges">
-        <span class="badge badge-focus">Forearms + Cables</span>
-        <span class="badge badge-warn">⚡ High Rep Pump</span>
+        <span class="badge badge-focus">Supersets</span>
+        <span class="badge badge-warn">⚡ High Intensity</span>
       </div>
     </div>
-
     <div class="exercise-list">
-      <div class="ex-card">
-        <div class="ex-num">01</div>
-        <div class="ex-info">
-          <div class="ex-name">Rope Push Down</div>
-          <div class="ex-meta">Split rope at bottom · Full tricep extension · Cable</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">02</div>
-        <div class="ex-info">
-          <div class="ex-name">Rope Pulley Curl</div>
-          <div class="ex-meta">Low pulley · Supinate wrist · Peak squeeze</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">03</div>
-        <div class="ex-info">
-          <div class="ex-name">Barbell Curl</div>
-          <div class="ex-meta">EZ or straight bar · No elbow flare · Strict form</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">04</div>
-        <div class="ex-info">
-          <div class="ex-name">Skull Crusher</div>
-          <div class="ex-meta">EZ bar · Elbows fixed · Lower to forehead slowly</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">05</div>
-        <div class="ex-info">
-          <div class="ex-name">Forearm Curl</div>
-          <div class="ex-meta">Seated wrist curl · Forearm on thigh · Full ROM</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">06</div>
-        <div class="ex-info">
-          <div class="ex-name">Reverse Curl</div>
-          <div class="ex-meta">Overhand grip · Brachioradialis · Control descent</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
+      <div class="ex-card ex-superset"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Pulley Curl + Pulley Push Down</div><div class="ex-meta">Superset: No rest between A and B</div></div><div class="ex-sets"><div class="set-pill">15+15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-superset"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Hammer Curl + Overhead Extension</div><div class="ex-meta">Superset: Focus on neutral grip</div></div><div class="ex-sets"><div class="set-pill">15+15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-superset"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">DB Curl + Single Arm Overhead Ext.</div><div class="ex-meta">Superset: Unilateral focus</div></div><div class="ex-sets"><div class="set-pill">10+10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-superset"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Barbell Curl + Lying Triceps Ext.</div><div class="ex-meta">Superset: EZ-Bar preferred</div></div><div class="ex-sets"><div class="set-pill">10+10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Forearm Curl</div><div class="ex-meta">Wrist curls on bench</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3</div></div></div>
     </div>
-
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-val">6</div><div class="stat-lbl">Exercises</div></div>
-      <div class="stat-box"><div class="stat-val">18</div><div class="stat-lbl">Total Sets</div></div>
-      <div class="stat-box"><div class="stat-val">~240</div><div class="stat-lbl">Total Reps</div></div>
-      <div class="stat-box"><div class="stat-val">45<span style="font-size:18px">min</span></div><div class="stat-lbl">Est. Duration</div></div>
+      <div class="stat-box"><div class="stat-val">5</div><div class="stat-lbl">Pairs</div></div>
+      <div class="stat-box"><div class="stat-val">15</div><div class="stat-lbl">Sets</div></div>
+      <div class="stat-box"><div class="stat-val">345</div><div class="stat-lbl">Total Reps</div></div>
     </div>
   </div>
 
-  <!-- ─────────── DAY 5 ─────────── -->
+  <!-- DAY 5: CHEST & BACK HYBRID -->
   <div class="day-panel" id="day-4">
     <div class="day-header">
       <div>
         <div class="day-number">Day 05 · Friday</div>
-        <div class="day-title">CHEST <span>&</span> SHOULDERS</div>
+        <div class="day-title">CHEST <span>&</span> BACK</div>
       </div>
       <div class="day-badges">
-        <span class="badge badge-focus">Weak Parts Focus</span>
-        <span class="badge badge-warn">⚡ High Volume</span>
+        <span class="badge badge-focus">Power Pairs</span>
+        <span class="badge badge-warn">⚡ Final Push</span>
       </div>
     </div>
-
     <div class="exercise-list">
-      <div class="ex-card">
-        <div class="ex-num">01</div>
-        <div class="ex-info">
-          <div class="ex-name">Push Ups</div>
-          <div class="ex-meta">Bodyweight activation · Neutral spine · Elbows 45°</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">02</div>
-        <div class="ex-info">
-          <div class="ex-name">DB Chest Press</div>
-          <div class="ex-meta">Flat bench · Full range · Scapula retracted</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">03</div>
-        <div class="ex-info">
-          <div class="ex-name">Chest Fly Machine</div>
-          <div class="ex-meta">Slow eccentric · Deep stretch · Squeeze at peak</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">04</div>
-        <div class="ex-info">
-          <div class="ex-name">Crossover (Cable)</div>
-          <div class="ex-meta">High pulley · Full adduction · Chest squeeze at midline</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">05</div>
-        <div class="ex-info">
-          <div class="ex-name">Front Raises</div>
-          <div class="ex-meta">DB or plate · Anterior delt · Arms parallel to floor</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">06</div>
-        <div class="ex-info">
-          <div class="ex-name">Arnold Press</div>
-          <div class="ex-meta">Full rotation · Seated · Hits all 3 delt heads</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card">
-        <div class="ex-num">07</div>
-        <div class="ex-info">
-          <div class="ex-name">Shrugs</div>
-          <div class="ex-meta">Trap finisher · Hold at top · No rolling motion</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">10 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
-      <div class="ex-card ex-core">
-        <div class="ex-num">08</div>
-        <div class="ex-info">
-          <div class="ex-name">Leg Raises</div>
-          <div class="ex-meta">⚡ Core Finisher · Hanging or flat · Lower back pressed down</div>
-        </div>
-        <div class="ex-sets">
-          <div class="set-pill">15 reps</div>
-          <div class="set-pill">× 3 sets</div>
-        </div>
-      </div>
+      <div class="ex-card ex-superset"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Assisted Pull Ups + Push Ups</div><div class="ex-meta">Bodyweight/Assisted Activation</div></div><div class="ex-sets"><div class="set-pill">15+15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-superset"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Lat Pulldown (Wide) + Chest Fly</div><div class="ex-meta">Width Focus</div></div><div class="ex-sets"><div class="set-pill">15+15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-superset"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Seated Row + Bench Press</div><div class="ex-meta">Horizontal Load Focus</div></div><div class="ex-sets"><div class="set-pill">10+10 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-superset"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Lat Pulldown (Close) + Crossover</div><div class="ex-meta">Isolation Finish</div></div><div class="ex-sets"><div class="set-pill">15+15 reps</div><div class="set-pill">× 3</div></div></div>
+      <div class="ex-card ex-core"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sit Up</div><div class="ex-meta">Core stability · No spinal rounding</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4</div></div></div>
     </div>
-
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Exercises</div></div>
-      <div class="stat-box"><div class="stat-val">24</div><div class="stat-lbl">Total Sets</div></div>
-      <div class="stat-box"><div class="stat-val">~300</div><div class="stat-lbl">Total Reps</div></div>
-      <div class="stat-box"><div class="stat-val">60<span style="font-size:18px">min</span></div><div class="stat-lbl">Est. Duration</div></div>
+      <div class="stat-box"><div class="stat-val">5</div><div class="stat-lbl">Stations</div></div>
+      <div class="stat-box"><div class="stat-val">16</div><div class="stat-lbl">Sets</div></div>
+      <div class="stat-box"><div class="stat-val">370</div><div class="stat-lbl">Total Reps</div></div>
     </div>
   </div>
 
-  <!-- Footer -->
   <div class="footer">
     <div class="footer-brand">FMS · FITNESS MADE SIMPLIFIED</div>
-    <div class="footer-note">Coach: Sushant · BPT · ACE-CPT · Client: Sunny</div>
+    <div class="footer-note">Coach: Sushant · Client: Sunny · Week 4 Update</div>
   </div>
-
-</div><!-- /wrap -->
+</div>
 
 <script>
   const tabs = document.querySelectorAll('.day-tab');
   const panels = document.querySelectorAll('.day-panel');
   const dotsContainer = document.getElementById('progress-dots');
 
-  // Build progress dots
   tabs.forEach((_, i) => {
     const d = document.createElement('div');
     d.className = 'dot-step' + (i === 0 ? ' done' : '');
@@ -859,17 +374,13 @@
   });
 
   function showDay(index) {
-    tabs.forEach((t, i) => {
-      t.classList.toggle('active', i === index);
-    });
-    panels.forEach((p, i) => {
-      p.classList.toggle('active', i === index);
-    });
-    document.querySelectorAll('.dot-step').forEach((d, i) => {
-      d.classList.toggle('done', i <= index);
-    });
+    tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+    panels.forEach((p, i) => p.classList.toggle('active', i === index));
+    document.querySelectorAll('.dot-step').forEach((d, i) => d.classList.toggle('done', i <= index));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
 </body>
 </html>
+
+```
