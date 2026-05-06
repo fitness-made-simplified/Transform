@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FMS | Nainson's Muscle Gain Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #171717;
+    --border: #242424;
+    --accent: #c8f542;
+    --accent2: #42f5c8;
+    --text: #f0f0f0;
+    --muted: #6b6b6b;
+    --danger: #ff4d4d;
+    --warm: #ffa94d;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
+
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .top-bar a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    font-family: 'Space Mono', monospace; letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .top-bar a:hover { color: var(--accent); }
+  .top-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 0.15em;
+    color: var(--accent); text-decoration: none;
+  }
+
+  .hero { margin-bottom: 40px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    background: rgba(200,245,66,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(200,245,66,0.25);
+    padding: 4px 12px; border-radius: 100px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 84px);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    margin-top: 14px;
+    color: var(--muted); font-size: 14px; font-weight: 300; line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .alert-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 16px;
+    background: rgba(66,245,200,0.08);
+    border: 1px solid rgba(66,245,200,0.25);
+    border-radius: 8px; padding: 8px 14px;
+    font-size: 12.5px; color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+  }
+  .alert-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+  .day-tabs {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .day-tab {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 0.06em;
+    padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .day-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .day-tab.active {
+    background: var(--accent); color: #0a0a0a;
+    border-color: var(--accent); font-weight: 700;
+  }
+
+  .day-panel { display: none; animation: fadeUp 0.35s ease; }
+  .day-panel.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .day-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .day-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; letter-spacing: 0.18em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .day-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(30px, 6vw, 44px);
+    letter-spacing: 0.06em; line-height: 1;
+    color: var(--text);
+  }
+  .day-title span { color: var(--accent2); }
+  .day-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-family: 'Space Mono', monospace; font-size: 10.5px;
+    padding: 4px 10px; border-radius: 4px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .badge-focus { background: rgba(66,245,200,0.1); color: var(--accent2); border: 1px solid rgba(66,245,200,0.2); }
+  .badge-warn  { background: rgba(255,169,77,0.1); color: var(--warm); border: 1px solid rgba(255,169,77,0.2); }
+
+  .exercise-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .ex-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+  .ex-card:hover { border-color: rgba(200,245,66,0.3); transform: translateX(4px); }
+
+  .ex-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; color: var(--border);
+    min-width: 32px; text-align: center;
+    transition: color 0.2s;
+  }
+  .ex-card:hover .ex-num { color: var(--accent); }
+
+  .ex-info { flex: 1; }
+  .ex-name {
+    font-size: 15px; font-weight: 500; color: var(--text);
+    margin-bottom: 3px; letter-spacing: 0.01em;
+  }
+  .ex-meta { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  .ex-sets {
+    display: flex; gap: 5px;
+  }
+  .set-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px; padding: 5px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .ex-card:hover .set-pill { border-color: var(--accent); color: var(--accent); }
+
+  .stats-row {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-box {
+    flex: 1; min-width: 100px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; color: var(--accent); letter-spacing: 0.04em;
+  }
+  .stat-lbl {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .footer {
+    margin-top: 60px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); letter-spacing: 0.15em; }
+
+  .progress-dots {
+    display: flex; gap: 6px; align-items: center;
+    margin-bottom: 24px;
+  }
+  .dot-step {
+    height: 3px; border-radius: 2px;
+    background: var(--border); transition: all 0.3s;
+    flex: 1; max-width: 60px;
+  }
+  .dot-step.done { background: var(--accent); }
+
+  @media (max-width: 540px) {
+    .day-header { flex-direction: column; align-items: flex-start; }
+    .ex-card { flex-wrap: wrap; }
+    .ex-sets { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <a href="#">← FMS Dashboard</a>
+    <a class="top-logo" href="#">FMS</a>
+  </div>
+
+  <div class="hero">
+    <div class="hero-tag">Client: Nainson · Hypertrophy Phase</div>
+    <h1>MUSCLE<br/><span>GAIN</span></h1>
+    <p class="hero-sub">High-intensity volume split · 5-Day Hypertrophy Protocol · Designed by Coach Sushant</p>
+    <div class="alert-chip">
+      <span class="dot"></span>
+      PROGRESSIVE OVERLOAD — Focus on weight increments and time under tension
+    </div>
+  </div>
+
+  <div class="day-tabs">
+    <button class="day-tab active" onclick="showDay(0)">Day 1</button>
+    <button class="day-tab" onclick="showDay(1)">Day 2</button>
+    <button class="day-tab" onclick="showDay(2)">Day 3</button>
+    <button class="day-tab" onclick="showDay(3)">Day 4</button>
+    <button class="day-tab" onclick="showDay(4)">Day 5</button>
+  </div>
+
+  <div class="progress-dots" id="progress-dots"></div>
+
+  <div class="day-panel active" id="day-0">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 01</div>
+        <div class="day-title">CHEST <span>&</span> TRICEPS</div>
+      </div>
+      <div class="day-badges">
+        <span class="badge badge-focus">Push Focus</span>
+        <span class="badge badge-warn">Heavy Sets Included</span>
+      </div>
+    </div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Chest Fly</div><div class="ex-meta">Machine or DB · Stretch focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Bench Press</div><div class="ex-meta">Pyramid Load: 10, 8, 6, 4 · Heavy</div></div><div class="ex-sets"><div class="set-pill">Variable</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Incline DB Chest Fly</div><div class="ex-meta">Upper chest isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Incline Bench / DB Press</div><div class="ex-meta">Upper chest power</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Crossover</div><div class="ex-meta">Cable · Peak contraction</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Overhead Extension</div><div class="ex-meta">Pulley or DB · Long head focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Pulley Push Down</div><div class="ex-meta">Lock elbows · Squeeze</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Skull Crusher</div><div class="ex-meta">EZ Bar · Strict form</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+    </div>
+  </div>
+
+  <div class="day-panel" id="day-1">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 02</div>
+        <div class="day-title">BACK <span>&</span> BICEPS</div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Pull Focus</span></div>
+    </div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Lat Pull Down (Wide Grip)</div><div class="ex-meta">Width focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">T-Bar Row</div><div class="ex-meta">Thickness focus · Neutral grip</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lat Pull Down (Close)</div><div class="ex-meta">Lower lat engagement</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Seated Row</div><div class="ex-meta">Supported or Cable</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Hyperxtn Machine</div><div class="ex-meta">Lower back & Spinal erectors</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">DB Curl</div><div class="ex-meta">Bicep peak</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Hammer Curl</div><div class="ex-meta">Brachialis / Forearm thickness</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Preacher Curl</div><div class="ex-meta">Isolation · No swinging</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+    </div>
+  </div>
+
+  <div class="day-panel" id="day-2">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 03</div>
+        <div class="day-title">LEGS <span>Day</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Lower Body Power</span></div>
+    </div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Leg Extension</div><div class="ex-meta">Quad focus · High volume</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Leg Curl</div><div class="ex-meta">Hamstring isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Leg Press</div><div class="ex-meta">Compound · Mid-range</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Squats</div><div class="ex-meta">Barbell or Machine · Heavy</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Lunges</div><div class="ex-meta">Walking or Stationary</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Calf Raises</div><div class="ex-meta">High Rep Burnout</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+    </div>
+  </div>
+
+  <div class="day-panel" id="day-3">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 04</div>
+        <div class="day-title">SHOULDERS <span>Focus</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Deltoids + Traps</span></div>
+    </div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Side Raises</div><div class="ex-meta">Medial delt isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Barbell Front Raises</div><div class="ex-meta">Anterior delt</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Military Press</div><div class="ex-meta">Overhead power</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Shoulder Press Machine</div><div class="ex-meta">Controlled volume</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Barbell Upright Row</div><div class="ex-meta">Traps and lateral delts</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Shrugs</div><div class="ex-meta">Heavy · No rolling</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Rear Fly Machine / Pulley</div><div class="ex-meta">Posterior delt focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+    </div>
+  </div>
+
+  <div class="day-panel" id="day-4">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 05</div>
+        <div class="day-title">ARMS <span>Hypertrophy</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Biceps + Triceps</span></div>
+    </div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Preacher Curl</div><div class="ex-meta">Fixed elbow · Full stretch</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Rope Push Down</div><div class="ex-meta">Flare at bottom</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Incline Hammer Curl</div><div class="ex-meta">Brachioradialis stretch</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Reverse Push Down</div><div class="ex-meta">Underhand grip · Tricep medial</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Incline DB Curl</div><div class="ex-meta">Deep stretch on bicep head</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Tricep Dips</div><div class="ex-meta">Bench or Parallel bars</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 4 sets</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Forearm Curl</div><div class="ex-meta">Wrist flexion</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">× 3 sets</div></div></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">FMS · FITNESS MADE SIMPLIFIED</div>
+    <div class="footer-note">Coach: Sushant · BPT · ACE-CPT · Client: Nainson</div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.day-tab');
+  const panels = document.querySelectorAll('.day-panel');
+  const dotsContainer = document.getElementById('progress-dots');
+
+  tabs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot-step' + (i === 0 ? ' done' : '');
+    d.id = 'dot-' + i;
+    dotsContainer.appendChild(d);
+  });
+
+  function showDay(index) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+    panels.forEach((p, i) => p.classList.toggle('active', i === index));
+    document.querySelectorAll('.dot-step').forEach((d, i) => d.classList.toggle('done', i <= index));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
