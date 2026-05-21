@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FMS | Saloni's Diet Plan (Week 5)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #171717;
+    --border: #242424;
+    --accent: #c8f542;
+    --accent2: #42f5c8;
+    --text: #f0f0f0;
+    --muted: #6b6b6b;
+    --danger: #ff4d4d;
+    --warm: #ffa94d;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
+
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .top-bar a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    font-family: 'Space Mono', monospace; letter-spacing: 0.04em;
+  }
+  .top-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 0.15em;
+    color: var(--accent); text-decoration: none;
+  }
+
+  .hero { margin-bottom: 40px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    background: rgba(200,245,66,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(200,245,66,0.25);
+    padding: 4px 12px; border-radius: 100px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 84px);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    margin-top: 14px;
+    color: var(--muted); font-size: 14px; font-weight: 300; line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .day-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+  .day-tab {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 0.06em;
+    padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+  }
+  .day-tab.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); font-weight: 700; }
+
+  .day-panel { display: none; animation: fadeUp 0.35s ease; }
+  .day-panel.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .day-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--border);
+  }
+  .day-number { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; }
+  .day-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 6vw, 44px); letter-spacing: 0.06em; line-height: 1; color: var(--text); }
+  .day-title span { color: var(--accent2); }
+  .day-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge { font-family: 'Space Mono', monospace; font-size: 10.5px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-focus { background: rgba(66,245,200,0.1); color: var(--accent2); border: 1px solid rgba(66,245,200,0.2); }
+
+  .warmup-bar {
+    background: rgba(255,169,77,0.07); border: 1px solid rgba(255,169,77,0.18);
+    border-radius: 10px; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; font-size: 13px; color: var(--warm);
+  }
+
+  .exercise-list { display: flex; flex-direction: column; gap: 10px; }
+  .ex-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+    transition: transform 0.15s;
+  }
+  .ex-card:hover { border-color: rgba(200,245,66,0.3); transform: translateX(4px); }
+  .ex-num { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 0.05em; color: var(--border); min-width: 75px; text-align: left; font-weight: bold; }
+  .ex-card:hover .ex-num { color: var(--accent); }
+  .ex-info { flex: 1; }
+  .ex-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .ex-meta { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .ex-sets { display: flex; gap: 5px; }
+  .set-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 5px; padding: 5px 10px;
+    font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+    text-transform: uppercase;
+  }
+  .ex-card:hover .set-pill { border-color: var(--accent); color: var(--accent); }
+  
+  .ex-core { background: rgba(66,245,200,0.08); border-color: rgba(66,245,200,0.2); }
+
+  .footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); }
+  .footer-note { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  .progress-dots { display: flex; gap: 6px; align-items: center; margin-bottom: 24px; }
+  .dot-step { height: 3px; border-radius: 2px; background: var(--border); transition: all 0.3s; flex: 1; max-width: 60px; }
+  .dot-step.done { background: var(--accent); }
+
+  @media (max-width: 540px) {
+    .day-header { flex-direction: column; align-items: flex-start; }
+    .ex-card { flex-wrap: wrap; gap: 10px; }
+    .ex-num { min-width: 100%; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-bar">
+    <a href="#">← Train with Sushant Documents</a>
+    <a class="top-logo" href="#">FMS</a>
+  </div>
+
+  <div class="hero">
+    <div class="hero-tag">Week 05 · Calibration Phase</div>
+    <h1>SALONI'S<br/><span>DIET PLAN</span></h1>
+    <p class="hero-sub">Metabolic Optimization · Clean Whole Foods · Coach Sushant</p>
+  </div>
+
+  <div class="day-tabs">
+    <button class="day-tab active" onclick="showDay(0)">Mon / Wed / Fri</button>
+    <button class="day-tab" onclick="showDay(1)">Tue / Thu / Sat</button>
+  </div>
+
+  <div class="progress-dots" id="progress-dots"></div>
+
+  <div class="day-panel active" id="day-0">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Schedule A</div>
+        <div class="day-title">MONDAY <span>·</span> WED <span>·</span> FRIDAY</div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">High Energy Routine</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>Hydration Key:</strong> Stay consistent with water intake throughout the day</span></div>
+    
+    <div class="exercise-list">
+      <div class="ex-card">
+        <div class="ex-num">05:30 AM</div>
+        <div class="ex-info">
+          <div class="ex-name">Warm water + Honey + Lemon</div>
+          <div class="ex-meta">Consume on an empty stomach</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Waking</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">08:00 AM</div>
+        <div class="ex-info">
+          <div class="ex-name">1 Stuffed Parantha with Curd OR 1 Roti with Veggies OR Poha</div>
+          <div class="ex-meta">Fuel up with complex carbohydrates</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Breakfast</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">10:30 AM</div>
+        <div class="ex-info">
+          <div class="ex-name">1 Fruit (Apple / Banana / Papaya / Guava)</div>
+          <div class="ex-meta">Essential micronutrient and fiber boost</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Mid-Meal</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">01:00 PM</div>
+        <div class="ex-info">
+          <div class="ex-name">1 Chapati + Mixed Veg Sabzi + Dal + Salad + Curd</div>
+          <div class="ex-meta">Macronutrient balanced complete whole food meal</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Lunch</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">04:00 PM</div>
+        <div class="ex-info">
+          <div class="ex-name">Coconut Water / Lemon Juice / Veg Juice</div>
+          <div class="ex-meta">Natural mineral replenishment and hydration</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Snack</div></div>
+      </div>
+
+      <div class="ex-card ex-core">
+        <div class="ex-num">06:30 PM</div>
+        <div class="ex-info">
+          <div class="ex-name">Paneer Bhurji + Sautéed Veggies OR 1 Bowl of Dal</div>
+          <div class="ex-meta">High protein, low glycemic load profile</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Dinner</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-panel" id="day-1">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Schedule B</div>
+        <div class="day-title">TUESDAY <span>·</span> THU <span>·</span> SATURDAY</div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Metabolic Recovery</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>Hydration Key:</strong> Stay consistent with water intake throughout the day</span></div>
+    
+    <div class="exercise-list">
+      <div class="ex-card">
+        <div class="ex-num">05:30 AM</div>
+        <div class="ex-info">
+          <div class="ex-name">Warm water + Lemon + Honey</div>
+          <div class="ex-meta">Supports morning digestive enzymes</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Waking</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">08:00 AM</div>
+        <div class="ex-info">
+          <div class="ex-name">2 Moong Dal Cheela with Curd OR Mixed Fruit Salad OR Dalia</div>
+          <div class="ex-meta">Lean vegetarian protein and light digestion</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Breakfast</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">10:30 AM</div>
+        <div class="ex-info">
+          <div class="ex-name">1 Fruit of choice</div>
+          <div class="ex-meta">Natural antioxidants and clean energy</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Mid-Meal</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">01:00 PM</div>
+        <div class="ex-info">
+          <div class="ex-name">1 Chapati + लौकी (Lauki) Sabzi + Chana Dal + Salad OR Rice + Veggies + Dal</div>
+          <div class="ex-meta">Fiber-rich options for clean nutrient assimilation</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Lunch</div></div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-num">04:00 PM</div>
+        <div class="ex-info">
+          <div class="ex-name">Coconut Water / Lemon Juice</div>
+          <div class="ex-meta">Electrolyte balancer</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Snack</div></div>
+      </div>
+
+      <div class="ex-card ex-core">
+        <div class="ex-num">06:30 PM</div>
+        <div class="ex-info">
+          <div class="ex-name">Vegetable Soup + Paneer Cubes</div>
+          <div class="ex-meta">Light, nourishing proteins ideal for evening recovery</div>
+        </div>
+        <div class="ex-sets"><div class="set-pill">Dinner</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">FMS · FITNESS MADE SIMPLIFIED</div>
+    <div class="footer-note">Coach: Sushant · Client: Saloni · Week 5 Program</div>
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.day-tab');
+  const panels = document.querySelectorAll('.day-panel');
+  const dotsContainer = document.getElementById('progress-dots');
+
+  tabs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot-step' + (i === 0 ? ' done' : '');
+    d.id = 'dot-' + i;
+    dotsContainer.appendChild(d);
+  });
+
+  function showDay(index) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+    panels.forEach((p, i) => p.classList.toggle('active', i === index));
+    document.querySelectorAll('.dot-step').forEach((d, i) => d.classList.toggle('done', i <= index));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
