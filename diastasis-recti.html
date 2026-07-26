@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Close The Gap — Diastasis Recti Recovery | FMS</title>
+<style>
+  :root{
+    --bg:#0a0e14;
+    --surface:#121826;
+    --surface-2:#1a2233;
+    --line:#28324a;
+    --text:#eaeef5;
+    --muted:#8b96ac;
+    --heal:#3fd8b0;
+    --heal-dim:#1d5f52;
+    --warn:#ff6b5c;
+    --gold:#e8b04b;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  .wrap{max-width:760px; margin:0 auto; padding:0 20px;}
+
+  /* NAV BACK */
+  .backbar{
+    padding:16px 20px; font-size:14px; color:var(--muted);
+    display:flex; align-items:center; gap:6px; cursor:pointer;
+  }
+  .backbar:hover{color:var(--text);}
+
+  /* HERO */
+  .hero{padding:12px 0 40px; position:relative;}
+  .eyebrow{
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--heal); font-weight:600; margin-bottom:14px;
+  }
+  h1{
+    font-size:clamp(34px,7vw,54px);
+    font-weight:800; line-height:1.04; letter-spacing:-0.02em;
+    margin-bottom:16px;
+  }
+  h1 span{
+    background:linear-gradient(90deg,var(--heal),#7ee8d4);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p{color:var(--muted); font-size:16px; max-width:56ch;}
+
+  /* ANATOMY STRIP — the signature element */
+  .gap-viz{
+    margin-top:32px; background:var(--surface); border:1px solid var(--line);
+    border-radius:16px; padding:22px 22px 26px;
+  }
+  .gap-viz-label{font-size:13px; color:var(--muted); margin-bottom:10px; display:flex; justify-content:space-between;}
+  .gap-viz-label b{color:var(--text);}
+  .linea-track{
+    position:relative; height:64px; background:var(--surface-2);
+    border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center;
+  }
+  .rectus{
+    position:absolute; top:8px; bottom:8px; width:38%;
+    background:repeating-linear-gradient(180deg, #3a4a63 0px, #3a4a63 6px, #2c3a52 6px, #2c3a52 12px);
+    border-radius:6px;
+  }
+  .rectus.left{left:8%;}
+  .rectus.right{right:8%;}
+  .gap-fill{
+    position:absolute; top:8px; bottom:8px; left:50%;
+    background:linear-gradient(180deg, rgba(255,107,92,.35), rgba(255,107,92,.12));
+    border-left:1px dashed rgba(255,107,92,.6); border-right:1px dashed rgba(255,107,92,.6);
+    transform:translateX(-50%); border-radius:3px;
+    transition:width .25s ease;
+  }
+  .linea-caption{font-size:11px; color:var(--muted); text-align:center; margin-top:8px;}
+
+  /* SECTION SHELL */
+  section{padding:56px 0; border-top:1px solid var(--line);}
+  .section-head{margin-bottom:24px;}
+  .section-tag{font-size:12px; color:var(--heal); font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px;}
+  h2{font-size:26px; font-weight:800; letter-spacing:-0.01em;}
+  .section-sub{color:var(--muted); font-size:15px; margin-top:8px; max-width:58ch;}
+
+  /* SELF-CHECK TOOL */
+  .tool{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px;}
+  .tool-row{margin-bottom:22px;}
+  .tool-row:last-child{margin-bottom:0;}
+  .tool-q{font-size:14px; font-weight:600; margin-bottom:12px;}
+  .seg{display:flex; gap:8px; flex-wrap:wrap;}
+  .seg button{
+    flex:1; min-width:70px; padding:10px 12px; border-radius:10px; border:1px solid var(--line);
+    background:var(--surface-2); color:var(--text); font-size:13px; cursor:pointer;
+    transition:.15s;
+  }
+  .seg button:hover{border-color:var(--heal);}
+  .seg button.active{background:var(--heal); border-color:var(--heal); color:#04241d; font-weight:700;}
+  .result{
+    margin-top:18px; padding:16px; border-radius:12px; font-size:14px;
+    border:1px solid var(--line); background:var(--surface-2); display:none;
+  }
+  .result.show{display:block;}
+  .result .rtitle{font-weight:800; font-size:15px; margin-bottom:6px;}
+  .result.tier-good .rtitle{color:var(--heal);}
+  .result.tier-mid .rtitle{color:var(--gold);}
+  .result.tier-refer .rtitle{color:var(--warn);}
+
+  /* CAUSE CARDS */
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media (max-width:560px){.cards{grid-template-columns:1fr;}}
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px;}
+  .card .cnum{font-size:12px; color:var(--heal); font-weight:700; margin-bottom:8px;}
+  .card h3{font-size:15px; margin-bottom:6px;}
+  .card p{font-size:13.5px; color:var(--muted);}
+
+  /* PHASE TIMELINE — accordion, order is real here */
+  .phase{border:1px solid var(--line); border-radius:14px; margin-bottom:12px; overflow:hidden; background:var(--surface);}
+  .phase-head{
+    padding:16px 18px; display:flex; align-items:center; gap:14px; cursor:pointer;
+    user-select:none;
+  }
+  .phase-num{
+    width:34px; height:34px; border-radius:50%; background:var(--surface-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--heal);
+    flex-shrink:0;
+  }
+  .phase-title{flex:1;}
+  .phase-title .pt-main{font-weight:700; font-size:14.5px;}
+  .phase-title .pt-week{font-size:12px; color:var(--muted);}
+  .chevron{color:var(--muted); transition:transform .2s; font-size:12px;}
+  .phase.open .chevron{transform:rotate(180deg);}
+  .phase-body{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .phase-body-inner{padding:0 18px 18px 66px; font-size:13.5px; color:var(--muted);}
+  .phase-body-inner li{margin-bottom:6px;}
+
+  /* MYTH TABLE */
+  .myth-row{display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line);}
+  .myth-row:first-child{border-top:none;}
+  .myth-cell{padding:14px 16px; font-size:13.5px;}
+  .myth-cell.myth{color:var(--warn); border-right:1px solid var(--line);}
+  .myth-cell.reality{color:var(--muted);}
+  .myth-head-row{display:grid; grid-template-columns:1fr 1fr; margin-bottom:2px;}
+  .myth-head{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:0 16px 10px;}
+
+  /* CTA */
+  .cta{
+    background:linear-gradient(135deg, var(--heal-dim), var(--surface));
+    border:1px solid var(--heal); border-radius:18px; padding:28px 24px; text-align:center;
+  }
+  .cta h3{font-size:20px; margin-bottom:8px;}
+  .cta p{color:var(--muted); font-size:14px; margin-bottom:18px;}
+  .cta-btn{
+    display:inline-block; background:var(--heal); color:#04241d; font-weight:800;
+    padding:13px 26px; border-radius:10px; text-decoration:none; font-size:14.5px;
+  }
+  footer{padding:30px 0 50px; text-align:center; color:var(--muted); font-size:12px;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="backbar">← Back</div>
+
+  <div class="hero">
+    <div class="eyebrow">Physio-Led Recovery Protocol</div>
+    <h1>Close <span>The Gap</span>, not just the pooch.</h1>
+    <p>The post-C-section "pooch" is rarely just fat. It's usually diastasis recti, scar adhesion, or a pelvic floor that hasn't reconnected to your core. Fix the structure first — the aesthetics follow.</p>
+
+    <div class="gap-viz">
+      <div class="gap-viz-label"><span>Linea alba gap</span><b id="gapWidthLabel">2 fingers</b></div>
+      <div class="linea-track">
+        <div class="rectus left"></div>
+        <div class="gap-fill" id="gapFill" style="width:24%"></div>
+        <div class="rectus right"></div>
+      </div>
+      <div class="linea-caption">Drag the slider below in the self-check tool — this updates live.</div>
+    </div>
+  </div>
+
+  <!-- SELF CHECK TOOL -->
+  <section id="check">
+    <div class="section-head">
+      <div class="section-tag">Step 1 — Assess</div>
+      <h2>60-Second Self-Check</h2>
+      <div class="section-sub">Lie on your back, knees bent, feet flat. Lift your head slightly and palpate along the midline, 2 inches above and below your navel.</div>
+    </div>
+
+    <div class="tool">
+      <div class="tool-row">
+        <div class="tool-q">Gap width (in finger-widths)</div>
+        <input type="range" id="gapSlider" min="0" max="5" step="0.5" value="2" style="width:100%; accent-color:#3fd8b0;">
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:4px;">
+          <span>Closed</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5+</span>
+        </div>
+      </div>
+
+      <div class="tool-row">
+        <div class="tool-q">Tissue tension at the gap</div>
+        <div class="seg" id="tensionSeg">
+          <button data-val="firm">Firm, recoils fast</button>
+          <button data-val="soft">Soft / mushy, no recoil</button>
+        </div>
+      </div>
+
+      <div class="tool-row">
+        <div class="tool-q">Do you see doming or a bulge when you lift your head or cough?</div>
+        <div class="seg" id="domingSeg">
+          <button data-val="no">No doming</button>
+          <button data-val="yes">Yes, visible doming</button>
+        </div>
+      </div>
+
+      <div class="result" id="resultBox">
+        <div class="rtitle" id="resultTitle"></div>
+        <div id="resultBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROOT CAUSES -->
+  <section id="causes">
+    <div class="section-head">
+      <div class="section-tag">Why It Happens</div>
+      <h2>It's Rarely "Just Fat"</h2>
+      <div class="section-sub">Four things usually combine to create the pooch. Training through them without addressing the structure is why generic ab workouts fail postpartum clients.</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="cnum">01</div>
+        <h3>Diastasis Recti</h3>
+        <p>Linea alba separation. Present in 60–70% of women at 6 weeks postpartum; 30–40% still unresolved at 12 months without targeted rehab.</p>
+      </div>
+      <div class="card">
+        <div class="cnum">02</div>
+        <h3>Scar Adhesion</h3>
+        <p>The C-section scar can bind to fascia and muscle beneath it, restricting core function and creating the visible "shelf."</p>
+      </div>
+      <div class="card">
+        <div class="cnum">03</div>
+        <h3>Pelvic Floor Dysfunction</h3>
+        <p>Almost always co-occurs with DR. Loading the core without addressing this raises prolapse risk.</p>
+      </div>
+      <div class="card">
+        <div class="cnum">04</div>
+        <h3>Subcutaneous Fat</h3>
+        <p>Real, and it does need a deficit to shift — but fat loss alone won't correct the shape if the structure underneath is still open.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE TIMELINE -->
+  <section id="phases">
+    <div class="section-head">
+      <div class="section-tag">The Protocol</div>
+      <h2>4-Phase Recovery Timeline</h2>
+      <div class="section-sub">Tap a phase to expand. This order is deliberate — skipping ahead is the most common reason recovery stalls.</div>
+    </div>
+
+    <div class="phase" data-phase>
+      <div class="phase-head">
+        <div class="phase-num">1</div>
+        <div class="phase-title">
+          <div class="pt-main">Clearance & Assessment</div>
+          <div class="pt-week">Week 0–6 (per doctor clearance)</div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="phase-body"><div class="phase-body-inner">
+        <li>No structured exercise until medical clearance — C-section clearance often runs longer than vaginal delivery due to layered incision healing.</li>
+        <li>Self-check for DR gap width and tissue tension (see tool above).</li>
+        <li>Check scar mobility once fully closed: is it mobile in all directions, or tethered and numb?</li>
+      </div></div>
+    </div>
+
+    <div class="phase" data-phase>
+      <div class="phase-head">
+        <div class="phase-num">2</div>
+        <div class="phase-title">
+          <div class="pt-main">Foundation Rebuild</div>
+          <div class="pt-week">Week 6–12</div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="phase-body"><div class="phase-body-inner">
+        <li>Diaphragmatic breathing — 360° breathing to reconnect diaphragm, TVA, and pelvic floor.</li>
+        <li>Scar massage & mobilization once cleared — 2–3 min daily desensitization.</li>
+        <li>TVA activation — heel slides, regressed dead bugs, bird-dog. No crunching pattern yet.</li>
+        <li>Pelvic floor coordination — exhale-engage pattern, not isolated Kegels.</li>
+      </div></div>
+    </div>
+
+    <div class="phase" data-phase>
+      <div class="phase-head">
+        <div class="phase-num">3</div>
+        <div class="phase-title">
+          <div class="pt-main">Progressive Loading</div>
+          <div class="pt-week">Month 3–6</div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="phase-body"><div class="phase-body-inner">
+        <li>Anti-rotation / anti-extension core work — Pallof press, plank progressions — only if no doming under load.</li>
+        <li>Full-body compound strength training drives more fat loss and postural correction than isolated ab work.</li>
+        <li>Caloric deficit only once healed, if fat loss is a goal: 300–500 kcal deficit, 1.6–2g/kg protein to preserve muscle.</li>
+      </div></div>
+    </div>
+
+    <div class="phase" data-phase>
+      <div class="phase-head">
+        <div class="phase-num">4</div>
+        <div class="phase-title">
+          <div class="pt-main">Aesthetics Layer</div>
+          <div class="pt-week">Month 6+</div>
+        </div>
+        <div class="chevron">▾</div>
+      </div>
+      <div class="phase-body"><div class="phase-body-inner">
+        <li>Once core function is restored and DR is closed or functional, standard hypertrophy/fat-loss programming applies.</li>
+        <li>If the gap remains 2–3+ finger-widths with poor tension after 12 months of proper rehab, refer to a pelvic floor PT — surgical repair is a legitimate outcome for some, not a failure.</li>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- MYTHS -->
+  <section id="myths">
+    <div class="section-head">
+      <div class="section-tag">Correcting The Noise</div>
+      <h2>Myth vs. Reality</h2>
+    </div>
+    <div style="border:1px solid var(--line); border-radius:14px; overflow:hidden;">
+      <div class="myth-head-row" style="background:var(--surface-2); padding-top:12px;">
+        <div class="myth-head">Myth</div>
+        <div class="myth-head">Reality</div>
+      </div>
+      <div class="myth-row">
+        <div class="myth-cell myth">"Just do more crunches"</div>
+        <div class="myth-cell reality">Can worsen DR and raise hernia risk.</div>
+      </div>
+      <div class="myth-row">
+        <div class="myth-cell myth">"Waist trainers close the gap"</div>
+        <div class="myth-cell reality">No evidence for it — may increase intra-abdominal pressure and worsen DR.</div>
+      </div>
+      <div class="myth-row">
+        <div class="myth-cell myth">"It's just fat, diet harder"</div>
+        <div class="myth-cell reality">Ignores the structural issue. Many women in a deficit still keep the pooch.</div>
+      </div>
+      <div class="myth-row">
+        <div class="myth-cell myth">"6 weeks and you're fully healed"</div>
+        <div class="myth-cell reality">Fascia and scar remodeling takes 6–12+ months.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta">
+      <h3>Want This Assessed Properly?</h3>
+      <p>Book a 1:1 physio-led session. Scar mobility, DR grading, and a phase-appropriate plan — not a generic ab program.</p>
+      <a class="cta-btn" href="https://wa.me/919899550279" target="_blank">🟢 Book via WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>FMS — Physio-Led Fitness · Not a substitute for in-person medical assessment</footer>
+</div>
+
+<script>
+  // Live gap visualizer
+  const slider = document.getElementById('gapSlider');
+  const gapFill = document.getElementById('gapFill');
+  const gapLabel = document.getElementById('gapWidthLabel');
+
+  function updateViz(){
+    const v = parseFloat(slider.value);
+    const pct = Math.min(v / 5, 1) * 46 + 4; // 4% to 50% width
+    gapFill.style.width = pct + '%';
+    gapLabel.textContent = v === 0 ? 'Closed' : (v % 1 === 0 ? v : v) + (v >= 5 ? '+' : '') + ' finger' + (v === 1 ? '' : 's');
+    evaluateResult();
+  }
+  slider.addEventListener('input', updateViz);
+
+  // Segmented controls
+  let tension = null, doming = null;
+  function wireSeg(id, setter){
+    const seg = document.getElementById(id);
+    seg.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        seg.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        setter(btn.dataset.val);
+        evaluateResult();
+      });
+    });
+  }
+  wireSeg('tensionSeg', v => tension = v);
+  wireSeg('domingSeg', v => doming = v);
+
+  function evaluateResult(){
+    if(tension === null || doming === null) return;
+    const gap = parseFloat(slider.value);
+    const box = document.getElementById('resultBox');
+    const title = document.getElementById('resultTitle');
+    const body = document.getElementById('resultBody');
+    box.classList.add('show');
+    box.classList.remove('tier-good','tier-mid','tier-refer');
+
+    if(doming === 'yes' || (gap >= 3 && tension === 'soft')){
+      box.classList.add('tier-refer');
+      title.textContent = 'Priority: Get Assessed In Person';
+      body.textContent = 'Visible doming and/or a wide, soft gap needs hands-on grading by a pelvic floor or DR-trained physio before you load the core further. This is common and very treatable — just don\'t self-program past this point.';
+    } else if(gap >= 2 || tension === 'soft'){
+      box.classList.add('tier-mid');
+      title.textContent = 'Start at Phase 2 — Foundation Rebuild';
+      body.textContent = 'A moderate gap with reduced tension responds well to breathing work, scar mobilization, and TVA activation before any loaded core training. Avoid crunches and sit-ups for now.';
+    } else {
+      box.classList.add('tier-good');
+      title.textContent = 'Good Foundation — Progress Carefully';
+      body.textContent = 'Gap is narrow and tissue tension is firm. You can likely progress toward Phase 3 loading, but keep checking for doming as you add load.';
+    }
+  }
+
+  // Accordion
+  document.querySelectorAll('[data-phase]').forEach(phase=>{
+    const head = phase.querySelector('.phase-head');
+    const body = phase.querySelector('.phase-body');
+    head.addEventListener('click', ()=>{
+      const isOpen = phase.classList.contains('open');
+      document.querySelectorAll('[data-phase]').forEach(p=>{
+        p.classList.remove('open');
+        p.querySelector('.phase-body').style.maxHeight = null;
+      });
+      if(!isOpen){
+        phase.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  document.querySelector('.backbar').addEventListener('click', ()=> history.back());
+</script>
+</body>
+</html>
