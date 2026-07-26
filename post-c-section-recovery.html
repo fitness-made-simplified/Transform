@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post C-Section Belly Fat & Diastasis Recti Recovery | Fitness Made Simplified</title>
+    <style>
+        :root {
+            --primary-color: #0d9488;
+            --primary-dark: #0f766e;
+            --secondary-color: #f43f5e;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero / Hook Section */
+        .hero {
+            background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 750px;
+            margin: 0 auto 25px;
+            opacity: 0.95;
+        }
+
+        .badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Section Styling */
+        .section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 { font-size: 1.8rem; }
+        }
+
+        .img-container {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Callouts / Warnings */
+        .warning-box {
+            background-color: #fff1f2;
+            border-left: 5px solid var(--secondary-color);
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            color: #9f1239;
+            margin-bottom: 5px;
+        }
+
+        /* Workouts Step-by-Step */
+        .exercise-card {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .exercise-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        ul.instructions {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        ul.instructions li {
+            margin-bottom: 8px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 1. HOOK / HERO SECTION -->
+    <header class="hero">
+        <span class="badge">Physiotherapist-Approved Protocol</span>
+        <h1>Why Crunches Aren't Fixing Your Post C-Section Belly Pooch</h1>
+        <p>Doing standard abs workouts after major abdominal surgery can actually force your stomach wall outward. Here is the safe, clinical approach to rebuilding your core and shedding belly fat.</p>
+    </header>
+
+    <!-- 2. THE PROBLEM EXPLAINED -->
+    <section class="section">
+        <h2 class="section-title">The Real Problem: C-Section Recovery & Diastasis Recti</h2>
+        
+        <div class="grid-2">
+            <div>
+                <p>A C-section involves surgical incisions through multiple tissue layers, leaving altered nerve signaling, altered fascia tension, and scar tissue behind. During pregnancy, your connective tissue (<em>linea alba</em>) also stretches to accommodate baby, often leaving a gap known as <strong>Diastasis Recti (DR)</strong>.</p>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Why Sit-Ups & Crunches Fail</h4>
+                    <p>When you perform high-pressure exercises like crunches, sit-ups, or standard planks with unhealed DR, intra-abdominal pressure pushes your belly <strong>outward</strong> (causing doming or coning). This strains the midline and keeps the lower stomach pooch intact.</p>
+                </div>
+
+                <p>To lose the belly pooch safely, you must pair <strong>deep core motor control (Transverse Abdominis re-education)</strong> with a low-stress metabolic routine for overall body fat loss.</p>
+            </div>
+
+            <div class="img-container">
+                <!-- Replace src with your anatomical graphic -->
+                <img src="watermarked_img_16095119458814141939.png" alt="Anatomical View of Normal Core vs Diastasis Recti">
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. WORKABLE SOLUTIONS & WORKOUTS -->
+    <section class="section">
+        <h2 class="section-title">The Safe 3-Step Core Protocol</h2>
+
+        <!-- Step 1 -->
+        <div class="exercise-card">
+            <div class="exercise-header">
+                <div class="step-number">1</div>
+                <div class="exercise-title">Diaphragmatic 360 Breathing (Deep Core Ignition)</div>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <p><strong>Goal:</strong> Reconnect the brain to the Transverse Abdominis (TA) and pelvic floor without putting stress on your scar.</p>
+                    <ul class="instructions">
+                        <li>Lie on your back on a mat, knees bent, feet flat on the floor.</li>
+                        <li>Place your hands over your lower ribs.</li>
+                        <li><strong>Inhale:</strong> Expand your ribs, belly, and sides naturally in 360 degrees.</li>
+                        <li><strong>Exhale:</strong> Imagine zip-tying your hip bones together and gently drawing your belly button inward toward your spine without arching your lower back.</li>
+                        <li><strong>Prescription:</strong> 2 Sets of 10 slow, controlled breaths.</li>
+                    </ul>
+                </div>
+                <div class="img-container">
+                    <!-- Replace src with your 360 breathing graphic -->
+                    <img src="watermarked_img_15035375794275284363.png" alt="Diaphragmatic 360 Breathing Technique">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="exercise-card">
+            <div class="exercise-header">
+                <div class="step-number">2</div>
+                <div class="exercise-title">Deep Core Heel Slides</div>
+            </div>
+            <p><strong>Goal:</strong> Maintain deep core tension while moving the limbs (functional stability).</p>
+            <ul class="instructions">
+                <li>Begin in the same lying position with knees bent.</li>
+                <li>Initiate your gentle exhale and engage your deep core connection (zip-tie feeling).</li>
+                <li>Slowly slide one heel away along the floor until your leg is extended, ensuring your lower back does not arch.</li>
+                <li>Inhale as you slowly slide the heel back to the start position.</li>
+                <li><strong>Prescription:</strong> 2 Sets of 8 reps per leg. (Stop immediately if you notice belly doming).</li>
+            </ul>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="exercise-card">
+            <div class="exercise-header">
+                <div class="step-number">3</div>
+                <div class="exercise-title">Metabolic Low-Impact Walking for Fat Loss</div>
+            </div>
+            <p><strong>Goal:</strong> Burn visceral fat without over-spiking cortisol (stress hormones).</p>
+            <ul class="instructions">
+                <li>High-intensity cardio (HIIT) post-surgery can trigger cortisol spikes, causing the body to store lower abdominal fat.</li>
+                <li>Aim for <strong>7,000–10,000 daily steps</strong> of low-impact walking.</li>
+                <li>Combine this with an adequate protein intake (1.2g–1.6g per kg of body weight) to support scar tissue repair and preserve lean muscle mass during weight loss.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 4. CALL TO ACTION -->
+    <footer class="cta-section">
+        <h2>Ready for a Personalized Post-Natal Recovery Roadmap?</h2>
+        <p>Take the guesswork out of your transformation with clinical guidance tailored specifically to your body and recovery timeline.</p>
+        <a href="https://fitness-made-simplified.github.io/Transform/" class="btn">Explore Custom Transformation Plans</a>
+    </footer>
+
+</div>
+
+</body>
+              </html>
+              
