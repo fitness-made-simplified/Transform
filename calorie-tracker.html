@@ -84,6 +84,7 @@
       padding: 0 1rem; font-weight: 600; cursor: pointer; white-space: nowrap; font-size: 0.85rem;
     }
     .btn-search:hover { opacity: 0.9; }
+    .btn-search:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .macro-inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
     .btn {
@@ -116,14 +117,13 @@
           <div class="card-title">Daily Goal</div>
           <div class="form-group" style="margin-bottom: 0;">
             <label for="calorieTarget">Set Target Calories (kcal)</label>
-            <input type="number" id="calorieTarget" value="2000">
+            <input type="number" id="calorieTarget" value="2000" min="0">
           </div>
         </div>
 
         <div class="card">
           <div class="card-title">Log Meal</div>
 
-          <!-- Quick Select Preset -->
           <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--card-border);">
             <label for="presetSelect">⚡ Quick Select Common Foods</label>
             <select id="presetSelect">
@@ -132,6 +132,8 @@
               <option value='{"name":"Chicken Breast (150g)", "cal":240, "p":46, "c":0, "f":5}'>Chicken Breast (150g) - 240 kcal</option>
               <option value='{"name":"Roti / Chapati (1 pc)", "cal":100, "p":3, "c":20, "f":1}'>Roti / Chapati (1 pc) - 100 kcal</option>
               <option value='{"name":"Dal Tadka (1 bowl)", "cal":180, "p":9, "c":24, "f":5}'>Dal Tadka (1 bowl) - 180 kcal</option>
+              <option value='{"name":"Boiled Egg (1 large)", "cal":78, "p":6, "c":1, "f":5}'>Boiled Egg (1 large) - 78 kcal</option>
+              <option value='{"name":"Curd / Yogurt (100g)", "cal":60, "p":3.5, "c":4, "f":3}'>Curd / Yogurt (100g) - 60 kcal</option>
             </select>
           </div>
 
@@ -150,9 +152,9 @@
             </div>
 
             <div class="macro-inputs form-group">
-              <div><label for="protein">Protein (g)</label><input type="number" id="protein" placeholder="0"></div>
-              <div><label for="carbs">Carbs (g)</label><input type="number" id="carbs" placeholder="0"></div>
-              <div><label for="fats">Fats (g)</label><input type="number" id="fats" placeholder="0"></div>
+              <div><label for="protein">Protein (g)</label><input type="number" id="protein" placeholder="0" min="0"></div>
+              <div><label for="carbs">Carbs (g)</label><input type="number" id="carbs" placeholder="0" min="0"></div>
+              <div><label for="fats">Fats (g)</label><input type="number" id="fats" placeholder="0" min="0"></div>
             </div>
 
             <button type="submit" class="btn">+ Add Meal</button>
@@ -180,9 +182,8 @@
           </div>
 
           <div class="card-title" style="font-size: 1rem;">Today's Meals</div>
-          <ul class="meal-list" id="mealList">
-            <div class="empty-state">No meals logged for today.</div>
-          </ul>
+          <ul class="meal-list" id="mealList"></ul>
+          <div class="empty-state" id="emptyState">No meals logged for today.</div>
         </div>
       </section>
 
@@ -190,10 +191,32 @@
   </main>
 
   <script>
-    // 🔑 PASTE YOUR CALORIE NINJAS API KEY HERE SAFELY:
-    const CALORIE_NINJAS_KEY = 'lrI4W2ag+eUOB6HAPRAFeQ==QS1z6N7rg2FQdxvE';
+    // ⚠️ NEVER put a real API key in frontend code. Anyone can steal it.
+    // Get a free key from https://calorieninjas.com and paste it below ONLY for personal testing.
+    const CALORIE_NINJAS_KEY = 'YOUR_CALORIENINJAS_API_KEY';
 
-    let state = { targetCalories: 2000, meals: [] };
+    let state = {
+      targetCalories: 2000,
+      meals: []
+    };
+
+    // Load saved data
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('fittrack_state');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          state.targetCalories = parsed.targetCalories || 2000;
+          state.meals = parsed.meals || [];
+        }
+      } catch (e) {
+        console.warn('Could not load saved state');
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem('fittrack_state', JSON.stringify(state));
+    }
 
     const foodForm = document.getElementById('foodForm');
     const foodNameInput = document.getElementById('foodName');
@@ -205,13 +228,18 @@
     const presetSelect = document.getElementById('presetSelect');
     const calorieTargetInput = document.getElementById('calorieTarget');
     const mealList = document.getElementById('mealList');
+    const emptyState = document.getElementById('emptyState');
 
-    // API Fetch Function
+    // API Fetch
     searchApiBtn.addEventListener('click', async () => {
       const query = foodNameInput.value.trim();
-      if (!query) return alert('Please enter a meal description first.');
-      if (CALORIE_NINJAS_KEY === 'YOUR_CALORIENINJAS_API_KEY') {
-        return alert('Please enter your CalorieNinjas API Key inside the code on line 210.');
+      if (!query) {
+        alert('Please enter a meal description first.');
+        return;
+      }
+      if (!CALORIE_NINJAS_KEY || CALORIE_NINJAS_KEY === 'lrI4W2ag+eUOB6HAPRAFeQ==QS1z6N7rg2FQdxvE') {
+        alert('Please add your CalorieNinjas API key in the code (line \~210). Never share the key publicly.');
+        return;
       }
 
       searchApiBtn.textContent = 'Fetching...';
@@ -221,15 +249,18 @@
         const res = await fetch(`https://api.calorieninjas.com/v1/nutrition?query=${encodeURIComponent(query)}`, {
           headers: { 'X-Api-Key': CALORIE_NINJAS_KEY }
         });
+
+        if (!res.ok) throw new Error('API request failed');
+
         const data = await res.json();
 
         if (data.items && data.items.length > 0) {
           let c = 0, p = 0, carbs = 0, f = 0;
           data.items.forEach(item => {
-            c += item.calories;
-            p += item.protein_g;
-            carbs += item.carbohydrates_total_g;
-            f += item.fat_total_g;
+            c += item.calories || 0;
+            p += item.protein_g || 0;
+            carbs += item.carbohydrates_total_g || 0;
+            f += item.fat_total_g || 0;
           });
 
           caloriesInput.value = Math.round(c);
@@ -237,97 +268,137 @@
           carbsInput.value = Math.round(carbs);
           fatsInput.value = Math.round(f);
         } else {
-          alert('Food item not found. Try entering values manually.');
+          alert('Food item not found. Enter values manually.');
         }
       } catch (err) {
-        alert('API Error. Check your connection or key.');
+        console.error(err);
+        alert('API Error. Check connection or API key.');
       } finally {
         searchApiBtn.textContent = '🔍 Auto Fetch';
         searchApiBtn.disabled = false;
       }
     });
 
+    // Preset select
     presetSelect.addEventListener('change', (e) => {
       if (!e.target.value) return;
-      const data = JSON.parse(e.target.value);
-      foodNameInput.value = data.name;
-      caloriesInput.value = data.cal;
-      proteinInput.value = data.p;
-      carbsInput.value = data.c;
-      fatsInput.value = data.f;
+      try {
+        const data = JSON.parse(e.target.value);
+        foodNameInput.value = data.name;
+        caloriesInput.value = data.cal;
+        proteinInput.value = data.p;
+        carbsInput.value = data.c;
+        fatsInput.value = data.f;
+      } catch (err) {
+        console.error('Invalid preset data');
+      }
     });
 
+    // Target calories
     calorieTargetInput.addEventListener('input', (e) => {
       const val = parseInt(e.target.value) || 0;
-      state.targetCalories = val;
-      document.getElementById('targetBadge').textContent = `Target: ${val.toLocaleString()} kcal`;
+      state.targetCalories = Math.max(0, val);
+      document.getElementById('targetBadge').textContent = `Target: ${state.targetCalories.toLocaleString()} kcal`;
+      saveState();
       updateUI();
     });
 
+    // Add meal
     foodForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      const name = foodNameInput.value.trim();
+      if (!name) return;
+
       state.meals.push({
         id: Date.now(),
-        name: foodNameInput.value,
-        calories: parseInt(caloriesInput.value) || 0,
-        protein: parseInt(proteinInput.value) || 0,
-        carbs: parseInt(carbsInput.value) || 0,
-        fats: parseInt(fatsInput.value) || 0
+        name: name,
+        calories: Math.max(0, parseInt(caloriesInput.value) || 0),
+        protein: Math.max(0, parseInt(proteinInput.value) || 0),
+        carbs: Math.max(0, parseInt(carbsInput.value) || 0),
+        fats: Math.max(0, parseInt(fatsInput.value) || 0)
       });
+
       foodForm.reset();
       presetSelect.value = "";
+      saveState();
       updateUI();
     });
 
+    // Delete meal
     function deleteMeal(id) {
       state.meals = state.meals.filter(m => m.id !== id);
+      saveState();
       updateUI();
     }
 
+    // Clear all
     document.getElementById('clearLogBtn').addEventListener('click', () => {
-      if (state.meals.length && confirm('Clear all meals?')) {
+      if (state.meals.length && confirm('Clear all meals for today?')) {
         state.meals = [];
+        saveState();
         updateUI();
       }
     });
 
     function updateUI() {
-      const totals = state.meals.reduce((a, b) => ({
-        calories: a.calories + b.calories,
-        protein: a.protein + b.protein,
-        carbs: a.carbs + b.carbs,
-        fats: a.fats + b.fats
+      const totals = state.meals.reduce((acc, m) => ({
+        calories: acc.calories + m.calories,
+        protein: acc.protein + m.protein,
+        carbs: acc.carbs + m.carbs,
+        fats: acc.fats + m.fats
       }), { calories: 0, protein: 0, carbs: 0, fats: 0 });
 
-      const rem = state.targetCalories - totals.calories;
-      const pct = state.targetCalories > 0 ? Math.min(Math.round((totals.calories / state.targetCalories) * 100), 100) : 0;
+      const remaining = state.targetCalories - totals.calories;
+      const pct = state.targetCalories > 0
+        ? Math.min(Math.round((totals.calories / state.targetCalories) * 100), 100)
+        : 0;
 
+      // Update numbers
       document.getElementById('totalCalories').textContent = totals.calories.toLocaleString();
-      document.getElementById('remainingCalories').textContent = rem.toLocaleString();
+      document.getElementById('remainingCalories').textContent = remaining.toLocaleString();
       document.getElementById('totalProtein').textContent = `${totals.protein}g`;
       document.getElementById('totalCarbsFat').textContent = `${totals.carbs}g / ${totals.fats}g`;
       document.getElementById('progressPercentage').textContent = `${pct}%`;
-      document.getElementById('progressBar').style.width = `${pct}%`;
 
+      // Remaining color
+      const remEl = document.getElementById('remainingCalories');
+      remEl.style.color = remaining < 0 ? 'var(--accent-red)' : 'var(--accent-green)';
+
+      // Progress bar
+      const bar = document.getElementById('progressBar');
+      bar.style.width = `${pct}%`;
+      bar.style.background = remaining < 0
+        ? 'linear-gradient(90deg, var(--accent-red), #ff6b6b)'
+        : 'linear-gradient(90deg, var(--accent-green), #40d060)';
+
+      // Target badge
+      document.getElementById('targetBadge').textContent = `Target: ${state.targetCalories.toLocaleString()} kcal`;
+      calorieTargetInput.value = state.targetCalories;
+
+      // Meal list
       if (state.meals.length === 0) {
-        mealList.innerHTML = `<div class="empty-state">No meals logged for today.</div>`;
-        return;
+        mealList.innerHTML = '';
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        mealList.innerHTML = state.meals.map(item => `
+          <li class="meal-item">
+            <div class="meal-info">
+              <h4>${item.name}</h4>
+              <div class="meal-macros">P: ${item.protein}g | C: ${item.carbs}g | F: ${item.fats}g</div>
+            </div>
+            <div>
+              <span class="meal-calories">+${item.calories} kcal</span>
+              <button class="delete-btn" onclick="deleteMeal(${item.id})">&times;</button>
+            </div>
+          </li>
+        `).join('');
       }
-
-      mealList.innerHTML = state.meals.map(item => `
-        <li class="meal-item">
-          <div class="meal-info">
-            <h4>${item.name}</h4>
-            <div class="meal-macros">P: ${item.protein}g | C: ${item.carbs}g | F: ${item.fats}g</div>
-          </div>
-          <div>
-            <span class="meal-calories">+${item.calories} kcal</span>
-            <button class="delete-btn" onclick="deleteMeal(${item.id})">&times;</button>
-          </div>
-        </li>
-      `).join('');
     }
 
+    // Init
+    loadState();
     updateUI();
   </script>
 </body>
