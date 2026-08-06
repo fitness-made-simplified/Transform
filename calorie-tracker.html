@@ -23,83 +23,270 @@
       --accent-red: #f85149;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
     header {
       background-color: rgba(22, 27, 34, 0.8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--card-border);
-      position: sticky; top: 0; z-index: 100;
+      position: sticky;
+      top: 0;
+      z-index: 100;
       padding: 1rem 2rem;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .brand { font-size: 1.4rem; font-weight: 800; }
-    .brand span { color: var(--accent-green); }
+    .brand {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--accent-green);
+    }
 
     .target-badge {
       background: rgba(56, 139, 253, 0.1);
       border: 1px solid var(--accent-blue);
       color: var(--accent-blue);
-      padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
     }
 
-    main { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; width: 100%; }
-    .grid-container { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-    @media (min-width: 900px) { .grid-container { grid-template-columns: 1fr 1.2fr; } }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      .grid-container {
+        grid-template-columns: 1fr 1.2fr;
+      }
+    }
 
     .card {
       background-color: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px; padding: 1.5rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
     .card-title {
-      font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem;
-      display: flex; align-items: center; justify-content: space-between;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    .stat-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; text-align: center; }
-    .stat-number { font-size: 1.4rem; font-weight: 700; margin-top: 0.25rem; }
-    .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-
-    .progress-container { margin-bottom: 1.5rem; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--text-muted); }
-    .progress-bar-bg { width: 100%; height: 12px; background-color: rgba(255, 255, 255, 0.08); border-radius: 6px; overflow: hidden; }
-    .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-green), #40d060); transition: width 0.4s ease; }
-
-    .form-group { margin-bottom: 1rem; }
-    label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
-    input, select {
-      width: 100%; padding: 0.75rem 1rem; background-color: var(--bg-dark);
-      border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; outline: none;
+    .summary-grid {
+ dual-display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .input-with-btn { display: flex; gap: 0.5rem; }
+    .stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-top: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .progress-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-green), #40d060);
+      transition: width 0.4s ease;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: var(--bg-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .input-with-btn {
+      display: flex;
+      gap: 0.5rem;
+    }
+
     .btn-search {
-      background: var(--accent-blue); color: white; border: none; border-radius: 8px;
-      padding: 0 1rem; font-weight: 600; cursor: pointer; white-space: nowrap; font-size: 0.85rem;
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 0.85rem;
     }
-    .btn-search:hover { opacity: 0.9; }
-    .btn-search:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .macro-inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .btn-search:hover {
+      opacity: 0.9;
+    }
+
+    .btn-search:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .macro-inputs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
     .btn {
-      width: 100%; padding: 0.85rem; background-color: var(--accent-green); color: white;
-      border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem;
+      width: 100%;
+      padding: 0.85rem;
+      background-color: var(--accent-green);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
     }
 
-    .meal-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; max-height: 380px; overflow-y: auto; }
-    .meal-item { background-color: var(--bg-dark); border: 1px solid var(--card-border); border-radius: 8px; padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; }
-    .meal-info h4 { font-size: 0.95rem; font-weight: 600; }
-    .meal-macros { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
-    .meal-calories { font-weight: 700; color: var(--accent-green); margin-right: 1rem; }
-    .delete-btn { background: transparent; border: none; color: var(--accent-red); cursor: pointer; font-size: 1.1rem; }
-    .empty-state { text-align: center; color: var(--text-muted); padding: 2rem 0; font-size: 0.9rem; }
-    .btn-clear { background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); font-size: 0.75rem; padding: 0.3rem 0.6rem; border-radius: 6px; cursor: pointer; }
+    .meal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .meal-item {
+      background-color: var(--bg-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .meal-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .meal-macros {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .meal-calories {
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-right: 1rem;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent-red);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 2rem 0;
+      font-size: 0.9rem;
+    }
+
+    .btn-clear {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -152,9 +339,18 @@
             </div>
 
             <div class="macro-inputs form-group">
-              <div><label for="protein">Protein (g)</label><input type="number" id="protein" placeholder="0" min="0"></div>
-              <div><label for="carbs">Carbs (g)</label><input type="number" id="carbs" placeholder="0" min="0"></div>
-              <div><label for="fats">Fats (g)</label><input type="number" id="fats" placeholder="0" min="0"></div>
+              <div>
+                <label for="protein">Protein (g)</label>
+                <input type="number" id="protein" placeholder="0" min="0">
+              </div>
+              <div>
+                <label for="carbs">Carbs (g)</label>
+                <input type="number" id="carbs" placeholder="0" min="0">
+              </div>
+              <div>
+                <label for="fats">Fats (g)</label>
+                <input type="number" id="fats" placeholder="0" min="0">
+              </div>
             </div>
 
             <button type="submit" class="btn">+ Add Meal</button>
@@ -170,15 +366,32 @@
           </div>
 
           <div class="summary-grid">
-            <div class="stat-box"><div class="stat-label">Consumed</div><div class="stat-number" id="totalCalories">0</div></div>
-            <div class="stat-box"><div class="stat-label">Remaining</div><div class="stat-number" id="remainingCalories" style="color: var(--accent-green);">2000</div></div>
-            <div class="stat-box"><div class="stat-label">Protein</div><div class="stat-number" id="totalProtein" style="color: var(--accent-blue);">0g</div></div>
-            <div class="stat-box"><div class="stat-label">Carbs / Fat</div><div class="stat-number" id="totalCarbsFat" style="color: var(--accent-orange);">0 / 0g</div></div>
+            <div class="stat-box">
+              <div class="stat-label">Consumed</div>
+              <div class="stat-number" id="totalCalories">0</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Remaining</div>
+              <div class="stat-number" id="remainingCalories" style="color: var(--accent-green);">2000</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Protein</div>
+              <div class="stat-number" id="totalProtein" style="color: var(--accent-blue);">0g</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Carbs / Fat</div>
+              <div class="stat-number" id="totalCarbsFat" style="color: var(--accent-orange);">0 / 0g</div>
+            </div>
           </div>
 
           <div class="progress-container">
-            <div class="progress-label"><span>Progress</span><span id="progressPercentage">0%</span></div>
-            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+            <div class="progress-label">
+              <span>Progress</span>
+              <span id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
           </div>
 
           <div class="card-title" style="font-size: 1rem;">Today's Meals</div>
@@ -191,7 +404,7 @@
   </main>
 
   <script>
-    // ⚠️ NEVER put a real API key in frontend code. Anyone can steal it.
+    // ⚠️ NEVER put a real API key in frontend code.
     // Get a free key from https://calorieninjas.com and paste it below ONLY for personal testing.
     const CALORIE_NINJAS_KEY = 'YOUR_CALORIENINJAS_API_KEY';
 
@@ -237,8 +450,8 @@
         alert('Please enter a meal description first.');
         return;
       }
-      if (!CALORIE_NINJAS_KEY || CALORIE_NINJAS_KEY === 'lrI4W2ag+eUOB6HAPRAFeQ==QS1z6N7rg2FQdxvE') {
-        alert('Please add your CalorieNinjas API key in the code (line \~210). Never share the key publicly.');
+      if (!CALORIE_NINJAS_KEY || CALORIE_NINJAS_KEY === 'YOUR_CALORIENINJAS_API_KEY') {
+        alert('Please add your CalorieNinjas API key in the code. Never share the key publicly.');
         return;
       }
 
