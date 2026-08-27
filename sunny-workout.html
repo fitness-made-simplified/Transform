@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FMS | Sunny's Workout Plan (Week 1)</title>
+<title>FMS | Sunny's Workout Plan (Week 2)</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -133,7 +133,7 @@
   .ex-info { flex: 1; }
   .ex-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
   .ex-meta { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
-  .ex-sets { display: flex; gap: 5px; }
+  .ex-sets { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
   .set-pill {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 5px; padding: 5px 10px;
@@ -165,7 +165,7 @@
   </div>
 
   <div class="hero">
-    <div class="hero-tag">Week 01 &middot; Foundation &amp; Hypertrophy</div>
+    <div class="hero-tag">Week 02 &middot; Foundation &amp; Hypertrophy</div>
     <h1>SUNNY'S<br/><span>WORKOUT</span></h1>
     <p class="hero-sub">Note: Targeted split emphasizing hypertrophy, isolation, and form execution &middot; Coach Sushant</p>
   </div>
@@ -180,109 +180,105 @@
 
   <div class="progress-dots" id="progress-dots"></div>
 
-  <!-- Day 1: Chest & Tricep -->
+  <!-- Day 1: Chest & Back -->
   <div class="day-panel active" id="day-0">
     <div class="day-header">
       <div>
         <div class="day-number">Day 01</div>
-        <div class="day-title">CHEST &amp; <span>TRICEP</span></div>
+        <div class="day-title">CHEST &amp; <span>BACK</span></div>
       </div>
-      <div class="day-badges"><span class="badge badge-focus">Push Focus</span></div>
+      <div class="day-badges"><span class="badge badge-focus">Push-Pull Focus</span></div>
     </div>
     <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
     <div class="exercise-list">
-      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Chest Press Machine</div><div class="ex-meta">Chest activation &amp; press</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Chest Fly Machine</div><div class="ex-meta">Pectoral stretch &amp; contraction</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Crossover</div><div class="ex-meta">Cable chest isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Overhead Extension</div><div class="ex-meta">Tricep long-head focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Pulley Push Down</div><div class="ex-meta">Tricep isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card ex-core"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Ab Crunches</div><div class="ex-meta">Core contraction focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Bench Press</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lat Pull Down</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Chest Fly Machine + Push Ups</div><div class="ex-meta">Superset — fly then push ups</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Seated Row</div><div class="ex-meta">Mid-back density &amp; squeeze</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Crossover</div><div class="ex-meta">Cable chest isolation</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Lat Pull Down Close Grip</div><div class="ex-meta">Lat thickness &amp; mid-back</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
     </div>
   </div>
 
-  <!-- Day 2: Back & Biceps -->
+  <!-- Day 2: Legs -->
   <div class="day-panel" id="day-1">
     <div class="day-header">
       <div>
         <div class="day-number">Day 02</div>
-        <div class="day-title">BACK &amp; <span>BICEPS</span></div>
+        <div class="day-title">LEGS <span>FOCUS</span></div>
       </div>
-      <div class="day-badges"><span class="badge badge-focus">Pull Focus</span></div>
+      <div class="day-badges"><span class="badge badge-focus">Lower Body</span></div>
     </div>
     <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
     <div class="exercise-list">
-      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Single Arm Lat Pull Down</div><div class="ex-meta">Unilateral back isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Seated Row</div><div class="ex-meta">Mid-back density &amp; squeeze</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Lat Pull-Down Wide Grip</div><div class="ex-meta">Lat width focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Pulley Curl</div><div class="ex-meta">Constant bicep tension</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Preacher Curl</div><div class="ex-meta">Isolated bicep overload</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Concentration Curl</div><div class="ex-meta">Peak bicep contraction</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Body Weight Squats</div><div class="ex-meta">Lower body activation</div></div><div class="ex-sets"><div class="set-pill">25 reps</div><div class="set-pill">&times; 4</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Leg Ext Machine</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Leg Press</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Lunges</div><div class="ex-meta">10 reps each leg</div></div><div class="ex-sets"><div class="set-pill">10 each</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Calf Raises</div><div class="ex-meta">Gastroc isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card ex-core"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Ab Crunches</div><div class="ex-meta">Core contraction focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
     </div>
   </div>
 
-  <!-- Day 3: Legs & Shoulders -->
+  <!-- Day 3: Arms -->
   <div class="day-panel" id="day-2">
     <div class="day-header">
       <div>
         <div class="day-number">Day 03</div>
-        <div class="day-title">LEGS &amp; <span>SHOULDERS</span></div>
-      </div>
-      <div class="day-badges"><span class="badge badge-focus">Lower &amp; Upper Hybrid</span></div>
-    </div>
-    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
-    <div class="exercise-list">
-      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Body Weight Squats</div><div class="ex-meta">Lower body activation</div></div><div class="ex-sets"><div class="set-pill">25 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Leg Ext Machine</div><div class="ex-meta">Quad isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Leg Curl</div><div class="ex-meta">Hamstring isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Side Raises</div><div class="ex-meta">Lateral delt isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Front Raises with Barbell</div><div class="ex-meta">Anterior delt focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Arnold Press</div><div class="ex-meta">Compound shoulder overhead push</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">08</div><div class="ex-info"><div class="ex-name">Shrugs</div><div class="ex-meta">Upper trap isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-    </div>
-  </div>
-
-  <!-- Day 4: Arms -->
-  <div class="day-panel" id="day-3">
-    <div class="day-header">
-      <div>
-        <div class="day-number">Day 04</div>
         <div class="day-title">ARMS <span>FOCUS</span></div>
       </div>
       <div class="day-badges"><span class="badge badge-focus">Arm Hypertrophy</span></div>
     </div>
     <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
     <div class="exercise-list">
-      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Preacher Curl</div><div class="ex-meta">Strict bicep isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Overhead Ext Pulley</div><div class="ex-meta">Tricep long-head extension</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Dumbbell Curl (Screw Movement)</div><div class="ex-meta">Bicep supination focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Hammer Curl</div><div class="ex-meta">Brachialis &amp; forearm thickness</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Tricep Dips on Bench</div><div class="ex-meta">Bodyweight tricep volume</div></div><div class="ex-sets"><div class="set-pill">50 reps</div><div class="set-pill">&times; 1</div></div></div>
-      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Forearm and Wrist Curl</div><div class="ex-meta">Grip &amp; forearm isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 2</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Barbell Curl</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Pulley Push Down</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Hammer Curl</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Overhead Extension</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Forearm Curl</div><div class="ex-meta">Grip &amp; forearm isolation</div></div><div class="ex-sets"><div class="set-pill">25 reps</div><div class="set-pill">&times; 2</div></div></div>
+      <div class="ex-card ex-core"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name">Leg Raises</div><div class="ex-meta">Lower abs &amp; hip flexors</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
     </div>
   </div>
 
-  <!-- Day 5: Shoulders -->
-  <div class="day-panel" id="day-4">
+  <!-- Day 4: Shoulders -->
+  <div class="day-panel" id="day-3">
     <div class="day-header">
       <div>
-        <div class="day-number">Day 05</div>
-        <div class="day-title">SHOULDERS <span>&amp; CORE</span></div>
+        <div class="day-number">Day 04</div>
+        <div class="day-title">SHOULDERS <span>FOCUS</span></div>
       </div>
       <div class="day-badges"><span class="badge badge-focus">Shoulder Hypertrophy</span></div>
     </div>
     <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
     <div class="exercise-list">
-      <div class="ex-card"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Side Raises Pulley</div><div class="ex-meta">Constant lateral delt tension</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Barbell Shoulder Press</div><div class="ex-meta">Overhead compound strength</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Barbell Upright Row</div><div class="ex-meta">Delt &amp; trap engagement</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Barbell Shrugs</div><div class="ex-meta">Heavy trap focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
-      <div class="ex-card ex-core"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sit Ups</div><div class="ex-meta">Core strength &amp; endurance</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Side Raises</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Front Raises</div><div class="ex-meta">Anterior delt focus</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">10</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Shoulder Press</div><div class="ex-meta">15, 12 + drop-add: +wt 4, drop 8, drop 16</div></div><div class="ex-sets"><div class="set-pill">15</div><div class="set-pill">12</div><div class="set-pill">4-8-16</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Shrugs</div><div class="ex-meta">Upper trap isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card ex-core"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Sit Ups</div><div class="ex-meta">Core strength &amp; endurance</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+    </div>
+  </div>
+
+  <!-- Day 5: Arms Burn -->
+  <div class="day-panel" id="day-4">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 05</div>
+        <div class="day-title">ARMS <span>BURN</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">High Volume Pump</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Preacher Curl</div><div class="ex-meta">Strict bicep isolation — high volume</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 10</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Rope Push Down</div><div class="ex-meta">Tricep isolation — high volume</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 10</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Forearm Curl</div><div class="ex-meta">Grip &amp; forearm isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
     </div>
   </div>
 
   <div class="footer">
     <div class="footer-brand">FMS &middot; FITNESS MADE SIMPLIFIED</div>
-    <div class="footer-note">Coach: Sushant &middot; Client: Sunny &middot; Week 1 Program</div>
+    <div class="footer-note">Coach: Sushant &middot; Client: Sunny &middot; Week 2 Program</div>
   </div>
 </div>
 
