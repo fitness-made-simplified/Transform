@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhairya Lala — Diet Plan | Fitness Made Simplified</title>
+<style>
+  :root{
+    --fms-green:#1f7a4d;
+    --fms-dark:#123524;
+    --bg:#f5f7f5;
+    --card:#ffffff;
+    --border:#e0e5e1;
+    --text:#1c231e;
+    --muted:#6b756e;
+    --accent:#e8f5ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding-bottom:60px;
+  }
+  header{
+    background:linear-gradient(135deg,var(--fms-dark),var(--fms-green));
+    color:#fff;
+    padding:24px 20px 30px;
+    border-radius:0 0 18px 18px;
+  }
+  header .brand{
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    opacity:.85;
+    margin-bottom:6px;
+  }
+  header h1{
+    margin:0 0 10px;
+    font-size:22px;
+  }
+  .client-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    font-size:13px;
+  }
+  .chip{
+    background:rgba(255,255,255,.15);
+    padding:4px 10px;
+    border-radius:20px;
+  }
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:18px 16px;
+  }
+  .progress-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:18px;
+  }
+  .progress-card h2{
+    margin:0 0 10px;
+    font-size:15px;
+  }
+  .weight-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .bar-track{
+    height:10px;
+    background:var(--accent);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:var(--fms-green);
+    width:0%;
+    transition:width .4s ease;
+  }
+  .weigh-in{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+  }
+  .weigh-in input{
+    flex:1;
+    padding:9px 10px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    font-size:14px;
+  }
+  .weigh-in button{
+    background:var(--fms-green);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:9px 14px;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .log-list{
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--muted);
+    max-height:90px;
+    overflow-y:auto;
+  }
+  .log-list div{padding:2px 0;border-bottom:1px dashed var(--border);}
+
+  section.meal{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .meal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 16px;
+    background:var(--accent);
+  }
+  .meal-head h3{
+    margin:0;
+    font-size:15px;
+    color:var(--fms-dark);
+  }
+  .meal-head span{
+    font-size:12px;
+    color:var(--muted);
+  }
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px 16px;
+    border-top:1px solid var(--border);
+    cursor:pointer;
+  }
+  .option:hover{background:#fafcfa;}
+  .option input{margin-top:3px;}
+  .option label{font-size:13.5px;line-height:1.45;cursor:pointer;}
+  .option.checked{background:var(--accent);}
+
+  .kcal-summary{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--fms-dark);
+    color:#fff;
+    border-radius:14px;
+    padding:14px 18px;
+    margin:18px 0;
+    font-size:14px;
+  }
+  .kcal-summary strong{font-size:20px;}
+
+  .rules-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:16px;
+  }
+  .rules-card h2{margin:0 0 10px;font-size:15px;}
+  .rule-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 0;
+    border-top:1px dashed var(--border);
+    font-size:13.5px;
+  }
+  .rule-item:first-of-type{border-top:none;}
+
+  .steps-tracker{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:6px;
+  }
+  .steps-tracker input[type=range]{flex:1;}
+  .steps-val{font-size:13px;color:var(--fms-green);font-weight:600;min-width:70px;text-align:right;}
+
+  footer{
+    text-align:center;
+    padding:20px 16px 0;
+  }
+  footer a{
+    display:inline-block;
+    background:var(--fms-green);
+    color:#fff;
+    text-decoration:none;
+    padding:12px 22px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+  }
+  footer p{
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Fitness Made Simplified</div>
+  <h1>Dhairya Lala — Personalised Diet Plan</h1>
+  <div class="client-meta">
+    <span class="chip">28 yrs</span>
+    <span class="chip">156 cm</span>
+    <span class="chip">77 kg → 60 kg</span>
+    <span class="chip">Non-veg</span>
+    <span class="chip">No roti / gluten-free</span>
+  </div>
+</header>
+
+<main>
+
+  <div class="progress-card">
+    <h2>Weight Progress</h2>
+    <div class="weight-row">
+      <span id="startLabel">Start: 77 kg</span>
+      <span id="currentLabel">Current: 77 kg</span>
+      <span id="goalLabel">Goal: 60 kg</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <div class="weigh-in">
+      <input type="number" id="weighInput" step="0.1" placeholder="Enter this week's weight (kg)">
+      <button onclick="logWeight()">Log</button>
+    </div>
+    <div class="log-list" id="logList"></div>
+  </div>
+
+  <div class="kcal-summary">
+    <span>Today's selected total</span>
+    <strong id="kcalTotal">0 kcal</strong>
+  </div>
+
+  <!-- BREAKFAST -->
+  <section class="meal">
+    <div class="meal-head"><h3>🍳 Breakfast — pick 1</h3><span>~400–450 kcal</span></div>
+    <div class="option">
+      <input type="radio" name="breakfast" id="b1" value="425" onchange="updateTotal()">
+      <label for="b1">3-egg vegetable omelette + 1 cup vegetable poha (peanuts, no extra potato) + 1 small apple or papaya</label>
+    </div>
+    <div class="option">
+      <input type="radio" name="breakfast" id="b2" value="410" onchange="updateTotal()">
+      <label for="b2">2 moong-dal cheela + 100 g hung curd + cucumber-tomato salad + mint chutney</label>
+    </div>
+    <div class="option">
+      <input type="radio" name="breakfast" id="b3" value="430" onchange="updateTotal()">
+      <label for="b3">40 g certified gluten-free oats (water or low-fat milk) + 2 boiled eggs + handful papaya or berries</label>
+    </div>
+  </section>
+
+  <!-- LUNCH -->
+  <section class="meal">
+    <div class="meal-head"><h3>🍛 Lunch — pick 1</h3><span>~500–550 kcal</span></div>
+    <div class="option">
+      <input type="radio" name="lunch" id="l1" value="525" onchange="updateTotal()">
+      <label for="l1">150 g grilled chicken breast + 1 bowl mixed sabzi + ½ cup cooked brown/jeera rice + kachumber + 100 g curd</label>
+    </div>
+    <div class="option">
+      <input type="radio" name="lunch" id="l2" value="510" onchange="updateTotal()">
+      <label for="l2">150 g grilled or light-curry fish + ½ cup rice + bhindi or palak sabzi + salad</label>
+    </div>
+    <div class="option">
+      <input type="radio" name="lunch" id="l3" value="535" onchange="updateTotal()">
+      <label for="l3">Egg bhurji (1 whole + 2 whites) + 1 bowl mixed dal + ½ cup quinoa + sautéed vegetables</label>
+    </div>
+  </section>
+
+  <!-- DINNER -->
+  <section class="meal">
+    <div class="meal-head"><h3>🥗 Dinner — pick 1</h3><span>~400–450 kcal, lighter</span></div>
+    <div class="option">
+      <input type="radio" name="dinner" id="d1" value="425" onchange="updateTotal()">
+      <label for="d1">150 g grilled chicken or fish + large bowl stir-fried mixed vegetables (minimal oil) + clear vegetable/chicken soup</label>
+    </div>
+    <div class="option">
+      <input type="radio" name="dinner" id="d2" value="415" onchange="updateTotal()">
+      <label for="d2">Palak or methi chicken (150 g chicken) + big salad + 1 glass chaas</label>
+    </div>
+    <div class="option">
+      <input type="radio" name="dinner" id="d3" value="400" onchange="updateTotal()">
+      <label for="d3">3-egg-white omelette + sautéed spinach, mushroom, capsicum + 1 small bowl dal</label>
+    </div>
+  </section>
+
+  <div class="rules-card">
+    <h2>Daily Rules</h2>
+    <div class="rule-item"><input type="checkbox" id="r1"><label for="r1">Max 2 tsp oil total for the day</label></div>
+    <div class="rule-item"><input type="checkbox" id="r2"><label for="r2">3–4 L water</label></div>
+    <div class="rule-item"><input type="checkbox" id="r3"><label for="r3">No fried items</label></div>
+    <div class="rule-item"><input type="checkbox" id="r4"><label for="r4">Spices and lemon free</label></div>
+    <div class="rule-item">
+      <label style="min-width:110px;">Steps today</label>
+      <div class="steps-tracker">
+        <input type="range" id="stepsRange" min="0" max="12000" step="500" value="0" oninput="document.getElementById('stepsVal').textContent = this.value + ' steps'">
+        <span class="steps-val" id="stepsVal">0 steps</span>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin:10px 0 0;">Target: 8,000–10,000 steps/day. Re-weigh weekly — if loss stalls below 0.4 kg/week, portions will be adjusted.</p>
+  </div>
+
+  <footer>
+    <a href="https://fitness-made-simplified.github.io/Transform/" target="_blank" rel="noopener">View Full FMS Program →</a>
+    <p>Fitness Made Simplified · This plan is personalised for Dhairya Lala. Log weekly weigh-ins above to track progress toward the 60 kg goal.</p>
+  </footer>
+
+</main>
+
+<script>
+  const START_WEIGHT = 77;
+  const GOAL_WEIGHT = 60;
+  const STORAGE_KEY = "fms_dhairya_lala_weightlog";
+
+  function updateTotal(){
+    let total = 0;
+    ["breakfast","lunch","dinner"].forEach(name=>{
+      const sel = document.querySelector(`input[name="${name}"]:checked`);
+      if(sel) total += parseInt(sel.value,10);
+    });
+    document.getElementById("kcalTotal").textContent = total + " kcal";
+    document.querySelectorAll(".option").forEach(opt=>{
+      const input = opt.querySelector("input");
+      opt.classList.toggle("checked", input.checked);
+    });
+  }
+
+  function loadLog(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+
+  function saveLog(log){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(log)); }catch(e){}
+  }
+
+  function renderProgress(log){
+    const current = log.length ? log[log.length-1].weight : START_WEIGHT;
+    document.getElementById("currentLabel").textContent = "Current: " + current + " kg";
+    const totalToLose = START_WEIGHT - GOAL_WEIGHT;
+    const lostSoFar = Math.max(0, START_WEIGHT - current);
+    const pct = Math.min(100, Math.round((lostSoFar/totalToLose)*100));
+    document.getElementById("barFill").style.width = pct + "%";
+
+    const listEl = document.getElementById("logList");
+    listEl.innerHTML = "";
+    log.slice().reverse().forEach(entry=>{
+      const row = document.createElement("div");
+      row.textContent = entry.date + " — " + entry.weight + " kg";
+      listEl.appendChild(row);
+    });
+  }
+
+  function logWeight(){
+    const val = parseFloat(document.getElementById("weighInput").value);
+    if(isNaN(val) || val <= 0) return;
+    const log = loadLog();
+    log.push({ date: new Date().toLocaleDateString(), weight: val });
+    saveLog(log);
+    renderProgress(log);
+    document.getElementById("weighInput").value = "";
+  }
+
+  renderProgress(loadLog());
+</script>
+
+</body>
+</html>
