@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FMS — Kshitiz Mahajan: Lower Body Power Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#0d0d0d;
+    --panel:#181414;
+    --panel-raised:#1f1919;
+    --ink:#f3f0ec;
+    --ink-dim:#a39a97;
+    --line:#332626;
+    --brass:#e63946;
+    --brass-dim:#7a1a20;
+    --rust:#b91c2c;
+    --sage:#b7b2ac;
+    --radius-sm:4px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--charcoal);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+
+  /* ---------- Header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:22px 0 0 0;
+  }
+  .brandrow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:18px;
+  }
+  .brandmark{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:0.02em;
+  }
+  .brandmark .dot{color:var(--brass);}
+  .sitelink{
+    font-size:13px;
+    color:var(--ink-dim);
+    border-bottom:1px solid var(--line);
+    padding-bottom:2px;
+    text-decoration:none;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .sitelink:hover{color:var(--ink);border-color:var(--brass);}
+
+  .hero{padding:8px 0 26px 0;}
+  h1{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:clamp(38px,7vw,58px);
+    line-height:0.98;
+    margin:0 0 10px 0;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    font-size:16px;
+    color:var(--ink-dim);
+    max-width:46ch;
+    margin:0 0 20px 0;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:12.5px;
+    color:var(--ink-dim);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:5px 12px;
+  }
+
+  /* ---------- Activation panel ---------- */
+  .activation{
+    margin:26px 0;
+    background:var(--panel);
+    border-left:3px solid var(--brass);
+    border-radius:2px;
+    padding:18px 20px 20px 20px;
+  }
+  .activation h2{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:20px;
+    margin:0 0 4px 0;
+  }
+  .activation p.note{
+    font-size:13.5px;
+    color:var(--ink-dim);
+    margin:0 0 14px 0;
+  }
+  .activation ol{
+    margin:0;
+    padding-left:0;
+    list-style:none;
+    display:grid;
+    gap:8px;
+  }
+  .activation li{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-size:14.5px;
+    border-bottom:1px dashed var(--line);
+    padding-bottom:8px;
+  }
+  .activation li:last-child{border-bottom:none;padding-bottom:0;}
+  .activation li span.reps{color:var(--ink-dim);white-space:nowrap;}
+
+  /* ---------- Day tabs ---------- */
+  .daynav{
+    display:flex;
+    gap:2px;
+    margin-top:34px;
+    border-bottom:1px solid var(--line);
+  }
+  .daytab{
+    flex:1;
+    background:none;
+    border:none;
+    color:var(--ink-dim);
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    padding:12px 4px 14px 4px;
+    cursor:pointer;
+    text-align:left;
+    border-bottom:2px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .daytab .n{color:var(--brass);margin-right:6px;}
+  .daytab.active{color:var(--ink);border-color:var(--brass);}
+  .daytab:hover{color:var(--ink);}
+  .daylabel{
+    font-size:12px;
+    color:var(--ink-dim);
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    margin-top:2px;
+  }
+
+  .daypanel{display:none;padding-top:6px;}
+  .daypanel.active{display:block;}
+
+  .progress-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 0 6px 0;
+    color:var(--ink-dim);
+    font-size:13px;
+  }
+  .ring{
+    width:30px;height:30px;flex:none;
+  }
+  .ring circle{fill:none;stroke-width:3;}
+  .ring .bg{stroke:var(--line);}
+  .ring .fg{stroke:var(--brass);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .25s ease;}
+
+  /* ---------- Exercise rows ---------- */
+  .exlist{border-top:1px solid var(--line);}
+  .exrow{border-bottom:1px solid var(--line);}
+  .exhead{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 0;
+    cursor:pointer;
+  }
+  .exicon{
+    width:34px;height:34px;flex:none;
+    color:var(--ink-dim);
+  }
+  .exicon svg{width:100%;height:100%;}
+  .exmain{flex:1;min-width:0;}
+  .exname{font-size:15.5px;font-weight:600;}
+  .exmeta{
+    font-size:12.5px;color:var(--ink-dim);margin-top:2px;
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  }
+  .tag{
+    font-size:11px;
+    padding:2px 8px;
+    border-radius:100px;
+    border:1px solid var(--line);
+  }
+  .tag.glute{color:var(--rust);border-color:var(--rust);}
+  .tag.ham{color:var(--sage);border-color:var(--sage);}
+  .tag.compound{color:var(--brass);border-color:var(--brass);}
+  .setsreps{font-size:13.5px;color:var(--ink-dim);white-space:nowrap;}
+  .chevron{
+    width:14px;height:14px;flex:none;color:var(--ink-dim);
+    transition:transform .18s ease;
+  }
+  .exrow.open .chevron{transform:rotate(90deg);}
+  .done-check{
+    width:20px;height:20px;flex:none;
+    border:1px solid var(--line);
+    border-radius:3px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .done-check.checked{background:var(--brass);border-color:var(--brass);}
+  .done-check svg{width:12px;height:12px;color:var(--charcoal);opacity:0;}
+  .done-check.checked svg{opacity:1;}
+
+  .exbody{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .22s ease;
+  }
+  .exrow.open .exbody{max-height:220px;}
+  .exbody-inner{padding:0 0 18px 48px;}
+  .cue{font-size:13.5px;color:var(--ink-dim);margin:0 0 10px 0;max-width:52ch;}
+  .exlinks{display:flex;gap:10px;flex-wrap:wrap;}
+  .exlinks a{
+    font-size:12.5px;
+    display:inline-flex;align-items:center;gap:6px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:6px 12px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .15s ease;
+  }
+  .exlinks a:hover{border-color:var(--brass);}
+  .exlinks svg{width:13px;height:13px;}
+
+  /* ---------- Progression table ---------- */
+  .progression{margin-top:44px;}
+  .progression h2{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;font-size:22px;margin:0 0 12px 0;
+  }
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);}
+  th{color:var(--ink-dim);font-weight:500;font-size:12px;}
+  td.week{color:var(--brass);font-weight:600;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+    padding:22px 0 40px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  footer p{font-size:12.5px;color:var(--ink-dim);margin:0;}
+  .cta{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--charcoal);
+    background:var(--brass);
+    padding:9px 18px;
+    border-radius:3px;
+    text-decoration:none;
+  }
+  .reset-btn{
+    background:none;border:1px solid var(--line);color:var(--ink-dim);
+    font-size:12px;padding:6px 12px;border-radius:100px;cursor:pointer;
+  }
+  .reset-btn:hover{border-color:var(--rust);color:var(--rust);}
+
+  @media (max-width:480px){
+    .daynav{overflow-x:auto;}
+    .exbody-inner{padding-left:0;}
+    .exicon{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="ic-hinge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="4" r="1.8"/><path d="M12 6v4l-4 8M12 10l3 8"/><path d="M9 14h6"/>
+    </symbol>
+    <symbol id="ic-split" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="11" cy="4" r="1.8"/><path d="M11 6v6l-4 8M11 12l5 3"/><path d="M16 15v5"/>
+    </symbol>
+    <symbol id="ic-lunge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="10" cy="4" r="1.8"/><path d="M10 6v5l-5 7M10 11l6 2 2 6"/>
+    </symbol>
+    <symbol id="ic-bridge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="6" cy="14" r="1.8"/><path d="M6 16l3-3 5 1 4-5"/><path d="M14 9l3 2"/>
+    </symbol>
+    <symbol id="ic-curl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="7" cy="6" r="1.8"/><path d="M7 8v4l7 6"/><path d="M14 18h4"/>
+    </symbol>
+    <symbol id="ic-lateral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="4" r="1.8"/><path d="M12 6v6"/><path d="M12 12l-6 4M12 12l6 4"/>
+    </symbol>
+    <symbol id="ic-step" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <path d="M3 20h6v-5h6v-5h6"/><circle cx="18" cy="6" r="1.8"/>
+    </symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+      <path d="M4 12l5 5L20 6"/>
+    </symbol>
+    <symbol id="ic-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+      <path d="M9 5l7 7-7 7"/>
+    </symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="9"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header>
+    <div class="brandrow">
+      <div class="brandmark">FITNESS MADE SIMPLIFIED<span class="dot">.</span></div>
+      <a class="sitelink" href="https://fitness-made-simplified.github.io/Transform/" target="_blank" rel="noopener">Main site ↗</a>
+    </div>
+    <div class="hero">
+      <h1>Lower Body Power</h1>
+      <p class="sub">Glutes, hamstrings &amp; unilateral leg strength — built for a 45-year-old intermediate lifter, advanced runner, and HYROX beginner training with dumbbells and resistance tubes.</p>
+      <div class="chips">
+        <span class="chip">Client: Kshitiz Mahajan</span>
+        <span class="chip">Coach: Sushant</span>
+        <span class="chip">45 yrs</span>
+        <span class="chip">Intermediate lifter</span>
+        <span class="chip">Advanced runner</span>
+        <span class="chip">HYROX beginner</span>
+        <span class="chip">Dumbbells + tubes</span>
+        <span class="chip">4 days / week</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="activation">
+    <h2>Before every lower-body session</h2>
+    <p class="note">Weak glutes usually means inhibited, not just untrained — this wakes them up before you load them. Also do this before hard runs, 5–7 min.</p>
+    <ol>
+      <li>Banded lateral walks <span class="reps">2 × 15 steps / side</span></li>
+      <li>Banded clamshells <span class="reps">2 × 15 / side</span></li>
+      <li>Glute bridge march <span class="reps">2 × 10 / side</span></li>
+      <li>Bird-dog <span class="reps">2 × 8 / side</span></li>
+    </ol>
+  </section>
+
+  <nav class="daynav" id="daynav"></nav>
+  <div id="daypanels"></div>
+
+  <section class="progression">
+    <h2>8-week progression scheme</h2>
+    <table>
+      <thead><tr><th>Weeks</th><th>Lever to progress</th><th>How</th></tr></thead>
+      <tbody>
+        <tr><td class="week">1–2</td><td>Tempo</td><td>Slower eccentrics (3-sec down), add pauses at end range</td></tr>
+        <tr><td class="week">3–4</td><td>Reps</td><td>Add 1–2 reps per set at the same load</td></tr>
+        <tr><td class="week">5–6</td><td>Load</td><td>Move up to the next dumbbell pair</td></tr>
+        <tr><td class="week">7–8</td><td>Unilateral load</td><td>Single DB → double DB where the movement allows (e.g. goblet split squat)</td></tr>
+        <tr><td class="week">9</td><td>Deload</td><td>Cut volume ~40%, keep intensity moderate</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>Fitness Made Simplified — program for Kshitiz Mahajan, coached by Sushant.</p>
+    <a class="cta" href="https://fitness-made-simplified.github.io/Transform/" target="_blank" rel="noopener">Visit FMS →</a>
+  </footer>
+
+</div>
+
+<script>
+const DAYS = [
+  {
+    id:'d1', label:'Heavy Unilateral', sub:'Glute / quad focus',
+    exercises:[
+      {name:'DB Bulgarian Split Squat', icon:'split', tag:'compound', setsreps:'4 × 8 /leg',
+       cue:'3-second eccentric on the way down. Rear foot on a bench, torso stays tall — tempo replaces heavy load here.'},
+      {name:'DB Single-Leg RDL', icon:'hinge', tag:'ham', setsreps:'4 × 8 /leg',
+       cue:'Hinge from the hip, not the knee. Reach the free hand toward the floor, keep the hips square.'},
+      {name:'DB Walking Lunge', icon:'lunge', tag:'compound', setsreps:'3 × 12 /leg',
+       cue:'Weighted, controlled — front shin stays vertical, no knee cave on push-off.'},
+      {name:'Banded Lateral Walk', icon:'lateral', tag:'glute', setsreps:'3 × 15 /side',
+       cue:'Tube around ankles, knees bent, stay low the whole set — this is glute medius, not a stroll.'},
+    ]
+  },
+  {
+    id:'d2', label:'Posterior Chain', sub:'Hamstring / glute max',
+    exercises:[
+      {name:'DB Romanian Deadlift (bilateral)', icon:'hinge', tag:'ham', setsreps:'4 × 10',
+       cue:'3-1-1 tempo. DBs stay close to the shins the whole rep, soft knee bend throughout.'},
+      {name:'Single-Leg Glute Bridge', icon:'bridge', tag:'glute', setsreps:'3 × 12 /leg',
+       cue:'2-second pause at the top, squeeze the glute — don\'t let the hips rotate open.'},
+      {name:'Tube Pull-Through', icon:'hinge', tag:'glute', setsreps:'3 × 15',
+       cue:'Hip hinge pattern, drive through the glutes to stand tall, not the lower back.'},
+      {name:'Nordic Curl (assisted)', icon:'curl', tag:'ham', setsreps:'3 × 5–6',
+       cue:'Lower as slowly as control allows. Non-negotiable given your running volume — best evidence for hamstring resilience.'},
+    ]
+  },
+  {
+    id:'d3', label:'Stability', sub:'Low fatigue — pair with an easy run',
+    exercises:[
+      {name:'Single-Leg Hip Thrust (DB on hip)', icon:'bridge', tag:'glute', setsreps:'3 × 10 /leg',
+       cue:'Shoulders on a bench, one foot planted. No compensating from the working leg\'s momentum.'},
+      {name:'Curtsy Lunge', icon:'lunge', tag:'glute', setsreps:'3 × 10 /leg',
+       cue:'Step back and across. This diagonal plane is usually the weak link bilateral lifts never touch.'},
+      {name:'Tube Monster Walk', icon:'lateral', tag:'glute', setsreps:'3 × 15 steps',
+       cue:'Tube above the knees, wide stance, small deliberate steps — tension never releases.'},
+      {name:'Single-Leg Balance + Reach', icon:'hinge', tag:'ham', setsreps:'2 × 8 /leg',
+       cue:'Bodyweight RDL pattern. Reach forward, tap the floor, return to tall — control over speed.'},
+    ]
+  },
+  {
+    id:'d4', label:'HYROX Carryover', sub:'Unilateral + compound, 48h before hard sessions',
+    exercises:[
+      {name:'DB Step-Ups', icon:'step', tag:'compound', setsreps:'4 × 10 /leg',
+       cue:'Moderate-to-high box. Drive through the whole foot, avoid pushing off the trailing leg.'},
+      {name:'DB Reverse Lunge', icon:'lunge', tag:'compound', setsreps:'3 × 10 /leg',
+       cue:'Knee-friendly alternative to the forward lunge. Step back under control, front knee tracks over toes.'},
+      {name:'Lateral Lunge', icon:'lateral', tag:'glute', setsreps:'3 × 10 /leg',
+       cue:'Sit back into the working hip, opposite leg stays straight. Adductor + glute medius together.'},
+      {name:'Tube Standing Glute Kickback', icon:'bridge', tag:'glute', setsreps:'3 × 15 /leg',
+       cue:'Finisher. Small range, hold the squeeze a beat at the top, avoid arching the lower back.'},
+    ]
+  },
+];
+
+const STORAGE_KEY = 'fms_lowerbody_progress_v1';
+function loadProgress(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; } }
+function saveProgress(p){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }catch(e){} }
+let progress = loadProgress();
+
+function ytLink(name){
+  return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(name + ' proper form');
+}
+
+function ringSVG(pct){
+  const r = 12, c = 2*Math.PI*r, off = c - (pct/100)*c;
+  return `<svg class="ring" viewBox="0 0 30 30">
+    <circle class="bg" cx="15" cy="15" r="${r}"></circle>
+    <circle class="fg" cx="15" cy="15" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${off}"></circle>
+  </svg>`;
+}
+
+function renderNav(){
+  const nav = document.getElementById('daynav');
+  nav.innerHTML = DAYS.map((d,i)=>`
+    <button class="daytab${i===0?' active':''}" data-day="${d.id}">
+      <span class="n">${i+1}</span>${d.label}
+      <span class="daylabel">${d.sub}</span>
+    </button>`).join('');
+  nav.querySelectorAll('.daytab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      nav.querySelectorAll('.daytab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.daypanel').forEach(p=>p.classList.remove('active'));
+      document.getElementById('panel-'+btn.dataset.day).classList.add('active');
+    });
+  });
+}
+
+function dayCompletion(day){
+  const total = day.exercises.length;
+  const done = day.exercises.filter((ex,i)=>progress[day.id+'-'+i]).length;
+  return total ? Math.round((done/total)*100) : 0;
+}
+
+function renderPanels(){
+  const wrap = document.getElementById('daypanels');
+  wrap.innerHTML = DAYS.map((d,i)=>`
+    <div class="daypanel${i===0?' active':''}" id="panel-${d.id}">
+      <div class="progress-row" id="progress-${d.id}"></div>
+      <div class="exlist">
+        ${d.exercises.map((ex,j)=>exRowHTML(d.id,j,ex)).join('')}
+      </div>
+    </div>
+  `).join('');
+  DAYS.forEach(updateProgressRow);
+  attachRowHandlers();
+}
+
+function exRowHTML(dayId, idx, ex){
+  const key = dayId+'-'+idx;
+  const checked = !!progress[key];
+  const tagLabel = ex.tag==='glute' ? 'Glute' : ex.tag==='ham' ? 'Hamstring' : 'Compound';
+  return `
+  <div class="exrow" data-key="${key}">
+    <div class="exhead">
+      <div class="exicon"><svg><use href="#ic-${ex.icon}"></use></svg></div>
+      <div class="exmain">
+        <div class="exname">${ex.name}</div>
+        <div class="exmeta"><span class="tag ${ex.tag}">${tagLabel}</span></div>
+      </div>
+      <div class="setsreps">${ex.setsreps}</div>
+      <div class="done-check${checked?' checked':''}" data-role="check" title="Mark done">
+        <svg><use href="#ic-check"></use></svg>
+      </div>
+      <svg class="chevron" data-role="chev"><use href="#ic-chev"></use></svg>
+    </div>
+    <div class="exbody">
+      <div class="exbody-inner">
+        <p class="cue">${ex.cue}</p>
+        <div class="exlinks">
+          <a href="${ytLink(ex.name)}" target="_blank" rel="noopener">
+            <svg><use href="#ic-play"></use></svg> Watch demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function updateProgressRow(day){
+  const el = document.getElementById('progress-'+day.id);
+  const pct = dayCompletion(day);
+  const done = day.exercises.filter((ex,i)=>progress[day.id+'-'+i]).length;
+  el.innerHTML = `${ringSVG(pct)}<span>${done} of ${day.exercises.length} exercises marked done</span>`;
+}
+
+function attachRowHandlers(){
+  document.querySelectorAll('.exrow').forEach(row=>{
+    const head = row.querySelector('.exhead');
+    const check = row.querySelector('[data-role="check"]');
+    head.addEventListener('click', (e)=>{
+      if(e.target.closest('[data-role="check"]')) return;
+      row.classList.toggle('open');
+    });
+    check.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const key = row.dataset.key;
+      progress[key] = !progress[key];
+      saveProgress(progress);
+      check.classList.toggle('checked', !!progress[key]);
+      const dayId = key.split('-')[0];
+      const day = DAYS.find(d=>d.id===dayId);
+      updateProgressRow(day);
+    });
+  });
+}
+
+renderNav();
+renderPanels();
+</script>
+
+</body>
+</html>
