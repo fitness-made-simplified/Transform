@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Mohit's Training Protocol</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        * { box-sizing: border-box; }
+        body {
+            background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif;
+            margin: 0; padding: 24px; padding-bottom: 64px; -webkit-tap-highlight-color: transparent;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+        }
+
+        header { margin-bottom: 24px; }
+        .back-link {
+            color: #f43f5e; font-weight: 900; text-transform: uppercase; font-size: 10px;
+            letter-spacing: 0.15em; margin-bottom: 24px; display: block;
+        }
+        h1 { font-size: 36px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
+        .subtitle { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.2em; margin-top: 12px; }
+
+        .note-card {
+            padding: 20px; margin-bottom: 32px;
+            border-left: 4px solid #f59e0b; background: rgba(245,158,11,0.06);
+        }
+        .note-card p:first-child { color: #f59e0b; }
+        .note-text { font-size: 12px; color: #d4d4d4; font-style: italic; line-height: 1.6; margin: 8px 0 0; }
+
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+        .stat-box { padding: 16px; }
+        .stat-value { font-size: 14px; font-weight: 900; font-style: italic; text-transform: uppercase; margin: 4px 0 0; }
+
+        .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; margin: 0; }
+
+        .day-list { display: flex; flex-direction: column; gap: 16px; }
+        .phase-card {
+            padding: 24px; cursor: pointer;
+            border-left: 4px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
+        .phase-head { display: flex; justify-content: space-between; align-items: center; }
+        .phase-day-label { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 4px; color: #f43f5e; }
+        .phase-day-label.caution { color: #f59e0b; }
+        .phase-title { font-size: 20px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
+        .chevron { transition: transform 0.3s ease; color: #e11d48; flex-shrink: 0; }
+        .phase-card.active .chevron { transform: rotate(180deg); }
+        .phase-card:not(.active) .phase-content { max-height: 0; opacity: 0; overflow: hidden; padding-top: 0; }
+        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 16px; transition: all 0.4s ease; }
+
+        .exercise-row {
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+        .exercise-row:last-child { border-bottom: none; }
+        .ex-name { font-size: 13px; font-weight: 700; color: #f5f5f5; margin: 0; }
+        .ex-rx { font-size: 10px; color: #737373; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; margin: 4px 0 0; }
+        .yt-btn {
+            flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+            background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.25);
+            padding: 8px 12px; border-radius: 8px; font-size: 9px; font-weight: 900;
+            text-transform: uppercase; color: #fb7185;
+        }
+        .yt-btn:active { transform: scale(0.95); }
+
+        .cta-btn {
+            width: 100%; margin-top: 32px; padding: 16px; border-radius: 16px;
+            font-weight: 900; text-transform: uppercase; font-size: 14px; letter-spacing: 0.1em;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); color: #fff;
+        }
+        .cta-btn:active { transform: scale(0.97); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../profile.html" class="back-link">← Exit Protocol</a>
+        <h1>Mohit</h1>
+        <p class="subtitle">Coached By Sushant · FMS</p>
+    </header>
+
+    <div class="glass note-card">
+        <p class="stat-label" style="color:#f59e0b">⚠ Physio Note</p>
+        <p class="note-text">History of shoulder weakness and pain. Shoulder day is programmed light by design — prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
+    </div>
+
+    <div class="stat-grid">
+        <div class="glass stat-box">
+            <p class="stat-label">Split</p>
+            <p class="stat-value">5 Day Body Split</p>
+        </div>
+        <div class="glass stat-box">
+            <p class="stat-label">Abs</p>
+            <p class="stat-value" style="color:#f43f5e">Alternate Days</p>
+        </div>
+    </div>
+
+    <div id="protocolContainer" class="day-list"></div>
+
+    <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20have%20a%20question%20about%20my%20workout%20plan." class="cta-btn">
+        Message Coach Sushant
+    </a>
+
+    <script>
+        function ytLink(name) {
+            const q = encodeURIComponent(name + ' correct form tutorial');
+            return `https://www.youtube.com/results?search_query=${q}`;
+        }
+
+        function exerciseRow(name, prescription) {
+            return `
+            <div class="exercise-row">
+                <div>
+                    <p class="ex-name">${name}</p>
+                    <p class="ex-rx">${prescription}</p>
+                </div>
+                <a href="${ytLink(name)}" target="_blank" class="yt-btn">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Form
+                </a>
+            </div>`;
+        }
+
+        const days = [
+            {
+                title: 'Day 1', subtitle: 'Chest & Back',
+                exercises: [
+                    ['Chest Press Machine', '10 reps x 3 sets'],
+                    ['Chest Fly Machine', '15 reps x 3 sets'],
+                    ['Cable Crossover', '15 reps x 3 sets'],
+                    ['Lat Pulldown', '15 reps x 3 sets'],
+                    ['Seated Row', '10 reps x 3 sets'],
+                    ['Close Grip Pulldown', '10 reps x 3 sets'],
+                    ['Hyperextension (Lower Back)', '10 reps x 3 sets'],
+                ]
+            },
+            {
+                title: 'Day 2', subtitle: 'Legs',
+                exercises: [
+                    ['Leg Extension Machine', '15 reps x 3 sets'],
+                    ['Leg Curl Machine', '15 reps x 3 sets'],
+                    ['Leg Press', '10 reps x 3 sets'],
+                    ['Squats', '10 reps x 3 sets'],
+                    ['Deadlifts', '10 reps x 3 sets'],
+                    ['Calf Raises', '20 reps x 3 sets'],
+                ]
+            },
+            {
+                title: 'Day 3', subtitle: 'Arms',
+                exercises: [
+                    ['Preacher Curl', '15 reps x 3 sets'],
+                    ['Rope Push Down', '15 reps x 3 sets'],
+                    ['Dumbbell Curl', '15 reps x 3 sets'],
+                    ['Overhead Extension with Dumbbell', '15 reps x 3 sets'],
+                    ['Hammer Curl', '15 reps x 3 sets'],
+                    ['Tricep Dips', '10 reps x 3 sets'],
+                    ['Forearm Curl', '15 reps x 3 sets'],
+                ]
+            },
+            {
+                title: 'Day 4', subtitle: 'Shoulders (Go Light)', caution: true,
+                exercises: [
+                    ['Side Lateral Raises', '15 reps x 3 sets'],
+                    ['Rear Delt Fly Machine', '15 reps x 3 sets'],
+                    ['Shoulder Press', '10 reps x 3 sets'],
+                    ['Barbell Upright Row', '10 reps x 3 sets'],
+                    ['Shrugs', '15 reps x 3 sets'],
+                ]
+            },
+            {
+                title: 'Day 5', subtitle: 'Chest & Back (Pump)',
+                exercises: [
+                    ['Incline Chest Press Machine / Dumbbell', '20 reps x 3 sets'],
+                    ['Incline Cable Crossover', '15 reps x 3 sets'],
+                    ['T-Bar Row', '20 reps x 3 sets'],
+                    ['Lat Pulldown', '15 reps x 3 sets'],
+                ]
+            },
+            {
+                title: 'Alternate Days', subtitle: 'Abs',
+                exercises: [
+                    ['Crunches', '25 reps x 3 sets'],
+                    ['Leg Raises', '15 reps x 3 sets'],
+                    ['Sit Ups', '10 reps x 4 sets'],
+                ]
+            },
+        ];
+
+        const container = document.getElementById('protocolContainer');
+        container.innerHTML = days.map((d, i) => `
+            <div class="glass phase-card ${i === 0 ? 'active' : ''}" onclick="this.classList.toggle('active')">
+                <div class="phase-head">
+                    <div>
+                        <p class="phase-day-label ${d.caution ? 'caution' : ''}">${d.title}${d.caution ? ' · Light Load' : ''}</p>
+                        <h3 class="phase-title">${d.subtitle}</h3>
+                    </div>
+                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <div class="phase-content">
+                    ${d.exercises.map(([name, rx]) => exerciseRow(name, rx)).join('')}
+                </div>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>
