@@ -163,7 +163,7 @@
 
                     // My Fitness (personalized plan page) link
                     const fitLink = document.getElementById('fitnessPlanLink');
-                    if(fitLink) fitLink.href = `plans/${id.toLowerCase()}.html`;
+                    if(fitLink) fitLink.href = `${id.toLowerCase()}.html`;
 
                     if(u.PDF_Link) {
                         document.getElementById('pdfBox').classList.remove('hidden');
