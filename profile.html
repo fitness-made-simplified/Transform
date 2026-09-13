@@ -4,79 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FMS | Client Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        
-        /* Tab Logic */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif;
+            margin: 0; padding: 24px; padding-bottom: 128px; -webkit-tap-highlight-color: transparent;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        .glass { background: rgba(255, 255, 255, 0.03); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+
         .phase-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); }
         .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
-        
-        /* FIX: Changed max-height logic to allow full 7-day text without truncation */
+
         .phase-content { max-height: 0; opacity: 0; transition: all 0.5s ease; overflow: hidden; }
         .phase-card.active .phase-content { max-height: fit-content; opacity: 1; padding-top: 20px; padding-bottom: 10px; }
-        
+
         .chevron { transition: transform 0.3s ease; }
         .phase-card.active .chevron { transform: rotate(180deg); }
 
-        .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; }
-        .stat-value { font-size: 14px; font-weight: 900; font-style: italic; }
+        .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; margin: 0; }
+        .stat-value { font-size: 14px; font-weight: 900; font-style: italic; margin: 4px 0 0; }
+
+        header { margin-bottom: 32px; }
+        .back-link { color: #f43f5e; font-weight: 900; text-transform: uppercase; font-size: 10px; letter-spacing: 0.15em; margin-bottom: 24px; display: block; }
+        h1 { font-size: 36px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
+        .subtitle { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.2em; margin-top: 12px; }
+
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-8 { margin-bottom: 32px; }
+        .stat-box { padding: 16px; }
+        .opacity-30 { opacity: 0.3; }
+        .ml-1 { margin-left: 4px; }
+        .mx-1 { margin: 0 4px; }
+        .small { font-size: 10px; }
+        .white { color: #fff; }
+        .rose { color: #f43f5e; }
+        .emerald { color: #10b981; }
+        .uppercase { text-transform: uppercase; }
+        .border-b-rose { border-bottom: 2px solid #e11d48; }
+        .border-b-emerald { border-bottom: 2px solid #10b981; }
+
+        .cta-card {
+            padding: 20px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .cta-card:active { transform: scale(0.97); }
+        .cta-rose { border-left: 4px solid #e11d48; background: rgba(225,29,72,0.05); }
+        .cta-emerald { border-left: 4px solid #10b981; background: rgba(16,185,129,0.05); }
+        .cta-label { margin: 0; }
+        .cta-title { font-size: 14px; font-weight: 900; text-transform: uppercase; font-style: italic; margin: 4px 0 0; }
+        .hidden { display: none; }
+
+        .phase-card-pad { padding: 24px; }
+        .phase-head { display: flex; justify-content: space-between; align-items: center; }
+        .phase-title { font-size: 20px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
+        .phase-content-inner > div + div { margin-top: 24px; }
+        .section-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #f43f5e; letter-spacing: 0.1em; margin: 0 0 8px; border-bottom: 1px solid rgba(225,29,72,0.1); padding-bottom: 4px; }
+        .section-text { font-size: 13px; color: #d4d4d4; white-space: pre-wrap; line-height: 1.6; }
+
+        .loading-row { text-align: center; padding: 40px 0; opacity: 0.3; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; }
+        .day-list { display: flex; flex-direction: column; gap: 16px; }
     </style>
 </head>
-<body class="p-6 pb-32">
+<body>
 
-    <header class="mb-8">
-        <a href="index.html" class="text-rose-500 font-black uppercase text-[10px] tracking-widest mb-6 block">← Exit Portal</a>
-        <h1 class="text-4xl font-black uppercase italic leading-none" id="dispName">Loading...</h1>
-        <p class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.2em] mt-3">Physio-Led Health Metrics</p>
+    <header>
+        <a href="index.html" class="back-link">← Exit Portal</a>
+        <h1 id="dispName">Loading...</h1>
+        <p class="subtitle">Physio-Led Health Metrics</p>
     </header>
 
-    <div class="grid grid-cols-2 gap-3 mb-4">
-        <div class="glass p-4">
+    <div class="grid2 mb-4">
+        <div class="glass stat-box">
             <p class="stat-label">Age / Height</p>
-            <p class="stat-value"><span id="dispAge">0</span> <span class="opacity-30">/</span> <span id="dispHeight">0</span><span class="text-[10px] ml-1">cm</span></p>
+            <p class="stat-value"><span id="dispAge">0</span> <span class="opacity-30">/</span> <span id="dispHeight">0</span><span class="small ml-1">cm</span></p>
         </div>
-        <div class="glass p-4">
+        <div class="glass stat-box">
             <p class="stat-label">Weight / Fat %</p>
-            <p class="stat-value"><span id="dispWeight">0</span><span class="text-[10px]">kg</span> <span class="opacity-30">/</span> <span id="dispFat">0</span><span class="text-[10px]">%</span></p>
+            <p class="stat-value"><span id="dispWeight">0</span><span class="small">kg</span> <span class="opacity-30">/</span> <span id="dispFat">0</span><span class="small">%</span></p>
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-3 mb-8">
-        <div class="glass p-4 border-b-2 border-rose-600">
+    <div class="grid2 mb-8">
+        <div class="glass stat-box border-b-rose">
             <p class="stat-label">Sessions Track</p>
-            <p class="stat-value text-rose-500"><span id="dispUsed">0</span> <span class="text-white opacity-30 mx-1">/</span> <span id="dispTotal" class="text-white">0</span></p>
+            <p class="stat-value rose"><span id="dispUsed" class="rose">0</span> <span class="white opacity-30 mx-1">/</span> <span id="dispTotal" class="white">0</span></p>
         </div>
-        <div class="glass p-4 border-b-2 border-emerald-500">
+        <div class="glass stat-box border-b-emerald">
             <p class="stat-label">Status</p>
-            <p class="stat-value text-emerald-500 uppercase" id="dispStatus">---</p>
+            <p class="stat-value emerald uppercase" id="dispStatus">---</p>
         </div>
     </div>
 
     <!-- Strength Tracker CTA -->
     <div class="mb-4" id="strengthTrackerBox">
-        <a id="strengthTrackerLink" href="#" class="glass p-5 flex items-center justify-between border-l-4 border-rose-600 bg-rose-600/5 active:scale-95 transition-transform">
+        <a id="strengthTrackerLink" href="#" class="glass cta-card cta-rose">
             <div>
-                <p class="stat-label text-rose-500">Performance Lab</p>
-                <h4 class="text-sm font-black uppercase italic">Strength Tracker →</h4>
+                <p class="stat-label rose cta-label">Performance Lab</p>
+                <h4 class="cta-title">Strength Tracker →</h4>
             </div>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-rose-500">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5">
                 <path d="M6 4v6m0 4v6M18 4v6m0 4v6M3 10h18M3 14h18"/>
             </svg>
         </a>
     </div>
 
-    <div id="pdfBox" class="hidden mb-8">
-        <a id="pdfUrl" href="#" target="_blank" class="glass p-5 flex items-center justify-between border-l-4 border-emerald-500 bg-emerald-500/5 active:scale-95 transition-transform">
-            <div><p class="stat-label text-emerald-500">Resource Vault</p><h4 class="text-sm font-black uppercase italic">Download Protocol PDF</h4></div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="text-emerald-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    <!-- My Fitness CTA -->
+    <div class="mb-4" id="fitnessPlanBox">
+        <a id="fitnessPlanLink" href="#" class="glass cta-card cta-emerald">
+            <div>
+                <p class="stat-label emerald cta-label">Personal Protocol</p>
+                <h4 class="cta-title">My Fitness →</h4>
+            </div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5">
+                <path d="M6.5 6.5h11v11h-11z"/><path d="M9.5 9.5h5v5h-5z"/>
+            </svg>
         </a>
     </div>
 
-    <div id="protocolContainer" class="space-y-4">
-        <div class="text-center py-10 opacity-30 text-[10px] font-black uppercase tracking-widest">Loading Member Data...</div>
+    <div id="pdfBox" class="hidden mb-8">
+        <a id="pdfUrl" href="#" target="_blank" class="glass cta-card cta-emerald">
+            <div><p class="stat-label emerald cta-label">Resource Vault</p><h4 class="cta-title">Download Protocol PDF</h4></div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </a>
+    </div>
+
+    <div id="protocolContainer" class="day-list">
+        <div class="loading-row">Loading Member Data...</div>
     </div>
 
     <script>
@@ -105,6 +161,10 @@
                     const stLink = document.getElementById('strengthTrackerLink');
                     if(stLink) stLink.href = `strength-tracker.html?id=${id}`;
 
+                    // My Fitness (personalized plan page) link
+                    const fitLink = document.getElementById('fitnessPlanLink');
+                    if(fitLink) fitLink.href = `plans/${id.toLowerCase()}.html`;
+
                     if(u.PDF_Link) {
                         document.getElementById('pdfBox').classList.remove('hidden');
                         document.getElementById('pdfUrl').href = u.PDF_Link;
@@ -112,7 +172,7 @@
 
                     renderTabs(u);
                 } else {
-                    document.getElementById('protocolContainer').innerHTML = "<div class='p-10 text-center font-black text-rose-500'>CLIENT NOT FOUND</div>";
+                    document.getElementById('protocolContainer').innerHTML = "<div style='padding:40px;text-align:center;font-weight:900;color:#f43f5e'>CLIENT NOT FOUND</div>";
                 }
             } catch (err) { console.error("API Error", err); }
         }
@@ -126,22 +186,24 @@
             for(let i=1; i<=4; i++) {
                 const diet = u[`Week${i}_Diet`];
                 const work = u[`Week${i}_Workout`];
-                
+
                 if((diet && diet.trim() !== "") || (work && work.trim() !== "")) {
                     html += `
-                    <div class="phase-card glass p-6 ${i === latest ? 'active' : ''}" onclick="this.classList.toggle('active')">
-                        <div class="flex justify-between items-center">
-                            <div><p class="stat-label text-rose-500">Protocol Phase 0${i}</p><h3 class="text-xl font-black uppercase italic leading-none">Week ${i} Plan</h3></div>
-                            <svg class="chevron text-rose-600" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    <div class="phase-card glass phase-card-pad ${i === latest ? 'active' : ''}" onclick="this.classList.toggle('active')">
+                        <div class="phase-head">
+                            <div><p class="stat-label rose cta-label">Protocol Phase 0${i}</p><h3 class="phase-title">Week ${i} Plan</h3></div>
+                            <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
-                        <div class="phase-content space-y-6">
-                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Nutrition Strategy</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${diet || '---'}</div></div>
-                            <div><h4 class="stat-label text-rose-500 mb-2 border-b border-rose-600/10 pb-1">Training Logic</h4><div class="text-[13px] text-neutral-300 whitespace-pre-wrap leading-relaxed">${work || '---'}</div></div>
+                        <div class="phase-content">
+                            <div class="phase-content-inner">
+                                <div><h4 class="section-label">Nutrition Strategy</h4><div class="section-text">${diet || '---'}</div></div>
+                                <div><h4 class="section-label">Training Logic</h4><div class="section-text">${work || '---'}</div></div>
+                            </div>
                         </div>
                     </div>`;
                 }
             }
-            container.innerHTML = html || "<p class='text-center opacity-30 text-[10px] py-10 uppercase font-black'>No active protocols assigned</p>";
+            container.innerHTML = html || "<p style='text-align:center;opacity:0.3;font-size:10px;padding:40px 0;text-transform:uppercase;font-weight:900'>No active protocols assigned</p>";
         }
         fetchUser();
     </script>
