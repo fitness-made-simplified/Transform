@@ -1,189 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FMS | Sunny's Training Protocol</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        * { box-sizing: border-box; }
-        body {
-            background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif;
-            margin: 0; padding: 24px; padding-bottom: 64px; -webkit-tap-highlight-color: transparent;
-        }
-        a { text-decoration: none; color: inherit; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FMS | Sunny's Workout Plan (Week 4)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #171717;
+    --border: #242424;
+    --accent: #c8f542;
+    --accent2: #42f5c8;
+    --text: #f0f0f0;
+    --muted: #6b6b6b;
+    --danger: #ff4d4d;
+    --warm: #ffa94d;
+  }
 
-        .glass { background: rgba(255, 255, 255, 0.03); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-        header { margin-bottom: 24px; }
-        .back-link { color: #f43f5e; font-weight: 900; text-transform: uppercase; font-size: 10px; letter-spacing: 0.15em; margin-bottom: 24px; display: block; }
-        h1 { font-size: 36px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
-        .subtitle { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.2em; margin-top: 12px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        .note-card { padding: 20px; margin-bottom: 32px; border-left: 4px solid #10b981; background: rgba(16,185,129,0.06); }
-        .note-card p:first-child { color: #10b981; }
-        .note-text { font-size: 12px; color: #d4d4d4; font-style: italic; line-height: 1.6; margin: 8px 0 0; }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
 
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
-        .stat-box { padding: 16px; }
-        .stat-value { font-size: 14px; font-weight: 900; font-style: italic; text-transform: uppercase; margin: 4px 0 0; }
-        .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; margin: 0; }
+  .wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 20px 80px; }
 
-        .day-list { display: flex; flex-direction: column; gap: 16px; }
-        .phase-card { padding: 24px; cursor: pointer; border-left: 4px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
-        .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
-        .phase-head { display: flex; justify-content: space-between; align-items: center; }
-        .phase-day-label { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 4px; color: #f43f5e; }
-        .phase-title { font-size: 20px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
-        .chevron { transition: transform 0.3s ease; color: #e11d48; flex-shrink: 0; }
-        .phase-card.active .chevron { transform: rotate(180deg); }
-        .phase-card:not(.active) .phase-content { max-height: 0; opacity: 0; overflow: hidden; padding-top: 0; }
-        .phase-card.active .phase-content { max-height: 2000px; opacity: 1; padding-top: 16px; transition: all 0.4s ease; }
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .top-bar a {
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    font-family: 'Space Mono', monospace; letter-spacing: 0.04em;
+  }
+  .top-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 0.15em;
+    color: var(--accent); text-decoration: none;
+  }
 
-        .exercise-row { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-        .exercise-row:last-child { border-bottom: none; }
-        .ex-name { font-size: 13px; font-weight: 700; color: #f5f5f5; margin: 0; }
-        .ex-rx { font-size: 10px; color: #737373; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; margin: 4px 0 0; }
-        .yt-btn { flex-shrink: 0; display: flex; align-items: center; gap: 4px; background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.25); padding: 8px 12px; border-radius: 8px; font-size: 9px; font-weight: 900; text-transform: uppercase; color: #fb7185; }
-        .yt-btn:active { transform: scale(0.95); }
+  .hero { margin-bottom: 40px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    background: rgba(200,245,66,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(200,245,66,0.25);
+    padding: 4px 12px; border-radius: 100px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 84px);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    margin-top: 14px;
+    color: var(--muted); font-size: 14px; font-weight: 300; line-height: 1.6;
+    max-width: 520px;
+  }
 
-        .cta-btn { width: 100%; margin-top: 32px; padding: 16px; border-radius: 16px; font-weight: 900; text-transform: uppercase; font-size: 14px; letter-spacing: 0.1em; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); color: #fff; }
-        .cta-btn:active { transform: scale(0.97); }
-    </style>
+  .day-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+  .day-tab {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 0.06em;
+    padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+  }
+  .day-tab.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); font-weight: 700; }
+
+  .day-panel { display: none; animation: fadeUp 0.35s ease; }
+  .day-panel.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .day-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--border);
+  }
+  .day-number { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; }
+  .day-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 6vw, 44px); letter-spacing: 0.06em; line-height: 1; color: var(--text); }
+  .day-title span { color: var(--accent2); }
+  .day-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge { font-family: 'Space Mono', monospace; font-size: 10.5px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-focus { background: rgba(66,245,200,0.1); color: var(--accent2); border: 1px solid rgba(66,245,200,0.2); }
+
+  .warmup-bar {
+    background: rgba(255,169,77,0.07); border: 1px solid rgba(255,169,77,0.18);
+    border-radius: 10px; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; font-size: 13px; color: var(--warm);
+  }
+
+  .exercise-list { display: flex; flex-direction: column; gap: 10px; }
+  .ex-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+    transition: transform 0.15s;
+  }
+  .ex-card:hover { border-color: rgba(200,245,66,0.3); transform: translateX(4px); }
+  .ex-num { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--border); min-width: 32px; text-align: center; }
+  .ex-card:hover .ex-num { color: var(--accent); }
+  .ex-info { flex: 1; }
+  .ex-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .ex-name a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--muted); transition: color 0.15s, border-color 0.15s; }
+  .ex-name a:hover { color: var(--accent); border-color: var(--accent); }
+  .ex-name a::after { content: ' \25B6'; font-size: 9px; color: var(--muted); }
+  .ex-name a:hover::after { color: var(--accent); }
+  .ex-meta { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .ex-sets { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .set-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 5px; padding: 5px 10px;
+    font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+  }
+  .ex-card:hover .set-pill { border-color: var(--accent); color: var(--accent); }
+
+  .ex-core { background: rgba(66,245,200,0.08); border-color: rgba(66,245,200,0.2); }
+
+  .footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); }
+  .footer-note { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  .progress-dots { display: flex; gap: 6px; align-items: center; margin-bottom: 24px; }
+  .dot-step { height: 3px; border-radius: 2px; background: var(--border); transition: all 0.3s; flex: 1; max-width: 60px; }
+  .dot-step.done { background: var(--accent); }
+
+  @media (max-width: 540px) {
+    .day-header { flex-direction: column; align-items: flex-start; }
+    .ex-card { flex-wrap: wrap; }
+  }
+</style>
 </head>
 <body>
+<div class="wrap">
+  <div class="top-bar">
+    <a href="#">&larr; Train with Sushant Documents</a>
+    <a class="top-logo" href="#">FMS</a>
+  </div>
 
-    <header>
-        <a href="profile.html?id=Sunny" class="back-link">← Exit Protocol</a>
-        <h1>Sunny</h1>
-        <p class="subtitle">Coached By Sushant · FMS</p>
-    </header>
+  <div class="hero">
+    <div class="hero-tag">Week 04 &middot; Foundation &amp; Hypertrophy</div>
+    <h1>SUNNY'S<br/><span>WORKOUT</span></h1>
+    <p class="hero-sub">Note: Back Delts / Legs / Chest Delts / Arms / Shoulder Traps split &middot; Core on alternate days &middot; Coach Sushant</p>
+  </div>
 
-    <div class="glass note-card">
-        <p class="stat-label" style="color:#10b981">Protocol Update</p>
-        <p class="note-text">Week 3 — new 5-day split added below. Warm up before every session; move through your warm-up set with control before loading up.</p>
+  <div class="day-tabs">
+    <button class="day-tab active" onclick="showDay(0)">Day 1</button>
+    <button class="day-tab" onclick="showDay(1)">Day 2</button>
+    <button class="day-tab" onclick="showDay(2)">Day 3</button>
+    <button class="day-tab" onclick="showDay(3)">Day 4</button>
+    <button class="day-tab" onclick="showDay(4)">Day 5</button>
+    <button class="day-tab" onclick="showDay(5)">Core</button>
+  </div>
+
+  <div class="progress-dots" id="progress-dots"></div>
+
+  <!-- Day 1: Back & Delts -->
+  <div class="day-panel active" id="day-0">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 01</div>
+        <div class="day-title">BACK &amp; <span>DELTS</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Pull-Push Focus</span></div>
     </div>
-
-    <div class="stat-grid">
-        <div class="glass stat-box">
-            <p class="stat-label">Split</p>
-            <p class="stat-value">5 Day Body Split</p>
-        </div>
-        <div class="glass stat-box">
-            <p class="stat-label">Core</p>
-            <p class="stat-value" style="color:#f43f5e">Alternate Days</p>
-        </div>
+    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=shoulder+press+exercise+tutorial" target="_blank" rel="noopener">Shoulder Press</a></div><div class="ex-meta">Delt press strength</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=dumbbell+side+lateral+raise+tutorial" target="_blank" rel="noopener">DB Side Raises</a></div><div class="ex-meta">Lateral delt isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=lat+pulldown+exercise+tutorial" target="_blank" rel="noopener">Lat Pull Down</a></div><div class="ex-meta">Lat width &amp; thickness</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=seated+cable+row+exercise+tutorial" target="_blank" rel="noopener">Seated Row</a></div><div class="ex-meta">Mid-back density &amp; squeeze</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=close+grip+lat+pulldown+tutorial" target="_blank" rel="noopener">Close Grip Lat Pull Down</a></div><div class="ex-meta">Lat thickness &amp; mid-back</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
     </div>
+  </div>
 
-    <div id="protocolContainer" class="day-list"></div>
+  <!-- Day 2: Legs -->
+  <div class="day-panel" id="day-1">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 02</div>
+        <div class="day-title">LEGS <span>FOCUS</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Lower Body</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=leg+extension+exercise+tutorial" target="_blank" rel="noopener">Leg Ext</a></div><div class="ex-meta">Quad isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=leg+curl+machine+exercise+tutorial" target="_blank" rel="noopener">Leg Curl</a></div><div class="ex-meta">Hamstring isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=leg+press+exercise+tutorial" target="_blank" rel="noopener">Leg Press</a></div><div class="ex-meta">Quad &amp; glute compound</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=bulgarian+split+squat+tutorial" target="_blank" rel="noopener">Bulgarian Lunges</a></div><div class="ex-meta">10 reps each leg</div></div><div class="ex-sets"><div class="set-pill">10 each</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=calf+raises+exercise+tutorial" target="_blank" rel="noopener">Calf Raises</a></div><div class="ex-meta">Gastroc isolation</div></div><div class="ex-sets"><div class="set-pill">25 reps</div><div class="set-pill">&times; 3</div></div></div>
+    </div>
+  </div>
 
-    <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20have%20a%20question%20about%20my%20workout%20plan." class="cta-btn">
-        Message Coach Sushant
-    </a>
+  <!-- Day 3: Chest & Delts -->
+  <div class="day-panel" id="day-2">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 03</div>
+        <div class="day-title">CHEST &amp; <span>DELTS</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Push Focus</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=bench+press+exercise+tutorial" target="_blank" rel="noopener">Bench Press</a></div><div class="ex-meta">Chest strength compound</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=incline+dumbbell+chest+press+tutorial" target="_blank" rel="noopener">Incline DB Chest Press</a></div><div class="ex-meta">Upper chest focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=incline+dumbbell+fly+tutorial" target="_blank" rel="noopener">Incline Fly</a></div><div class="ex-meta">Upper chest isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=plate+front+raise+tutorial" target="_blank" rel="noopener">Front Raises with Plate</a></div><div class="ex-meta">Anterior delt focus</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=reverse+pec+deck+fly+machine+tutorial" target="_blank" rel="noopener">Rear Fly on Machine</a></div><div class="ex-meta">Rear delt isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+    </div>
+  </div>
 
-    <script>
-        function ytLink(name) {
-            const q = encodeURIComponent(name + ' correct form tutorial');
-            return `https://www.youtube.com/results?search_query=${q}`;
-        }
+  <!-- Day 4: Arms -->
+  <div class="day-panel" id="day-3">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 04</div>
+        <div class="day-title">ARMS <span>FOCUS</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Arm Hypertrophy</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=preacher+curl+exercise+tutorial" target="_blank" rel="noopener">Preacher Curl</a></div><div class="ex-meta">Strict bicep isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=concentration+curl+exercise+tutorial" target="_blank" rel="noopener">Concentration Curl</a></div><div class="ex-meta">Bicep peak isolation</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=incline+dumbbell+curl+tutorial" target="_blank" rel="noopener">Incline DB Curl</a></div><div class="ex-meta">Bicep stretch position</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=rope+tricep+pushdown+tutorial" target="_blank" rel="noopener">Rope Push Down</a></div><div class="ex-meta">Tricep isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=cable+overhead+tricep+extension+tutorial" target="_blank" rel="noopener">Overhead Ext with Pulley</a></div><div class="ex-meta">Tricep long-head stretch</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=bench+tricep+dips+tutorial" target="_blank" rel="noopener">Tricep Dips on Bench</a></div><div class="ex-meta">Tricep bodyweight finisher</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+    </div>
+  </div>
 
-        function exerciseRow(name, prescription) {
-            return `
-            <div class="exercise-row">
-                <div>
-                    <p class="ex-name">${name}</p>
-                    <p class="ex-rx">${prescription}</p>
-                </div>
-                <a href="${ytLink(name)}" target="_blank" class="yt-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Form
-                </a>
-            </div>`;
-        }
+  <!-- Day 5: Shoulder & Traps -->
+  <div class="day-panel" id="day-4">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Day 05</div>
+        <div class="day-title">SHOULDER <span>TRAPS</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Shoulder Hypertrophy</span></div>
+    </div>
+    <div class="warmup-bar"><span><strong>01 Warm-up:</strong> Dynamic prep &amp; joint mobilization</span></div>
+    <div class="exercise-list">
+      <div class="ex-card"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=barbell+shrugs+trap+activation+tutorial" target="_blank" rel="noopener">Shrugs for Trap Activation</a></div><div class="ex-meta">Upper trap activation</div></div><div class="ex-sets"><div class="set-pill">20 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=arnold+press+exercise+tutorial" target="_blank" rel="noopener">Arnold Press</a></div><div class="ex-meta">Full delt press</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=barbell+upright+row+tutorial" target="_blank" rel="noopener">Barbell Upright</a></div><div class="ex-meta">Delt &amp; trap compound</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=cable+lateral+raise+tutorial" target="_blank" rel="noopener">Pulley Side Raises</a></div><div class="ex-meta">Lateral delt constant tension</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=cable+front+raise+rope+tutorial" target="_blank" rel="noopener">Pulley Front Raises with Rope</a></div><div class="ex-meta">Anterior delt constant tension</div></div><div class="ex-sets"><div class="set-pill">10 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card"><div class="ex-num">07</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=smith+machine+shrugs+tutorial" target="_blank" rel="noopener">Shrugs on Smith Machine</a></div><div class="ex-meta">Upper trap isolation</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+    </div>
+  </div>
 
-        const days = [
-            {
-                title: 'Week 3 · Day 1', subtitle: 'Back, Traps & Biceps',
-                exercises: [
-                    ['Warm Up', '—'],
-                    ['Preacher Curl (Bicep Activation)', '15 reps x 3 sets'],
-                    ['Lat Pulldown Close Grip', '10 reps x 3 sets'],
-                    ['T-Bar Row', '10 reps x 3 sets'],
-                    ['Lat Pulldown Wide Grip', '10 reps x 3 sets'],
-                    ['Dumbbell Curl Screw Movement', '10 reps x 3 sets'],
-                    ['Waiter Curl', '15 reps x 3 sets'],
-                    ['Shrugs', '15 reps x 3 sets'],
-                ]
-            },
-            {
-                title: 'Week 3 · Day 2', subtitle: 'Legs',
-                exercises: [
-                    ['Warm Up', '—'],
-                    ['Leg Extension', '15 reps x 3 sets'],
-                    ['Bulgarian Split Lunges', '10 reps x 3 sets'],
-                    ['Sumo Squats', '10 reps x 3 sets'],
-                    ['Leg Curl', '10 reps x 3 sets'],
-                    ['Leg Press', '10 reps x 3 sets'],
-                    ['Calf Press on Leg Press', '15 reps x 3 sets'],
-                ]
-            },
-            {
-                title: 'Week 3 · Day 3', subtitle: 'Chest & Triceps',
-                exercises: [
-                    ['Warm Up', '—'],
-                    ['Tricep Activation Rope Push Down', '15 reps x 3 sets'],
-                    ['Bench Press', '10 reps x 3 sets'],
-                    ['Incline Dumbbell Fly', '15 reps x 3 sets'],
-                    ['Incline Dumbbell Pullover', '15 reps x 3 sets'],
-                    ['Cable Crossover', '15 reps x 3 sets'],
-                    ['Overhead Extension Dumbbell', '10 reps x 3 sets'],
-                    ['Tricep Dips', '15 reps x 3 sets'],
-                ]
-            },
-            {
-                title: 'Week 3 · Day 4', subtitle: 'Shoulders & Traps',
-                exercises: [
-                    ['Warm Up', '—'],
-                    ['Shrugs (Trap Activation)', '15 reps x 3 sets'],
-                    ['Side Raises on Cable', '15 reps x 3 sets'],
-                    ['Cable Front Raises with Rope', '15 reps x 3 sets'],
-                    ['Barbell Upright Row', '15 reps x 3 sets'],
-                ]
-            },
-            {
-                title: 'Week 3 · Day 5', subtitle: 'Arms',
-                exercises: [
-                    ['Warm Up', '—'],
-                    ['Tricep Dips + Barbell Curl Superset', '15 reps x 3 sets'],
-                    ['Pulley Push Down', '15 reps x 3 sets'],
-                    ['Pulley Curl', '15 reps x 3 sets'],
-                    ['Skull Crusher', '15 reps x 3 sets'],
-                    ['Hammer Curl', '10 reps x 3 sets'],
-                ]
-            },
-            {
-                title: 'Week 3', subtitle: 'Core (Alternate Days)',
-                exercises: [
-                    ['Crunches', '15 reps x 3 sets'],
-                    ['Leg Raises', '15 reps x 3 sets'],
-                ]
-            },
-        ];
+  <!-- Core: Alternate Days -->
+  <div class="day-panel" id="day-5">
+    <div class="day-header">
+      <div>
+        <div class="day-number">Alternate Days</div>
+        <div class="day-title">CORE <span>WORK</span></div>
+      </div>
+      <div class="day-badges"><span class="badge badge-focus">Do on non-lifting / alternate days</span></div>
+    </div>
+    <div class="exercise-list">
+      <div class="ex-card ex-core"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=crunches+exercise+tutorial" target="_blank" rel="noopener">Crunches</a></div><div class="ex-meta">Core contraction focus</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+      <div class="ex-card ex-core"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name"><a href="https://www.youtube.com/results?search_query=leg+raises+exercise+tutorial" target="_blank" rel="noopener">Leg Raises</a></div><div class="ex-meta">Lower abs &amp; hip flexors</div></div><div class="ex-sets"><div class="set-pill">15 reps</div><div class="set-pill">&times; 3</div></div></div>
+    </div>
+  </div>
 
-        const container = document.getElementById('protocolContainer');
-        container.innerHTML = days.map((d, i) => `
-            <div class="glass phase-card ${i === 0 ? 'active' : ''}" onclick="this.classList.toggle('active')">
-                <div class="phase-head">
-                    <div>
-                        <p class="phase-day-label">${d.title}</p>
-                        <h3 class="phase-title">${d.subtitle}</h3>
-                    </div>
-                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
-                </div>
-                <div class="phase-content">
-                    ${d.exercises.map(([name, rx]) => exerciseRow(name, rx)).join('')}
-                </div>
-            </div>
-        `).join('');
-    </script>
+  <div class="footer">
+    <div class="footer-brand">FMS &middot; FITNESS MADE SIMPLIFIED</div>
+    <div class="footer-note">Coach: Sushant &middot; Client: Sunny &middot; Week 4 Program</div>
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.day-tab');
+  const panels = document.querySelectorAll('.day-panel');
+  const dotsContainer = document.getElementById('progress-dots');
+
+  tabs.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot-step' + (i === 0 ? ' done' : '');
+    d.id = 'dot-' + i;
+    dotsContainer.appendChild(d);
+  });
+
+  function showDay(index) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+    panels.forEach((p, i) => p.classList.toggle('active', i === index));
+    document.querySelectorAll('.dot-step').forEach((d, i) => d.classList.toggle('done', i <= index));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
 </body>
 </html>
