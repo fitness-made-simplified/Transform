@@ -91,7 +91,7 @@
 
     <div class="glass note-card">
         <p class="stat-label" style="color:#f59e0b">⚠ Physio Note</p>
-        <p class="note-text">History of shoulder weakness and pain. Shoulder day is programmed light by design — prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
+        <p class="note-text">History of shoulder weakness and pain. Shoulders & Arms day is programmed light by design — prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
     </div>
 
     <div class="stat-grid">
@@ -117,14 +117,14 @@
             return `https://www.youtube.com/results?search_query=${q}`;
         }
 
-        function exerciseRow(name, prescription) {
+        function exerciseRow(name, prescription, query) {
             return `
             <div class="exercise-row">
                 <div>
                     <p class="ex-name">${name}</p>
                     <p class="ex-rx">${prescription}</p>
                 </div>
-                <a href="${ytLink(name)}" target="_blank" class="yt-btn">
+                <a href="${ytLink(query || name)}" target="_blank" class="yt-btn">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Form
                 </a>
             </div>`;
@@ -132,55 +132,55 @@
 
         const days = [
             {
-                title: 'Day 1', subtitle: 'Chest & Triceps',
+                title: 'Day 1', subtitle: 'Shoulders & Arms (Go Light)', caution: true,
                 exercises: [
-                    ['Chest Press Machine', '15 reps x 3 sets'],
-                    ['Cable Crossover', '15 reps x 3 sets'],
-                    ['Chest Fly on Pulley', '15 reps x 3 sets'],
-                    ['Incline Dumbbell Press', '10 reps x 3 sets'],
-                    ['Overhead Extension with Dumbbell', '15 reps x 3 sets'],
-                    ['Rope Push Down', '10 reps x 3 sets'],
-                    ['Pulley Kick Back', '15 reps x 3 sets'],
+                    ['Dumbbell Side Raises', '15 reps x 3 sets', 'dumbbell lateral raise'],
+                    ['Front Raises', '15 reps x 3 sets', 'dumbbell front raise'],
+                    ['Dumbbell Curl', '10 reps x 3 sets', 'dumbbell bicep curl'],
+                    ['Overhead Extension on Pulley', '15 reps x 3 sets', 'cable overhead triceps extension'],
+                    ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
+                    ['Pulley Push Down', '15 reps x 3 sets', 'cable triceps pushdown'],
+                    ['Forearm Curls', '15 reps x 3 sets', 'dumbbell wrist curl forearm'],
                 ]
             },
             {
-                title: 'Day 2', subtitle: 'Back & Biceps',
+                title: 'Day 2', subtitle: 'Legs',
                 exercises: [
-                    ['Lat Pulldown Wide Grip', '15 reps x 3 sets'],
-                    ['Seated Row', '10 reps x 3 sets'],
-                    ['Lat Pulldown Single Arm', '10 reps x 3 sets'],
-                    ['Pulley Pull Down', '15 reps x 3 sets'],
-                    ['Preacher Curl', '15 reps x 3 sets'],
-                    ['Incline Dumbbell Curl', '15 reps x 3 sets'],
-                    ['Hammer Curl', '10 reps x 3 sets'],
+                    ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
+                    ['Leg Curl', '10 reps x 3 sets', 'leg curl machine'],
+                    ['Leg Press', '10 reps x 3 sets', 'leg press machine'],
+                    ['Squats', '15 reps x 3 sets', 'bodyweight squat'],
+                    ['Calf Raises', '15 reps x 3 sets', 'standing calf raise'],
                 ]
             },
             {
-                title: 'Day 3', subtitle: 'Legs',
+                title: 'Day 3', subtitle: 'Chest & Triceps',
                 exercises: [
-                    ['Leg Extension Machine', '15 reps x 3 sets'],
-                    ['Leg Curl', '15 reps x 3 sets'],
-                    ['Leg Press', '10 reps x 3 sets'],
-                    ['Deadlifts', '10 reps x 3 sets'],
-                    ['Calf Raises', '15 reps x 3 sets'],
+                    ['Chest Press Machine', '15 reps x 3 sets', 'chest press machine'],
+                    ['Chest Fly Machine', '15 reps x 3 sets', 'pec deck chest fly machine'],
+                    ['Incline Chest Press', '10 reps x 3 sets', 'incline dumbbell chest press'],
+                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
+                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
+                    ['Single Arm Dumbbell Overhead Extension', '15 reps x 3 sets', 'single arm dumbbell overhead triceps extension'],
                 ]
             },
             {
-                title: 'Day 4', subtitle: 'Shoulders (Go Light)', caution: true,
+                title: 'Day 4', subtitle: 'Back & Biceps',
                 exercises: [
-                    ['Dumbbell Side Raises', '10 reps x 3 sets'],
-                    ['Shoulder Press Machine', '10 reps x 3 sets'],
-                    ['Barbell Upright Row', '10 reps x 3 sets'],
-                    ['Barbell Front Raises', '10 reps x 3 sets'],
-                    ['Shrugs', '15 reps x 3 sets'],
+                    ['T Bar Row', '15 reps x 3 sets', 't bar row'],
+                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
+                    ['Single Arm Dumbbell Row', '10 reps x 3 sets', 'single arm dumbbell row'],
+                    ['Pulley Pull Down', '15 reps x 3 sets', 'straight arm pulldown cable'],
+                    ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
+                    ['Concentration Curl', '15 reps x 3 sets', 'concentration curl'],
                 ]
             },
             {
                 title: 'Alternate Days', subtitle: 'Core',
                 exercises: [
-                    ['Sit Ups', '15 reps x 3 sets'],
-                    ['Scissors', '10 reps x 3 sets'],
-                    ['Bicycle Crunches', '15 reps x 3 sets'],
+                    ['Sit Ups', '15 reps x 3 sets', 'sit ups'],
+                    ['Roman Chair', '15 reps x 3 sets', 'roman chair sit up'],
+                    ['Leg Raises', '15 reps x 3 sets', 'lying leg raises'],
                 ]
             },
         ];
@@ -196,7 +196,7 @@
                     <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
                 </div>
                 <div class="phase-content">
-                    ${d.exercises.map(([name, rx]) => exerciseRow(name, rx)).join('')}
+                    ${d.exercises.map(([name, rx, q]) => exerciseRow(name, rx, q)).join('')}
                 </div>
             </div>
         `).join('');
