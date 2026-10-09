@@ -97,7 +97,7 @@
     <div class="stat-grid">
         <div class="glass stat-box">
             <p class="stat-label">Split</p>
-            <p class="stat-value">4 Day Body Split</p>
+            <p class="stat-value">5 Day Body Split</p>
         </div>
         <div class="glass stat-box">
             <p class="stat-label">Core</p>
@@ -132,55 +132,65 @@
 
         const days = [
             {
-                title: 'Day 1', subtitle: 'Shoulders & Arms (Go Light)', caution: true,
+                title: 'Day 1', subtitle: 'Traps & Back',
                 exercises: [
-                    ['Dumbbell Side Raises', '15 reps x 3 sets', 'dumbbell lateral raise'],
-                    ['Front Raises', '15 reps x 3 sets', 'dumbbell front raise'],
-                    ['Dumbbell Curl', '10 reps x 3 sets', 'dumbbell bicep curl'],
-                    ['Overhead Extension on Pulley', '15 reps x 3 sets', 'cable overhead triceps extension'],
-                    ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
-                    ['Pulley Push Down', '15 reps x 3 sets', 'cable triceps pushdown'],
-                    ['Forearm Curls', '15 reps x 3 sets', 'dumbbell wrist curl forearm'],
+                    ['Warm Up', '5-10 min', 'full body warm up before gym workout'],
+                    ['Rear Fly Machine', '15 reps x 3 sets', 'rear delt fly machine reverse pec deck'],
+                    ['Barbell Upright Row', '10 reps x 3 sets', 'barbell upright row'],
+                    ['Shrugs', '20 reps x 3 sets', 'shrugs traps'],
+                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
+                    ['Seated Row', '10 reps x 3 sets', 'seated cable row'],
+                    ['Close Grip Lat Pulldown', '10 reps x 3 sets', 'close grip lat pulldown'],
                 ]
             },
             {
-                title: 'Day 2', subtitle: 'Legs',
+                title: 'Day 2', subtitle: 'Chest & Triceps',
+                exercises: [
+                    ['Warm Up', '5-10 min', 'chest and shoulder warm up before bench press'],
+                    ['Bench Press', '10 reps x 3 sets', 'barbell bench press'],
+                    ['Incline Bench Press', '10 reps x 3 sets', 'incline barbell bench press'],
+                    ['Chest Fly Machine', '15 reps x 3 sets', 'pec deck chest fly machine'],
+                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
+                    ['Overhead Extension on Pulley', '10 reps x 3 sets', 'cable overhead triceps extension'],
+                    ['Pulley Push Down', '10 reps x 3 sets', 'cable triceps pushdown'],
+                ]
+            },
+            {
+                title: 'Day 3', subtitle: 'Legs & Biceps',
                 exercises: [
                     ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
-                    ['Leg Curl', '10 reps x 3 sets', 'leg curl machine'],
+                    ['Leg Curl', '15 reps x 3 sets', 'leg curl machine'],
                     ['Leg Press', '10 reps x 3 sets', 'leg press machine'],
-                    ['Squats', '15 reps x 3 sets', 'bodyweight squat'],
-                    ['Calf Raises', '15 reps x 3 sets', 'standing calf raise'],
-                ]
-            },
-            {
-                title: 'Day 3', subtitle: 'Chest & Triceps',
-                exercises: [
-                    ['Chest Press Machine', '15 reps x 3 sets', 'chest press machine'],
-                    ['Chest Fly Machine', '15 reps x 3 sets', 'pec deck chest fly machine'],
-                    ['Incline Chest Press', '10 reps x 3 sets', 'incline dumbbell chest press'],
-                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
-                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
-                    ['Single Arm Dumbbell Overhead Extension', '15 reps x 3 sets', 'single arm dumbbell overhead triceps extension'],
-                ]
-            },
-            {
-                title: 'Day 4', subtitle: 'Back & Biceps',
-                exercises: [
-                    ['T Bar Row', '15 reps x 3 sets', 't bar row'],
-                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
-                    ['Single Arm Dumbbell Row', '10 reps x 3 sets', 'single arm dumbbell row'],
-                    ['Pulley Pull Down', '15 reps x 3 sets', 'straight arm pulldown cable'],
                     ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
-                    ['Concentration Curl', '15 reps x 3 sets', 'concentration curl'],
+                    ['Concentration Curl', '10 reps x 3 sets', 'concentration curl'],
+                ]
+            },
+            {
+                title: 'Day 4', subtitle: 'Shoulders', caution: true,
+                exercises: [
+                    ['Side Raises', '15 reps x 3 sets', 'dumbbell lateral raise'],
+                    ['Front Raises on Rope', '15 reps x 3 sets', 'cable rope front raise'],
+                    ['Shoulder Press Machine', '10 reps x 3 sets', 'shoulder press machine'],
+                    ['Arnold Press', '10 reps x 3 sets', 'dumbbell arnold press'],
+                ]
+            },
+            {
+                title: 'Day 5', subtitle: 'Arms', caution: true,
+                exercises: [
+                    ['Barbell Curl', '10 reps x 3 sets', 'barbell bicep curl'],
+                    ['Overhead Extension Dumbbell', '10 reps x 3 sets', 'dumbbell overhead triceps extension'],
+                    ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
+                    ['Tricep Dips', '15 reps x 3 sets', 'triceps dips'],
+                    ['Waiter Curl', '15 reps x 3 sets', 'waiter curl dumbbell'],
+                    ['Rope Push Down', '10 reps x 3 sets', 'rope triceps pushdown'],
                 ]
             },
             {
                 title: 'Alternate Days', subtitle: 'Core',
                 exercises: [
-                    ['Sit Ups', '15 reps x 3 sets', 'sit ups'],
-                    ['Roman Chair', '15 reps x 3 sets', 'roman chair sit up'],
                     ['Leg Raises', '15 reps x 3 sets', 'lying leg raises'],
+                    ['Crunches', '15 reps x 3 sets', 'crunches abs'],
+                    ['Sit Ups', '10 reps x 3 sets', 'sit ups'],
                 ]
             },
         ];
