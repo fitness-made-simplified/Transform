@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMS | Amit's Wife Training Protocol</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        * { box-sizing: border-box; }
+        body {
+            background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif;
+            margin: 0; padding: 24px; padding-bottom: 64px; -webkit-tap-highlight-color: transparent;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+        }
+
+        header { margin-bottom: 24px; }
+        .back-link {
+            color: #f43f5e; font-weight: 900; text-transform: uppercase; font-size: 10px;
+            letter-spacing: 0.15em; margin-bottom: 24px; display: block;
+        }
+        h1 { font-size: 36px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
+        .subtitle { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.2em; margin-top: 12px; }
+
+        .note-card {
+            padding: 20px; margin-bottom: 32px;
+            border-left: 4px solid #f59e0b; background: rgba(245,158,11,0.06);
+        }
+        .note-card p:first-child { color: #f59e0b; }
+        .note-text { font-size: 12px; color: #d4d4d4; font-style: italic; line-height: 1.6; margin: 8px 0 0; }
+
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+        .stat-box { padding: 16px; }
+        .stat-value { font-size: 14px; font-weight: 900; font-style: italic; text-transform: uppercase; margin: 4px 0 0; }
+
+        .stat-label { font-size: 8px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.1em; margin: 0; }
+
+        .day-list { display: flex; flex-direction: column; gap: 16px; }
+        .phase-card {
+            padding: 24px; cursor: pointer;
+            border-left: 4px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .phase-card.active { border-left: 4px solid #e11d48; background: rgba(225, 29, 72, 0.05); }
+        .phase-head { display: flex; justify-content: space-between; align-items: center; }
+        .phase-day-label { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 4px; color: #f43f5e; }
+        .phase-day-label.caution { color: #f59e0b; }
+        .phase-title { font-size: 20px; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 1; margin: 0; }
+        .chevron { transition: transform 0.3s ease; color: #e11d48; flex-shrink: 0; }
+        .phase-card.active .chevron { transform: rotate(180deg); }
+        .phase-card:not(.active) .phase-content { max-height: 0; opacity: 0; overflow: hidden; padding-top: 0; }
+        .phase-card.active .phase-content { max-height: 3000px; opacity: 1; padding-top: 16px; transition: all 0.4s ease; }
+
+        .circuit-label {
+            font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em;
+            color: #f43f5e; margin: 16px 0 0; padding-bottom: 4px;
+            border-bottom: 1px solid rgba(225,29,72,0.25);
+        }
+        .circuit-label:first-child { margin-top: 0; }
+
+        .exercise-row {
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+        .exercise-row:last-child { border-bottom: none; }
+        .ex-name { font-size: 13px; font-weight: 700; color: #f5f5f5; margin: 0; }
+        .ex-rx { font-size: 10px; color: #737373; text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; margin: 4px 0 0; }
+        .yt-btn {
+            flex-shrink: 0; display: flex; align-items: center; gap: 4px;
+            background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.25);
+            padding: 8px 12px; border-radius: 8px; font-size: 9px; font-weight: 900;
+            text-transform: uppercase; color: #fb7185;
+        }
+        .yt-btn:active { transform: scale(0.95); }
+
+        .cta-btn {
+            width: 100%; margin-top: 32px; padding: 16px; border-radius: 16px;
+            font-weight: 900; text-transform: uppercase; font-size: 14px; letter-spacing: 0.1em;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #e11d48 0%, #9f1239 100%); color: #fff;
+        }
+        .cta-btn:active { transform: scale(0.97); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="profile.html?id=AmitWife" class="back-link">← Exit Protocol</a>
+        <h1>Amit's Wife</h1>
+        <p class="subtitle">Coached By Sushant · FMS</p>
+    </header>
+
+    <div class="glass note-card">
+        <p class="stat-label" style="color:#f59e0b">⚠ Physio Note</p>
+        <p class="note-text">History of low back pain and sciatica. Beginner plan — machines only, light load, slow controlled tempo. Keep your back supported against the pad, do not arch the lower back, and never force a stretch. Stop any movement that causes sharp pain, or tingling / numbness travelling down the leg, and report it to Coach Sushant.</p>
+    </div>
+
+    <div class="stat-grid">
+        <div class="glass stat-box">
+            <p class="stat-label">Split</p>
+            <p class="stat-value">5 Day Machine Plan</p>
+        </div>
+        <div class="glass stat-box">
+            <p class="stat-label">Target</p>
+            <p class="stat-value" style="color:#f43f5e">Strength & Stamina</p>
+        </div>
+    </div>
+
+    <div id="protocolContainer" class="day-list"></div>
+
+    <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20have%20a%20question%20about%20my%20workout%20plan." class="cta-btn">
+        Message Coach Sushant
+    </a>
+
+    <script>
+        function ytLink(name) {
+            const q = encodeURIComponent(name + ' correct form tutorial');
+            return `https://www.youtube.com/results?search_query=${q}`;
+        }
+
+        function exerciseRow(name, prescription, query) {
+            return `
+            <div class="exercise-row">
+                <div>
+                    <p class="ex-name">${name}</p>
+                    <p class="ex-rx">${prescription}</p>
+                </div>
+                <a href="${ytLink(query || name)}" target="_blank" class="yt-btn">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Form
+                </a>
+            </div>`;
+        }
+
+        // A string item = section label. An array item = [name, prescription, youtubeQuery]
+        const days = [
+            {
+                title: 'Daily · Before Every Workout', subtitle: 'Total Body Stretches',
+                exercises: [
+                    'Warm Up Stretches · Slow & Gentle',
+                    ['Neck Rolls', '5 each direction', 'gentle neck rolls stretch'],
+                    ['Shoulder Rolls', '10 forward + 10 back', 'shoulder rolls warm up'],
+                    ['Arm Circles', '10 each direction', 'arm circles warm up'],
+                    ['Standing Side Bend', '8 each side', 'standing side bend stretch'],
+                    ['Cat Cow', '10 slow reps', 'cat cow stretch'],
+                    ['Pelvic Tilts (Lying)', '10 reps', 'pelvic tilts lying back pain'],
+                    ['Hip Circles', '10 each direction', 'standing hip circles warm up'],
+                    ['Standing Leg Swings (Hold Support)', '10 each leg', 'standing leg swings warm up'],
+                ]
+            },
+            {
+                title: 'Day 1', subtitle: 'Upper Body Circuit', caution: true, tag: 'Light Weight',
+                exercises: [
+                    'Warm Up',
+                    ['Treadmill Walk', '10 mins', 'treadmill walking warm up'],
+                    'Upper Body Circuit · Light Weight',
+                    ['Chest Press Machine', '15 reps x 2 sets', 'chest press machine'],
+                    ['Lat Pulldown Machine', '15 reps x 2 sets', 'lat pulldown'],
+                    ['Chest Fly Machine', '10 reps x 2 sets', 'pec deck chest fly machine'],
+                    ['Seated Row', '15 reps x 2 sets', 'seated cable row'],
+                    ['Dumbbell Curl', '15 reps x 2 sets', 'dumbbell bicep curl'],
+                    ['Overhead Extension (Dumbbell)', '15 reps x 2 sets', 'dumbbell overhead triceps extension'],
+                ]
+            },
+            {
+                title: 'Day 2', subtitle: 'Legs',
+                exercises: [
+                    'Warm Up',
+                    ['Bike or Cross Trainer', '10 mins', 'stationary bike cross trainer warm up'],
+                    'Leg Machines',
+                    ['Leg Extension Machine', '15 reps x 2 sets', 'leg extension machine'],
+                    ['Leg Curl', '15 reps x 2 sets', 'leg curl machine'],
+                    ['Adductor Machine', '15 reps x 2 sets', 'hip adductor machine'],
+                    ['Abductor Machine', '15 reps x 2 sets', 'hip abductor machine'],
+                ]
+            },
+            {
+                title: 'Day 3', subtitle: 'Cardio Day',
+                exercises: [
+                    ['Treadmill', '10 mins', 'treadmill walking beginner'],
+                    ['Cross Trainer', '7 mins', 'cross trainer elliptical beginner'],
+                    ['Bike', '7 mins', 'stationary bike beginner'],
+                ]
+            },
+            {
+                title: 'Day 4', subtitle: 'Upper Body 2',
+                exercises: [
+                    'Warm Up',
+                    ['Treadmill Walk', '10 mins', 'treadmill walking warm up'],
+                    'Upper Body Machines',
+                    ['Shoulder Press Machine', '10 reps x 2 sets', 'shoulder press machine'],
+                    ['Chest Press Machine', '10 reps x 2 sets', 'chest press machine'],
+                    ['Lat Pulldown', '15 reps x 2 sets', 'lat pulldown'],
+                    ['Chest Fly Machine', '15 reps x 2 sets', 'pec deck chest fly machine'],
+                    ['Seated Row', '15 reps x 2 sets', 'seated cable row'],
+                ]
+            },
+            {
+                title: 'Day 5', subtitle: 'Legs 2',
+                exercises: [
+                    'Warm Up',
+                    ['Bike or Cross Trainer', '7 mins', 'stationary bike cross trainer warm up'],
+                    'Leg Machines',
+                    ['Leg Extension Machine', '15 reps x 2 sets', 'leg extension machine'],
+                    ['Leg Curl Machine', '15 reps x 2 sets', 'leg curl machine'],
+                    ['Adductor Machine', '15 reps x 2 sets', 'hip adductor machine'],
+                    ['Abductor Machine', '15 reps x 2 sets', 'hip abductor machine'],
+                ]
+            },
+            {
+                title: 'Alternate Days', subtitle: 'Abs', caution: true, tag: 'Back Safe',
+                exercises: [
+                    'Keep lower back flat on the mat · Bend knees if it arches',
+                    ['Crunches', '15 reps x 2 sets', 'abdominal crunches beginner'],
+                    ['Leg Raises', '15 reps x 2 sets', 'lying leg raises beginner lower back safe'],
+                ]
+            },
+            {
+                title: 'Daily · After Every Workout', subtitle: 'Total Body Stretches',
+                exercises: [
+                    'Cool Down · Hold Each 20–30 Sec · Gentle, No Pain',
+                    ['Chest Doorway Stretch', 'Hold 20–30 sec', 'doorway chest stretch'],
+                    ['Overhead Side Stretch (Lats)', 'Hold 20–30 sec each side', 'standing overhead side stretch lats'],
+                    ['Triceps Stretch', 'Hold 20 sec each arm', 'overhead triceps stretch'],
+                    ['Knee To Chest (Lying)', 'Hold 20–30 sec each leg', 'lying knee to chest stretch lower back'],
+                    ['Figure 4 Glute Stretch (Lying)', 'Hold 20–30 sec each side', 'supine figure 4 piriformis stretch'],
+                    ['Hamstring Stretch With Towel (Lying)', 'Hold 20–30 sec each leg', 'lying hamstring stretch with towel'],
+                    ['Hip Flexor Stretch (Half Kneeling)', 'Hold 20–30 sec each side', 'half kneeling hip flexor stretch'],
+                    ['Standing Quad Stretch', 'Hold 20–30 sec each leg', 'standing quad stretch'],
+                    ['Calf Stretch', 'Hold 30 sec each leg', 'standing calf stretch'],
+                    ['Child\'s Pose', 'Hold 30 sec', 'child pose stretch'],
+                ]
+            },
+        ];
+
+        function renderContent(d) {
+            return d.exercises.map(item =>
+                typeof item === 'string'
+                    ? `<p class="circuit-label">${item}</p>`
+                    : exerciseRow(item[0], item[1], item[2])
+            ).join('');
+        }
+
+        const container = document.getElementById('protocolContainer');
+        container.innerHTML = days.map((d, i) => `
+            <div class="glass phase-card ${i === 0 ? 'active' : ''}" onclick="this.classList.toggle('active')">
+                <div class="phase-head">
+                    <div>
+                        <p class="phase-day-label ${d.caution ? 'caution' : ''}">${d.title}${d.tag ? ' · ' + d.tag : ''}</p>
+                        <h3 class="phase-title">${d.subtitle}</h3>
+                    </div>
+                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <div class="phase-content">
+                    ${renderContent(d)}
+                </div>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>
