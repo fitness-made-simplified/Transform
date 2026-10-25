@@ -91,7 +91,7 @@
 
     <div class="glass note-card">
         <p class="stat-label" style="color:#f59e0b">⚠ Physio Note</p>
-        <p class="note-text">History of shoulder weakness and pain. Shoulders & Arms days are programmed light by design — prioritize strict form and controlled tempo over load, especially on presses, overhead work and dips. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
+        <p class="note-text">History of shoulder weakness and pain. Arms & Shoulders day (Day 3) is programmed light by design, and the same applies to Shoulder Press on Day 5 — prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
     </div>
 
     <div class="stat-grid">
@@ -132,69 +132,66 @@
 
         const days = [
             {
-                title: 'Day 1', subtitle: 'Chest & Triceps',
+                title: 'Day 1', subtitle: 'Chest & Back',
                 exercises: [
-                    ['Warm Up', '5-10 min', 'chest day warm up routine'],
-                    ['Cable Crossover (Light Pump)', '25 reps x 2 sets', 'cable crossover chest'],
-                    ['Bench Press', '10 reps x 3 sets', 'barbell bench press'],
-                    ['Cable Fly', '15 reps x 3 sets', 'cable chest fly'],
-                    ['Incline Dumbbell Chest Press', '10 reps x 3 sets', 'incline dumbbell chest press'],
-                    ['Incline Cable Fly', '15 reps x 3 sets', 'incline cable fly'],
-                    ['Overhead Extension Dumbbell', '10 reps x 3 sets', 'dumbbell overhead triceps extension'],
-                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
+                    ['Warm Up', '5–10 mins', 'dynamic warm up before gym workout'],
+                    ['Chest Press Machine / Bench Press', '15 reps x 3 sets', 'chest press machine'],
+                    ['Chest Fly', '15 reps x 3 sets', 'pec deck chest fly machine'],
+                    ['Incline Dumbbell Press', '10 reps x 3 sets', 'incline dumbbell chest press'],
+                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
+                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
+                    ['Seated Row', '10 reps x 3 sets', 'seated cable row'],
+                    ['Single Arm Dumbbell Row', '10 reps x 3 sets', 'single arm dumbbell row'],
+                    ['Hyper Extension', '10 reps x 3 sets', 'back hyperextension'],
                 ]
             },
             {
                 title: 'Day 2', subtitle: 'Legs',
                 exercises: [
-                    ['Warm Up', '5-10 min', 'leg day warm up routine'],
                     ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
                     ['Leg Curl', '15 reps x 3 sets', 'leg curl machine'],
-                    ['Leg Press', '10 reps x 3 sets', 'leg press machine'],
-                    ['Goblet Squats', '10 reps x 3 sets', 'goblet squat'],
+                    ['Barbell Squats', '10 reps x 3 sets', 'barbell back squat'],
+                    ['Leg Press', '15 reps x 3 sets', 'leg press machine'],
                     ['Calf Raises', '15 reps x 3 sets', 'standing calf raise'],
                 ]
             },
             {
-                title: 'Day 3', subtitle: 'Back & Biceps',
+                title: 'Day 3', subtitle: 'Arms & Shoulders (Go Light)', caution: true,
                 exercises: [
-                    ['T Bar Row', '10 reps x 3 sets', 't bar row'],
-                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
-                    ['Seated Row', '10 reps x 3 sets', 'seated cable row'],
-                    ['Single Arm Lat Pulldown', '15 reps x 3 sets', 'single arm lat pulldown cable'],
-                    ['Preacher Curl', '10 reps x 3 sets', 'preacher curl'],
+                    ['Dumbbell Curl', '10 reps x 3 sets', 'dumbbell bicep curl'],
                     ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
+                    ['Pulley Push Down', '10 reps x 3 sets', 'cable triceps pushdown'],
+                    ['Overhead Extension', '15 reps x 3 sets', 'cable overhead triceps extension'],
+                    ['Single Arm Dumbbell Overhead Extension', '15 reps x 3 sets', 'single arm dumbbell overhead triceps extension'],
+                    ['Dumbbell Side Raises', '10 reps x 3 sets', 'dumbbell lateral raise'],
+                    ['Front Raises', '15 reps x 3 sets', 'dumbbell front raise'],
                 ]
             },
             {
-                title: 'Day 4', subtitle: 'Shoulders (Go Light)', caution: true,
+                title: 'Day 4', subtitle: 'Legs Bonus',
                 exercises: [
-                    ['Warm Up', '5-10 min', 'shoulder warm up mobility routine'],
-                    ['Dumbbell Side Raises', '15 reps x 3 sets', 'dumbbell lateral raise'],
-                    ['Cable Side Raises', '10 reps x 3 sets', 'cable lateral raise'],
-                    ['Arnold Press', '10 reps x 3 sets', 'arnold press'],
-                    ['Front Raises With Plate', '10 reps x 3 sets', 'plate front raise'],
-                    ['Shrugs', '15 reps x 3 sets', 'dumbbell shrugs'],
+                    ['Leg Extension Machine', '15 reps x 4 sets', 'leg extension machine'],
+                    ['Lunges', '10 reps x 3 sets (each leg)', 'dumbbell lunges'],
+                    ['Sumo Squats', '15 reps x 3 sets', 'sumo squat'],
+                    ['Deadlifts', '10 reps x 3 sets', 'deadlift correct form'],
                 ]
             },
             {
-                title: 'Day 5', subtitle: 'Arms (Go Light)', caution: true,
+                title: 'Day 5', subtitle: 'Upper Body Bonus',
                 exercises: [
-                    ['Warm Up', '5-10 min', 'arm day warm up routine'],
-                    ['Incline Dumbbell Curl', '15 reps x 3 sets', 'incline dumbbell curl'],
-                    ['Skull Crusher', '10 reps x 3 sets', 'skull crusher triceps'],
-                    ['Preacher Curl', '10 reps x 3 sets', 'preacher curl'],
-                    ['Overhead Extension Pulley', '10 reps x 3 sets', 'cable overhead triceps extension'],
-                    ['Tricep Dips', '10 reps x 3 sets', 'tricep dips parallel bar'],
-                    ['Pulley Curl', '10 reps x 3 sets', 'cable bicep curl'],
+                    ['Chest Press', '15 reps x 3 sets', 'chest press machine'],
+                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
+                    ['Shoulder Press Machine', '10 reps x 3 sets', 'shoulder press machine'],
+                    ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
+                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
                 ]
             },
             {
                 title: 'Alternate Days', subtitle: 'Core',
                 exercises: [
-                    ['Pulley Crunches', '15 reps x 3 sets', 'cable crunch'],
-                    ['Hanging Leg Raises', '10 reps x 3 sets', 'hanging leg raise'],
-                    ['Roman Chair', '10 reps x 3 sets', 'roman chair sit up'],
+                    ['Bicycle Crunches', '15 reps x 3 sets', 'bicycle crunches'],
+                    ['Russian Twist', '15 reps x 3 sets', 'russian twist'],
+                    ['Sit Ups', '15 reps x 3 sets', 'sit ups'],
                 ]
             },
         ];
