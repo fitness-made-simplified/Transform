@@ -99,7 +99,7 @@
 
     <div class="glass note-card">
         <p class="stat-label" style="color:#f59e0b">⚠ Coach Note</p>
-        <p class="note-text">Week 2 — strength work gets heavier and the volume goes up. Keep strict form and a controlled tempo on every rep. On Day 2, Leg Press is a heavy pyramid (10, 8, 6, 4, 2 reps) — add weight as the reps come down. On Day 5, do 25 squats after every exercise. Stop any movement that causes sharp or pinching pain and report it to Coach Sushant.</p>
+        <p class="note-text">Week 3 — intensity goes up. Keep rest short on HIIT and superset days, and go genuinely heavy on the leg press and sumo squat sets while keeping form strict. Stop any movement that causes sharp or pinching pain and report it to Coach Sushant.</p>
     </div>
 
     <div class="stat-grid">
@@ -109,7 +109,7 @@
         </div>
         <div class="glass stat-box">
             <p class="stat-label">Phase</p>
-            <p class="stat-value" style="color:#f43f5e">Week 2</p>
+            <p class="stat-value" style="color:#f43f5e">Week 3</p>
         </div>
     </div>
 
@@ -141,121 +141,102 @@
         // A string item = circuit / section label. An array item = [name, prescription, youtubeQuery]
         const days = [
             {
-                title: 'Day 1 · Monday', subtitle: 'Upper Strength',
+                title: 'Day 1 · Monday', subtitle: 'Cardio HIIT Core',
                 exercises: [
                     'Warm Up',
-                    ['Upper Body Warm Up', 'Light cardio + mobility', 'upper body workout warm up'],
-                    'Strength · 3 Sets Each',
-                    ['Dumbbell Chest Press', '15 reps x 3 sets', 'dumbbell chest press'],
-                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
-                    ['Dumbbell Shoulder Press', '15 reps x 3 sets', 'dumbbell shoulder press'],
-                    ['Dumbbell Curl', '15 reps x 3 sets', 'dumbbell bicep curl'],
-                    ['Overhead Extension', '15 reps x 3 sets', 'dumbbell overhead triceps extension'],
+                    ['Stretches', 'Full body', 'full body dynamic stretches warm up'],
                     'Circuit A · 3 Rounds',
-                    ['Burpees', '10 reps', 'burpees'],
-                    ['Push Ups', '15 reps', 'push ups'],
-                    'Circuit B · 3 Rounds',
                     ['Mountain Climbers', '25 reps each side', 'mountain climbers'],
-                    ['Shoulder Taps', '15 reps each side', 'plank shoulder taps'],
-                    'Core · 3 Sets Each',
-                    ['Sit Ups', '15 reps x 3 sets', 'sit ups'],
-                    ['Leg Raises', '15 reps x 3 sets', 'lying leg raises'],
-                    ['Russian Twists', '15 reps x 3 sets', 'russian twist'],
-                    'Cardio Cool Down',
-                    ['Incline Treadmill Walk', '10 mins', 'incline treadmill walking'],
-                ]
-            },
-            {
-                title: 'Day 2', subtitle: 'Legs',
-                exercises: [
-                    'Warm Up',
-                    ['Lower Body Warm Up', 'Light cardio + mobility', 'lower body workout warm up'],
-                    'Strength',
-                    ['Walking Lunges', '100 steps · holding 5 kg plate / dumbbell', 'dumbbell walking lunges'],
-                    ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
-                    ['Leg Curl Machine', '15 reps x 3 sets', 'leg curl machine'],
-                    ['Leg Press (Heavy)', '10, 8, 6, 4, 2 reps', 'leg press machine'],
-                    ['Hip Thrusts', '10 reps x 3 sets', 'hip thrust'],
-                    'Circuit A · 3 Rounds',
-                    ['Jump Squats', '15 reps', 'jump squats'],
-                    ['Donkey Kicks', '15 reps each leg', 'donkey kicks'],
+                    ['Sit Ups', '25 reps', 'sit ups'],
+                    'Sprint',
+                    ['Treadmill Sprint', '500 mtrs', 'treadmill sprint interval'],
                     'Circuit B · 3 Rounds',
-                    ['Rockers', '25 reps', 'rockers abs exercise'],
-                    ['Dead Bugs', '15 reps each side', 'dead bug exercise'],
-                    'Core · 3 Sets Each',
-                    ['Bicycle Crunches', '15 reps each side', 'bicycle crunches'],
-                    ['Scissors', '15 reps each side', 'scissor kicks abs'],
-                    'Cardio Cool Down',
-                    ['Cross Trainer', '10 mins', 'cross trainer elliptical'],
+                    ['Plank Jacks', '25 reps', 'plank jacks'],
+                    ['Leg Raises', '25 reps', 'lying leg raises'],
+                    'Cardio Burst',
+                    ['Jumping Jacks', '100 reps', 'jumping jacks'],
+                    'Circuit C · 3 Rounds',
+                    ['Burpees', '10 reps', 'burpees'],
+                    ['Bicycle Crunches', '25 reps each side', 'bicycle crunches'],
+                    'Finisher',
+                    ['Cross Trainer', '200 cals', 'cross trainer elliptical'],
                 ]
             },
             {
-                title: 'Day 3', subtitle: 'Cardio Day',
-                exercises: [
-                    ['Treadmill Brisk Walk', '2 km', 'treadmill brisk walking'],
-                    ['Cross Trainer', '15 mins', 'cross trainer elliptical'],
-                    ['Treadmill Incline Max Walk', '2 km · max incline', 'incline treadmill walking'],
-                    ['Plank Hold', 'Target 3 mins total', 'plank hold'],
-                ]
-            },
-            {
-                title: 'Day 4', subtitle: 'Arms Day',
+                title: 'Day 2', subtitle: 'Upper Body Strength',
                 exercises: [
                     'Warm Up',
                     ['Upper Body Warm Up', 'Light cardio + mobility', 'upper body workout warm up'],
-                    'Superset A · 3 Rounds',
-                    ['Dumbbell Curl', '15 reps', 'dumbbell bicep curl'],
-                    ['Overhead Extension', '15 reps', 'dumbbell overhead triceps extension'],
-                    'Superset B · 3 Rounds',
-                    ['Hammer Curl', '15 reps', 'dumbbell hammer curl'],
-                    ['Tricep Dips', '15 reps', 'bench tricep dips'],
                     'Strength · 3 Sets Each',
-                    ['Preacher Curl', '25 reps x 3 sets', 'preacher curl'],
-                    ['Rope Push Down', '25 reps x 3 sets', 'cable rope triceps pushdown'],
-                    'Core · 3 Sets Each',
-                    ['Ab Crunches', '25 reps x 3 sets', 'ab crunches'],
-                    ['Leg Raises', '15 reps x 3 sets', 'lying leg raises'],
-                    ['Bicycle Crunches', '15 reps x 3 sets', 'bicycle crunches'],
+                    ['Dumbbell Chest Fly', '15 reps x 3 sets', 'dumbbell chest fly'],
+                    ['Dumbbell Chest Press', '15 reps x 3 sets', 'dumbbell chest press'],
+                    ['Lat Pulldown (Wide Grip)', '15 reps x 3 sets', 'wide grip lat pulldown'],
+                    ['Seated Row', '15 reps x 3 sets', 'seated cable row'],
+                    ['Single Arm Dumbbell Row', '15 reps x 3 sets', 'single arm dumbbell row'],
+                    'Superset A · 3 Rounds',
+                    ['Tricep Dips', '20 reps', 'bench tricep dips'],
+                    ['Overhead Extension', '20 reps', 'dumbbell overhead triceps extension'],
+                    'Superset B · 3 Rounds',
+                    ['Dumbbell Curl', '20 reps', 'dumbbell bicep curl'],
+                    ['Hammer Curl', '20 reps', 'dumbbell hammer curl'],
                 ]
             },
             {
-                title: 'Day 5', subtitle: 'Legs · Squat Rule',
+                title: 'Day 3', subtitle: 'Legs',
                 exercises: [
                     'Warm Up',
                     ['Lower Body Warm Up', 'Light cardio + mobility', 'lower body workout warm up'],
-                    'Rule · 25 Squats After Every Exercise',
-                    ['Squats', '25 reps', 'bodyweight squats'],
-                    ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
-                    ['Squats', '25 reps', 'bodyweight squats'],
-                    ['Leg Curl Machine', '15 reps x 3 sets', 'leg curl machine'],
-                    ['Squats', '25 reps', 'bodyweight squats'],
-                    ['Leg Press', '15 reps x 3 sets', 'leg press machine'],
-                    ['Squats', '25 reps', 'bodyweight squats'],
-                    'Cardio Finisher · Choose Any One',
-                    ['Bike', '20 mins', 'stationary bike workout'],
-                    ['Cross Trainer', '20 mins', 'cross trainer elliptical'],
-                    ['Stairmaster', '20 mins', 'stairmaster machine'],
+                    'Activation',
+                    ['Bodyweight Squats', '100 reps', 'bodyweight squats'],
+                    'Strength · 3 Sets Each',
+                    ['Leg Extension', '15 reps x 3 sets', 'leg extension machine'],
+                    ['Leg Curl', '15 reps x 3 sets', 'leg curl machine'],
+                    'Heavy Work',
+                    ['Leg Press Machine', '10 reps x 6 sets · Heavy', 'leg press machine'],
+                    ['Sumo Squats Holding Dumbbell', '15, 12, 10, 8, 6 reps · Heavy', 'dumbbell sumo squat'],
+                    'Finisher',
+                    ['Walking Lunges', '100 steps', 'walking lunges'],
+                    ['Stairmaster / Bike / Cross Trainer', '15 mins', 'stairmaster workout'],
                 ]
             },
             {
-                title: 'Day 6', subtitle: 'Chest + Back',
+                title: 'Day 4', subtitle: 'Steady Pace Cardio',
+                exercises: [
+                    ['Steady Pace Cardio', '7 km target in 40 mins', 'steady state cardio'],
+                ]
+            },
+            {
+                title: 'Day 5', subtitle: 'Upper Body · Arms Toner',
                 exercises: [
                     'Warm Up',
                     ['Upper Body Warm Up', 'Light cardio + mobility', 'upper body workout warm up'],
-                    'Chest · 3 Sets Each',
-                    ['Chest Press Machine', '15 reps x 3 sets', 'chest press machine'],
-                    ['Chest Fly Machine', '15 reps x 3 sets', 'pec deck chest fly machine'],
-                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
-                    'Back · 3 Sets Each',
-                    ['Lat Pulldown (Wide Grip)', '15 reps x 3 sets', 'wide grip lat pulldown'],
-                    ['Lat Pulldown (Close Grip)', '15 reps x 3 sets', 'close grip lat pulldown'],
-                    ['Seated Row', '15 reps x 3 sets', 'seated cable row'],
-                    'Core Circuit · 3 Rounds',
-                    ['Russian Twists', '15 reps', 'russian twist'],
-                    ['Bicycle Crunches', '15 reps', 'bicycle crunches'],
-                    ['Scissors', '15 reps', 'scissor kicks abs'],
-                    'Core · 3 Sets',
-                    ['Side Plank Hip Drops', '15 reps x 3 sets', 'side plank hip drops'],
+                    'Biceps · 3 Sets Each',
+                    ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
+                    ['Dumbbell Curl', '15 reps x 3 sets', 'dumbbell bicep curl'],
+                    ['Barbell Curl', '15 reps x 3 sets', 'barbell curl'],
+                    ['Hammer Curl', '15 reps x 3 sets', 'dumbbell hammer curl'],
+                    'Triceps · 3 Sets Each',
+                    ['Overhead Extension', '15 reps x 3 sets', 'dumbbell overhead triceps extension'],
+                    ['Tricep Dips', '15 reps x 3 sets', 'bench tricep dips'],
+                    ['Rope Push Down', '15 reps x 3 sets', 'cable rope triceps pushdown'],
+                    ['Close Grip Push Ups', '15 reps x 3 sets', 'close grip push ups'],
+                ]
+            },
+            {
+                title: 'Day 6', subtitle: 'Core + Legs',
+                exercises: [
+                    'Warm Up',
+                    ['Lower Body Warm Up', 'Light cardio + mobility', 'lower body workout warm up'],
+                    'Glutes + Legs · 3 Sets Each',
+                    ['Donkey Kicks', '15 reps x 3 sets', 'donkey kicks'],
+                    ['Fire Hydrants', '15 reps x 3 sets', 'fire hydrant exercise'],
+                    ['Hip Thrusts', '15 reps x 3 sets', 'hip thrust'],
+                    ['Deadlift', '10 reps x 3 sets', 'deadlift form'],
+                    'Core · 3 Sets Each',
+                    ['Sit Ups', '10 reps x 3 sets', 'sit ups'],
+                    ['Leg Raises', '15 reps x 3 sets', 'lying leg raises'],
+                    ['Russian Twists', '15 reps x 3 sets', 'russian twists'],
+                    ['Plank Hold', '1 min x 3 sets (or 3 mins total)', 'plank hold'],
                 ]
             },
         ];
