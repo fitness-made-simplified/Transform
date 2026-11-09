@@ -91,13 +91,13 @@
 
     <div class="glass note-card">
         <p class="stat-label" style="color:#f59e0b">⚠ Physio Note</p>
-        <p class="note-text">Prioritize strict form and controlled tempo on all exercises. Stop any movement that reproduces sharp or pinching pain and report it immediately to Coach Sushant.</p>
+        <p class="note-text">History of shoulder weakness and pain. On shoulder days (Day 2 & Day 5) prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
     </div>
 
     <div class="stat-grid">
         <div class="glass stat-box">
             <p class="stat-label">Split</p>
-            <p class="stat-value">4 Day Body Split</p>
+            <p class="stat-value">5 Day Body Split</p>
         </div>
         <div class="glass stat-box">
             <p class="stat-label">Core</p>
@@ -132,57 +132,68 @@
 
         const days = [
             {
-                title: 'Day 1', subtitle: 'Arms',
+                title: 'Day 1', subtitle: 'Legs & Traps',
                 exercises: [
-                    ['Warm Up', 'Dynamic Warm-Up Routine', 'full body dynamic warm up'],
-                    ['Preacher Curl (Biceps Activation)', '25, 20, 15 reps', 'preacher curl'],
-                    ['Rope Push Down (Triceps Activation)', '25, 20, 15 reps', 'rope triceps pushdown'],
-                    ['Barbell Curl', '10 reps x 3 sets', 'barbell bicep curl'],
-                    ['Overhead Extension', '10 reps x 3 sets', 'overhead triceps extension'],
-                    ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
-                    ['Tricep Dips', '10 reps x 3 sets', 'triceps dips'],
-                    ['Forearm Curl', '15 reps x 3 sets', 'dumbbell wrist forearm curl'],
-                ]
-            },
-            {
-                title: 'Day 2', subtitle: 'Legs',
-                exercises: [
-                    ['Warm Up', 'Dynamic Warm-Up Routine', 'lower body dynamic warm up'],
-                    ['Leg Extension', '15 reps x 3 sets', 'leg extension machine'],
+                    ['Warm Up', '5–10 min', 'full body warm up before workout'],
+                    ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
                     ['Leg Curl', '15 reps x 3 sets', 'leg curl machine'],
-                    ['Leg Press', '10 reps x 6 sets', 'leg press machine'],
-                    ['Calf Raises', '15 reps x 3 sets', 'standing calf raise'],
+                    ['Leg Press', '10 reps x 4 sets', 'leg press machine'],
+                    ['Barbell Shrugs', '15 reps x 3 sets', 'barbell shrugs'],
+                    ['Barbell Upright Row', '10 reps x 3 sets', 'barbell upright row'],
                 ]
             },
             {
-                title: 'Day 3', subtitle: 'Chest & Triceps',
+                title: 'Day 2', subtitle: 'Back & Shoulders', caution: true, cautionLabel: 'Strict Form',
                 exercises: [
-                    ['Warm Up', 'Dynamic Warm-Up Routine', 'upper body dynamic warm up'],
-                    ['Bench Press / Chest Press Machine', '10 reps x 3 sets', 'barbell bench press chest press machine'],
-                    ['Incline Press', '15 reps x 3 sets', 'incline dumbbell chest press'],
-                    ['Chest Fly', '15 reps x 3 sets', 'dumbbell chest fly'],
-                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
-                    ['Skull Crusher', '15 reps x 3 sets', 'skull crusher triceps'],
-                    ['Overhead Extension on Pulley', '15 reps x 3 sets', 'cable overhead triceps extension'],
+                    ['Warm Up', '5–10 min', 'shoulder warm up before workout'],
+                    ['T Bar Row / Seated Row', '15 reps x 3 sets', 't bar row'],
+                    ['Lat Pulldown', '10 reps x 3 sets', 'lat pulldown'],
+                    ['Single Arm Lat Pulldown', '15 reps x 3 sets', 'single arm lat pulldown cable'],
+                    ['Shoulder Press', '10 reps x 3 sets', 'dumbbell shoulder press'],
+                    ['Dumbbell Side Raises', '15 reps x 3 sets', 'dumbbell lateral raise'],
+                    ['Barbell Front Raises', '15 reps x 3 sets', 'barbell front raise'],
                 ]
             },
             {
-                title: 'Day 4', subtitle: 'Back & Biceps',
+                title: 'Day 3', subtitle: 'Biceps & Triceps',
                 exercises: [
-                    ['Warm Up', 'Dynamic Warm-Up Routine', 'back dynamic warm up'],
-                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
-                    ['Seated Row', '15 reps x 3 sets', 'seated cable row'],
-                    ['Lat Pulldown (Close Grip)', '10 reps x 3 sets', 'close grip lat pulldown'],
-                    ['T-Bar Row', '10 reps x 3 sets', 't bar row'],
+                    ['Warm Up', '5–10 min', 'arm warm up before workout'],
+                    ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
+                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
                     ['Dumbbell Curl', '10 reps x 3 sets', 'dumbbell bicep curl'],
                     ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
+                    ['Skull Crusher', '10 reps x 3 sets', 'skull crusher triceps'],
+                    ['Tricep Dips', '15 reps x 3 sets', 'tricep dips'],
+                ]
+            },
+            {
+                title: 'Day 4', subtitle: 'Chest',
+                exercises: [
+                    ['Chest Fly Machine', '25 reps x 3 sets', 'pec deck chest fly machine'],
+                    ['Hammer Press', '10 reps x 3 sets', 'hammer strength chest press'],
+                    ['Bench Press', '10 reps x 3 sets', 'barbell bench press'],
+                    ['Dumbbell Chest Fly', '15 reps x 3 sets', 'dumbbell chest fly'],
+                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
+                    ['Incline Dumbbell Chest Press', '15 reps x 3 sets', 'incline dumbbell chest press'],
+                    ['Incline Fly', '15 reps x 3 sets', 'incline dumbbell fly'],
+                ]
+            },
+            {
+                title: 'Day 5', subtitle: 'Shoulders', caution: true, cautionLabel: 'Strict Form',
+                exercises: [
+                    ['Warm Up', '5–10 min', 'shoulder warm up before workout'],
+                    ['Side Raises on Pulley', '15 reps x 3 sets', 'cable lateral raise'],
+                    ['Front Raises', '10 reps x 3 sets', 'dumbbell front raise'],
+                    ['Face Pull', '10 reps x 3 sets', 'cable face pull'],
+                    ['Barbell Shoulder Press', '10 reps x 3 sets', 'barbell overhead shoulder press'],
+                    ['Barbell Shrugs', '15 reps x 3 sets', 'barbell shrugs'],
                 ]
             },
             {
                 title: 'Alternate Days', subtitle: 'Abs',
                 exercises: [
-                    ['Crunches', '15 reps x 4 sets', 'abdominal crunches'],
-                    ['Sit Ups', '15 reps x 3 sets', 'sit ups'],
+                    ['Ab Crunches', '25 reps x 3 sets', 'ab crunches'],
+                    ['Bicycle Crunches', '10 reps x 3 sets', 'bicycle crunches'],
                     ['Leg Raises', '10 reps x 3 sets', 'lying leg raises'],
                 ]
             },
@@ -193,7 +204,7 @@
             <div class="glass phase-card ${i === 0 ? 'active' : ''}" onclick="this.classList.toggle('active')">
                 <div class="phase-head">
                     <div>
-                        <p class="phase-day-label">${d.title}</p>
+                        <p class="phase-day-label ${d.caution ? 'caution' : ''}">${d.title}${d.caution ? ' · ' + d.cautionLabel : ''}</p>
                         <h3 class="phase-title">${d.subtitle}</h3>
                     </div>
                     <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
