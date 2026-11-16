@@ -72,6 +72,10 @@
         }
         .yt-btn:active { transform: scale(0.95); }
 
+        .section-label { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #737373; letter-spacing: 0.2em; margin: 40px 0 16px; }
+        .diet-note { padding: 16px 20px; margin-top: 16px; border-left: 4px solid #f59e0b; background: rgba(245,158,11,0.06); font-size: 12px; color: #d4d4d4; font-style: italic; line-height: 1.6; }
+        .or-tag { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #f59e0b; margin: 12px 0 0; }
+
         .cta-btn {
             width: 100%; margin-top: 32px; padding: 16px; border-radius: 16px;
             font-weight: 900; text-transform: uppercase; font-size: 14px; letter-spacing: 0.1em;
@@ -91,13 +95,13 @@
 
     <div class="glass note-card">
         <p class="stat-label" style="color:#f59e0b">⚠ Physio Note</p>
-        <p class="note-text">History of shoulder weakness and pain. On shoulder days (Day 2 & Day 5) prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
+        <p class="note-text">History of shoulder weakness and pain. Shoulders & Arms day is programmed light by design — prioritize strict form and controlled tempo over load. Stop any movement that reproduces sharp or pinching pain and report it to Coach Sushant.</p>
     </div>
 
     <div class="stat-grid">
         <div class="glass stat-box">
             <p class="stat-label">Split</p>
-            <p class="stat-value">5 Day Body Split</p>
+            <p class="stat-value">5 Day Split</p>
         </div>
         <div class="glass stat-box">
             <p class="stat-label">Core</p>
@@ -106,6 +110,10 @@
     </div>
 
     <div id="protocolContainer" class="day-list"></div>
+
+    <p class="section-label">Nutrition Plan</p>
+    <div id="dietContainer" class="day-list"></div>
+    <div class="glass diet-note">Modify diet timings according to your schedule. Keep roughly 2 hours between meals.</div>
 
     <a href="https://wa.me/919899550279?text=Hi%20Coach%20Sushant!%20I%20have%20a%20question%20about%20my%20workout%20plan." class="cta-btn">
         Message Coach Sushant
@@ -132,69 +140,128 @@
 
         const days = [
             {
-                title: 'Day 1', subtitle: 'Legs & Traps',
+                title: 'Day 1', subtitle: 'Chest & Back',
                 exercises: [
-                    ['Warm Up', '5–10 min', 'full body warm up before workout'],
-                    ['Leg Extension Machine', '15 reps x 3 sets', 'leg extension machine'],
+                    ['Warm Up', 'Before you start', 'full body dynamic warm up before gym'],
+                    ['Chest Press Machine / Bench Press', '15 reps x 3 sets', 'chest press machine'],
+                    ['Chest Fly', '15 reps x 3 sets', 'pec deck chest fly machine'],
+                    ['Incline Press Dumbbell', '10 reps x 3 sets', 'incline dumbbell chest press'],
+                    ['Crossover Cable', '15 reps x 3 sets', 'cable crossover chest'],
+                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
+                    ['Seated Row', '10 reps x 3 sets', 'seated cable row'],
+                    ['Single Arm Dumbbell Row', '10 reps x 3 sets', 'single arm dumbbell row'],
+                    ['Hyper Extension', '10 reps x 3 sets', 'hyperextension back extension'],
+                ]
+            },
+            {
+                title: 'Day 2', subtitle: 'Legs',
+                exercises: [
+                    ['Leg Extension', '15 reps x 3 sets', 'leg extension machine'],
                     ['Leg Curl', '15 reps x 3 sets', 'leg curl machine'],
-                    ['Leg Press', '10 reps x 4 sets', 'leg press machine'],
-                    ['Barbell Shrugs', '15 reps x 3 sets', 'barbell shrugs'],
-                    ['Barbell Upright Row', '10 reps x 3 sets', 'barbell upright row'],
+                    ['Squats (Barbell)', '10 reps x 3 sets', 'barbell back squat'],
+                    ['Leg Press', '15 reps x 3 sets', 'leg press machine'],
+                    ['Calf Raises', '15 reps x 3 sets', 'standing calf raise'],
                 ]
             },
             {
-                title: 'Day 2', subtitle: 'Back & Shoulders', caution: true, cautionLabel: 'Strict Form',
+                title: 'Day 3', subtitle: 'Arms & Shoulders (Go Light)', caution: true,
                 exercises: [
-                    ['Warm Up', '5–10 min', 'shoulder warm up before workout'],
-                    ['T Bar Row / Seated Row', '15 reps x 3 sets', 't bar row'],
-                    ['Lat Pulldown', '10 reps x 3 sets', 'lat pulldown'],
-                    ['Single Arm Lat Pulldown', '15 reps x 3 sets', 'single arm lat pulldown cable'],
-                    ['Shoulder Press', '10 reps x 3 sets', 'dumbbell shoulder press'],
-                    ['Dumbbell Side Raises', '15 reps x 3 sets', 'dumbbell lateral raise'],
-                    ['Barbell Front Raises', '15 reps x 3 sets', 'barbell front raise'],
-                ]
-            },
-            {
-                title: 'Day 3', subtitle: 'Biceps & Triceps',
-                exercises: [
-                    ['Warm Up', '5–10 min', 'arm warm up before workout'],
-                    ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
-                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
                     ['Dumbbell Curl', '10 reps x 3 sets', 'dumbbell bicep curl'],
                     ['Hammer Curl', '10 reps x 3 sets', 'dumbbell hammer curl'],
-                    ['Skull Crusher', '10 reps x 3 sets', 'skull crusher triceps'],
-                    ['Tricep Dips', '15 reps x 3 sets', 'tricep dips'],
+                    ['Pulley Push Down', '10 reps x 3 sets', 'cable triceps pushdown'],
+                    ['Overhead Extension', '15 reps x 3 sets', 'cable overhead triceps extension'],
+                    ['Single Arm Overhead Extension with Dumbbell', '15 reps x 3 sets', 'single arm dumbbell overhead triceps extension'],
+                    ['Dumbbell Side Raises', '10 reps x 3 sets', 'dumbbell lateral raise'],
+                    ['Front Raises', '15 reps x 3 sets', 'dumbbell front raise'],
                 ]
             },
             {
-                title: 'Day 4', subtitle: 'Chest',
+                title: 'Day 4', subtitle: 'Legs Bonus',
                 exercises: [
-                    ['Chest Fly Machine', '25 reps x 3 sets', 'pec deck chest fly machine'],
-                    ['Hammer Press', '10 reps x 3 sets', 'hammer strength chest press'],
-                    ['Bench Press', '10 reps x 3 sets', 'barbell bench press'],
-                    ['Dumbbell Chest Fly', '15 reps x 3 sets', 'dumbbell chest fly'],
-                    ['Cable Crossover', '15 reps x 3 sets', 'cable crossover chest'],
-                    ['Incline Dumbbell Chest Press', '15 reps x 3 sets', 'incline dumbbell chest press'],
-                    ['Incline Fly', '15 reps x 3 sets', 'incline dumbbell fly'],
+                    ['Leg Extension', '15 reps x 4 sets', 'leg extension machine'],
+                    ['Lunges', '10 reps x 3 sets (each leg)', 'dumbbell lunges'],
+                    ['Sumo Squats', '15 reps x 3 sets', 'sumo squat'],
+                    ['Deadlifts', '10 reps x 3 sets', 'deadlift'],
                 ]
             },
             {
-                title: 'Day 5', subtitle: 'Shoulders', caution: true, cautionLabel: 'Strict Form',
+                title: 'Day 5', subtitle: 'Upper Body Bonus',
                 exercises: [
-                    ['Warm Up', '5–10 min', 'shoulder warm up before workout'],
-                    ['Side Raises on Pulley', '15 reps x 3 sets', 'cable lateral raise'],
-                    ['Front Raises', '10 reps x 3 sets', 'dumbbell front raise'],
-                    ['Face Pull', '10 reps x 3 sets', 'cable face pull'],
-                    ['Barbell Shoulder Press', '10 reps x 3 sets', 'barbell overhead shoulder press'],
-                    ['Barbell Shrugs', '15 reps x 3 sets', 'barbell shrugs'],
+                    ['Chest Press', '15 reps x 3 sets', 'chest press machine'],
+                    ['Lat Pulldown', '15 reps x 3 sets', 'lat pulldown'],
+                    ['Shoulder Press Machine', '10 reps x 3 sets', 'shoulder press machine'],
+                    ['Preacher Curl', '15 reps x 3 sets', 'preacher curl'],
+                    ['Rope Push Down', '15 reps x 3 sets', 'rope triceps pushdown'],
                 ]
             },
             {
-                title: 'Alternate Days', subtitle: 'Abs',
+                title: 'Alternate Days', subtitle: 'Core',
                 exercises: [
-                    ['Ab Crunches', '25 reps x 3 sets', 'ab crunches'],
-                    ['Bicycle Crunches', '10 reps x 3 sets', 'bicycle crunches'],
-                    ['Leg Raises', '10 reps x 3 sets', 'lying leg raises'],
+                    ['Bicycle Crunches', '15 reps x 3 sets', 'bicycle crunches'],
+                    ['Russian Twist', '15 reps x 3 sets', 'russian twist'],
+                    ['Sit Ups', '15 reps x 3 sets', 'sit ups'],
+                ]
+            },
+        ];
+
+        function recipeLink(q) {
+            return `https://www.youtube.com/results?search_query=${encodeURIComponent(q + ' recipe')}`;
+        }
+
+        function mealRow(name, detail, query) {
+            const btn = query ? `
+                <a href="${recipeLink(query)}" target="_blank" class="yt-btn">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Recipe
+                </a>` : '';
+            return `
+            <div class="exercise-row">
+                <div>
+                    <p class="ex-name">${name}</p>
+                    <p class="ex-rx">${detail}</p>
+                </div>${btn}
+            </div>`;
+        }
+
+        const meals = [
+            {
+                title: 'Wake Up', subtitle: 'Empty Stomach',
+                rows: [['Warm Water', '750 ml', null]]
+            },
+            {
+                title: 'Meal 1', subtitle: 'Protein Shake',
+                rows: [
+                    ['Protein Shake in Lukewarm Water', 'In lukewarm water', 'protein shake'],
+                    ['Banana', '1 banana', null],
+                ]
+            },
+            {
+                title: 'Meal 2 · After 2 Hours', subtitle: 'Protein Snack',
+                rows: [
+                    ['Boiled Soya Chunks + Curd', '1 bowl · salt + black pepper', 'boiled soya chunks with curd'],
+                    ['or', '', ''],
+                    ['Poha', 'Choose 1', 'healthy poha'],
+                    ['or', '', ''],
+                    ['Upma', 'Choose 1', 'healthy veg upma'],
+                ]
+            },
+            {
+                title: 'Meal 3 · After 2 Hours', subtitle: 'Lunch / Dinner (Night Shift)',
+                rows: [
+                    ['Rice', 'Rice + dal + veggies', 'how to cook rice perfectly'],
+                    ['Dal', 'Rice + dal + veggies', 'healthy dal'],
+                    ['Veggies', 'Rice + dal + veggies', 'healthy mixed vegetable sabzi'],
+                ]
+            },
+            {
+                title: 'Meal 4 · After 2 Hours', subtitle: 'Last Meal (Pick 1)',
+                rows: [
+                    ['Cooked Veggies', 'Option 1', 'healthy cooked vegetables'],
+                    ['or', '', ''],
+                    ['Dal', 'Option 2', 'healthy dal'],
+                    ['or', '', ''],
+                    ['Chickpea Salad', 'Option 3', 'chickpea salad'],
+                    ['or', '', ''],
+                    ['Paneer Salad', 'Option 4', 'paneer salad'],
                 ]
             },
         ];
@@ -204,13 +271,29 @@
             <div class="glass phase-card ${i === 0 ? 'active' : ''}" onclick="this.classList.toggle('active')">
                 <div class="phase-head">
                     <div>
-                        <p class="phase-day-label ${d.caution ? 'caution' : ''}">${d.title}${d.caution ? ' · ' + d.cautionLabel : ''}</p>
+                        <p class="phase-day-label ${d.caution ? 'caution' : ''}">${d.title}${d.caution ? ' · Light Load' : ''}</p>
                         <h3 class="phase-title">${d.subtitle}</h3>
                     </div>
                     <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
                 </div>
                 <div class="phase-content">
                     ${d.exercises.map(([name, rx, q]) => exerciseRow(name, rx, q)).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const dietContainer = document.getElementById('dietContainer');
+        dietContainer.innerHTML = meals.map((m) => `
+            <div class="glass phase-card" onclick="this.classList.toggle('active')">
+                <div class="phase-head">
+                    <div>
+                        <p class="phase-day-label">${m.title}</p>
+                        <h3 class="phase-title">${m.subtitle}</h3>
+                    </div>
+                    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <div class="phase-content">
+                    ${m.rows.map(([n, d, q]) => n === 'or' ? '<p class="or-tag">— or —</p>' : mealRow(n, d, q)).join('')}
                 </div>
             </div>
         `).join('');
